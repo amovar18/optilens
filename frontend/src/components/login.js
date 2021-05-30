@@ -2,36 +2,52 @@ import React, { useState }from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import Alert from './alert';
+import alert from './alert';
 function Login(){
     
     //for user registration
     const [name,setname]=useState('');
+    const [passworderror,setpassworderror]=useState('');
     const [address,setaddress]=useState('');
     const [regemail,setemail]=useState('');
     const [regpassword,setregpassword]=useState('');
     const [confirmpassword,setconfirmpassword]=useState('');
     const [regusername,setregusername]=useState('');
     const [phone,setphone]=useState('');
-    
-    const submitValueRegister = () => {
-        if (typeof regpassword !== "undefined" && typeof confirmpassword !== "undefined") {  
-            if (regpassword !== confirmpassword) {
-              document.getElementById('error').style.display="Visible";
-            }
-        }else{
-            document.getElementById('error').style.display="none";
+    const [availability,setavailability]=useState('');
+    const checkabailability=()=>{
+        if(regusername!==''){
             axios({
-                method: 'POST',
-                url: 'http://localhost:5000/user/login',
-                data: {
-                    'name' : name,
-                    'username' : regusername,
-                    'phone' : phone,
-                    'email' : regemail,
-                    'password' : regpassword,
-                    'address': address
+                method: 'GET',
+                url: 'http://localhost:5000/user/availability'+regusername,
+            }).then((response)=>{
+                setavailability(response.data);
+            }).catch((error)=>{
+                console.log(error);
+            });
+        }
+    }
+    const submitValueRegister = () => {
+        if(availability===true){
+            if (regpassword !== undefined && confirmpassword !== undefined) {  
+                if (regpassword !== confirmpassword) {
+                    setpassworderror('passowrds do not match');
                 }
-              });
+            }else{
+                setpassworderror('');
+                axios({
+                    method: 'POST',
+                    url: 'http://localhost:5000/user/login',
+                    data: {
+                        'name' : name,
+                        'username' : regusername,
+                        'phone' : phone,
+                        'email' : regemail,
+                        'password' : regpassword,
+                        'address': address
+                    }
+                });
+            }
         }
     }
     // for login
@@ -63,7 +79,7 @@ function Login(){
             <div className='container'>
                 <div className='row align-items-center'>
                     <div className='col-sm'>
-                        <h2 style={{'color':'#ffffff'}}>Login to your account</h2>
+                        <h1 className='display-6'>Login to your account</h1>
                         <form onSubmit={submitValueLog}>
                             <input className='form-control' placeholder='Username' id='username' type='text' onChange={e => setlogusername(e.target.value)}/><br/>
                             <input className='form-control' placeholder='Password' id='password' type='password' onChange={e => setlogpassword(e.target.value)} required/><br/>
@@ -85,13 +101,15 @@ function Login(){
                         <h2 style={{'color':'#000000'}}>OR</h2>
                     </div><br/>
                     <div className='col-sm'>
-                        <h2 style={{'color':'#000000'}}>New User Signup!</h2>
+                        <h1 className='display-6'>New User Signup!</h1>
                         <form onSubmit={submitValueRegister}>
                             <input type="text" className='form-control' placeholder="Name" onChange={e => setname(e.target.value)} required/><br/>
                             <input type="email" className='form-control' placeholder="Email"  onChange={e => setemail(e.target.value)} required/><br/>
-                            <input type="text" className='form-control' placeholder="Username" onChange={e => setregusername(e.target.value)} required/><br/>
+                            <input type="text" className='form-control' placeholder="Username" onChange={e => setregusername(e.target.value)} required/><br/><button onClick={checkabailability}>Check availability</button>
+                            {availability===true ? <alert message='Username available' type='success'/>: availability === false ? <alert message='Username not available' type='danger'/> :null}
                             <input type="password" className='form-control' placeholder="Password" onChange={e => setregpassword(e.target.value)} required/><br/>
                             <input type="password" className='form-control' placeholder="Confirm Password" onChange={e => setconfirmpassword(e.target.value)} required/><br/>
+                            {passworderror!=='' ? <alert message={passworderror} type='danger'/>: <alert message='Passwords match' type='success'/>}
                             <input type="tel" className='form-control' placeholder="Phone" onChange={e => setphone(e.target.value)} required/><br/>
                             <input as="textarea" className='form-control' placeholder="Address" onChange={e => setaddress(e.target.value)}/><br/>
                             <small><Link to="/registerseller">Want to sell with us ?</Link></small><br/><br/>

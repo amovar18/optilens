@@ -8,10 +8,12 @@ const jwt=require('jsonwebtoken');
 const key='09f26e402586e2faa8da4c98a35f1b20d6b033c6097befa8be3486a829587fe2f90a832bd3ff9d42710a4da095a2ce285b009f0c3730cd9b8e1af3eb84df6611';
 const firebase = require("firebase/app");
 const cookieParser = require('cookie-parser');
+const bcrypt = require('bcrypt');
 require('firebase/storage');
 global.XMLHttpRequest=require('xhr2');
 const upload = multer({storage:multer.memoryStorage()}).single('image');
 const storageRef = firebase.storage().ref();
+
 app.use(cookieParser());
 app.use(cors());
 app.use(bodyParser.json());
@@ -26,45 +28,53 @@ exports.create=function (req, res) {
              } else if (err) {
                 return res.send(err);
              }else{
-                const tobeinserted={
-                    'username':req.body.username,
-                    'password':req.body.password,
-                    'email':req.body.email,
-                    'phone':req.body.phone,
-                    'name':req.body.name,
-                    'isactive':0,
-                    'company_registration_certificate':'',
-                    'address':req.body.address,
-                    'shopname':req.body.shopname,};
-                (async ()=>{
-                    const seller = await db.collection('seller').insertOne(tobeinserted);
-                    if(seller['acknowledged']){
-                        upload(req,res,function(err){
-                            if (err instanceof multer.MulterError) {
-                                return res.send(err);
-                            } else if (err) {
-                                return res.send(err);
-                            }else{
-                                const uploadTask = storageRef.child('certificates/'+seller['insertedId']+'/documents/_'+Date.now()).put(file.buffer);
-                                uploadTask.on('state_changed', (snapshot) => {
-
-                                }, (error) => {
-                                    console.log(error);
-                                }, () => {
-                                    uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
-                                        console.log('done');
-                                        db.collection('seller').updateOne({'_id':ObjectId(seller['insertedId'])},{$set:{'company_registration_certificate':downloadURL}},(err, object)=> {
-                                            return res.status(200).send('done');
-                                        });
-                                    });
-                                });
-                            };
-                        });
-                    }else{
+                bcrypt.genSalt(saltRounds, function(err, salt) {
+                    if(err)
                         return res.status(500).send(err);
-                    }
-                })();
-             }
+                    bcrypt.hash(req.body.password, salt, function(err, hash) { 
+                        if(err)
+                            return res.status(500).send(err);
+                        const tobeinserted={
+                            'username':req.body.username,
+                            'password':hash,
+                            'email':req.body.email,
+                            'phone':req.body.phone,
+                            'name':req.body.name,
+                            'isactive':0,
+                            'company_registration_certificate':'',
+                            'address':req.body.address,
+                            'shopname':req.body.shopname,};
+                        (async ()=>{
+                            const seller = await db.collection('seller').insertOne(tobeinserted);
+                            if(seller['acknowledged']){
+                                upload(req,res,function(err){
+                                    if (err instanceof multer.MulterError) {
+                                        return res.send(err);
+                                    } else if (err) {
+                                        return res.send(err);
+                                    }else{
+                                        const uploadTask = storageRef.child('certificates/'+seller['insertedId']+'/documents/_'+Date.now()).put(file.buffer);
+                                        uploadTask.on('state_changed', (snapshot) => {
+                                            
+                                        }, (error) => {
+                                            console.log(error);
+                                        }, () => {
+                                            uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
+                                                console.log('done');
+                                                db.collection('seller').updateOne({'_id':ObjectId(seller['insertedId'])},{$set:{'company_registration_certificate':downloadURL}},(err, object)=> {
+                                                    return res.status(200).send('done');
+                                                });
+                                            });
+                                        });
+                                    };
+                                });
+                            }else{
+                                return res.status(500).send(err);
+                            }
+                        })();
+                    });
+                });
+            }
         });
     });
 };

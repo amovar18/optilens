@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import alert from './alert';
 class Register_seller extends React.Component {
     constructor(props) {
       super(props);
@@ -91,7 +92,7 @@ class Register_seller extends React.Component {
                             <div className="input-group mb-3">
                                 <input type="text" className="form-control" placeholder="Username" aria-label="Recipient's username" aria-describedby="button-check"/>
                                 <button className="btn btn-primary" type="submit" id="button-check" onClick={this.handleClick} >Button</button>
-                                {this.state.unamavailable===true ? <div className="alert alert-danger" role="alert">Username already in use!!</div>:this.state.unamavailable===false?<div className="alert alert-success" role="alert">Username available!</div> :null}
+                                {this.state.unamavailable===true ? <alert message='Username already in use!!' type='danger'/>:this.state.unamavailable===false?<alert messgae='Username available!' type='success'/> :null}
                             </div>
                             <input className='form-control' placeholder="Email Address" type="email" name="email" required /><br/>
 		            		<input className='form-control' name="phone" placeholder="Phone Number" type="tel" pattern="[0-9]{10}" required/><br/>
@@ -100,7 +101,7 @@ class Register_seller extends React.Component {
 					    	<input className='form-control' type="text" placeholder="Owner Name" name="owner" required /><br/>
 					        <input className='form-control' type="password" placeholder="Password" name="password" required onChange={this.handleChange}/><br/>
             				<input className='form-control' name="confirm_password" placeholder="Confirm Password" required onChange={this.checkpass} />
-                            {this.state.password_equal===true ? <div className="alert alert-danger" role="alert">Username already in use!!</div>:this.state.password_equal===false?<div className="alert alert-success" role="alert">Username available!</div> :null}
+                            {this.state.password_equal===true ? <alert messgae='Passwords not equal!!' type='danger'/>:this.state.password_equal===false?<alert message="Passwords are equal" type='success'/>:null}
                             <br/>
 	    				    <button type='submit' className="btn btn-primary">Signup</button>
     	        		</form>
