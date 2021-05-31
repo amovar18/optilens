@@ -43,7 +43,7 @@ function Login(){
         if(regusername!==''){
             axios({
                 method: 'GET',
-                url: 'http://localhost:5000/user/availability'+regusername,
+                url: 'http://localhost:5000/user/availability/'+regusername,
             }).then((response)=>{
                 setavailability(response.data);
             }).catch((error)=>{
@@ -61,11 +61,13 @@ function Login(){
             setloggedstatus(false);
         });
     },[]);
-    const submitValueRegister = () => {
+    const submitValueRegister = (e) => {
+        e.preventDefault();
         if(availability===true && criteriaerror===false && passwordmatch===false){
             axios({
                 method: 'POST',
-                url: 'http://localhost:5000/user/login',
+                url: 'http://localhost:5000/user/create',
+                withCredentials: true,
                 data: {
                     'name' : name,
                     'username' : regusername,
@@ -132,16 +134,15 @@ function Login(){
                                     <label htmlFor='seller' className='form-check-label' style={{'color':'#000000'}}>Seller</label>
                                 </div>
                                 {loginerror === ''?null:<Alert message={loginerror} type='danger'/>}
-                                <a href="/forgotpassword">Forgot Password?</a><br/>
                                 <br/><button tag='input' type='submit' className='btn btn-primary'>Submit</button>
                             </form>
                         </div>
                         <div className='col-sm text-center'>
-                            <h2 style={{'color':'#000000'}}>OR</h2>
+                            <h1 className='display-6'>OR</h1>
                         </div><br/>
                         <div className='col-sm'>
                             <h1 className='display-6'>New User Signup!</h1>
-                            <form onSubmit={submitValueRegister}>
+                            <form onSubmit={e =>submitValueRegister(e)}>
                                 <input type="text" className='form-control' placeholder="Name" onChange={e => setname(e.target.value)} required/><br/>
                                 <input type="email" className='form-control' placeholder="Email"  onChange={e => setemail(e.target.value)} required/><br/>
                                 <input type="text" className='form-control' placeholder="Username" onChange={e => setregusername(e.target.value)} required/><br/><button onClick={checkabailability} className='btn btn-primary'>Check availability</button>
@@ -152,7 +153,7 @@ function Login(){
                                 <input type="password" className='form-control' placeholder="Confirm Password" onChange={e => setconfirmpassword(e.target.value)} onKeyUp={checkpasswords} required/><br/>
                                 {passwordmatch === true ? <Alert message='Passwords do not match' type='danger'/>:passwordmatch === false? <Alert message='Passwords match' type='success'/> :null}
                                 <input type="tel" className='form-control' placeholder="Phone" onChange={e => setphone(e.target.value)} required/><br/>
-                                <input as="textarea" className='form-control' placeholder="Address" onChange={e => setaddress(e.target.value)}/><br/>
+                                <textarea className='form-control' placeholder="Address" onChange={e => setaddress(e.target.value)}></textarea><br/>
                                 <small><Link to="/registerseller">Want to sell with us ?</Link></small><br/><br/>
                                 {registererror!==''?<Alert message='Internal server error' type='danger'/>:null}
                                 <button type='submit' className='btn btn-primary'>Signup</button>

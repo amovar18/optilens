@@ -30,7 +30,6 @@ exports.authenticate=function (req, res) {
                 
                     if( user.length > 0){
                         const payload = {'_id': user[0]['_id'],type:'customer'}
-                        console.log(user);
                         let token = jwt.sign(payload, key,{expiresIn: '72h'});
                         return res.cookie('token', token, {expires: new Date(Date.now() + 72 * 3600000),httpOnly:true}).send('OK');
                     }else{
@@ -80,6 +79,7 @@ exports.checkstatus=function (req, res) {
     MongoClient.connect('mongodb://localhost:27017/opticonnect',{ useUnifiedTopology: true }, function (err, client) {
         if (err) throw err
         const db = client.db('opticonnect');
+        if(token===null || token === undefined) return res.status(401).send('not authed');
         jwt.verify(token, key, (error,result)=>{
             if(result['type'] === "customer"){
                 (async ()=>{

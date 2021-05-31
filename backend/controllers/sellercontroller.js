@@ -13,8 +13,9 @@ require('firebase/storage');
 global.XMLHttpRequest=require('xhr2');
 const upload = multer({storage:multer.memoryStorage()}).single('image');
 const storageRef = firebase.storage().ref();
+const saltRounds = 10;
 
-app.use(cookieParser());
+app.use(cookieParser);
 app.use(cors());
 app.use(bodyParser.json());
 exports.create=function (req, res) {

@@ -72,6 +72,7 @@ class Register_seller extends React.Component {
                 method: 'POST',
                 url: 'http://localhost:5000/product/create',
                 config:{ headers: {'Content-Type':'multipart/form-data'}},
+                withCredentials:true,
                 data: formData
             }).then(function (response) {
                 window.location='htpp://localhost:3000/home';
