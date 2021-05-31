@@ -1,10 +1,11 @@
-import React, { useState }from 'react';
+import React, { useEffect, useState }from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import Alert from './alert';
-import alert from './alert';
+import Loadingspinner from './Loadingspinner';
 function Login(){
-    
+    const [status,setloggedstatus]=useState('');
+
     //for user registration
     const [name,setname]=useState('');
     const [passworderror,setpassworderror]=useState('');
@@ -27,6 +28,16 @@ function Login(){
             });
         }
     }
+    useEffect(()=>{
+        axios({
+            method: 'GET',
+            url: 'http://localhost:5000/auth/getstatus',
+        }).then((response)=>{
+            setloggedstatus(true);
+        }).catch((error)=>{
+            setloggedstatus(false);
+        });
+    });
     const submitValueRegister = () => {
         if(availability===true){
             if (regpassword !== undefined && confirmpassword !== undefined) {  
@@ -74,51 +85,57 @@ function Login(){
                 }
           });
     }
-    return (
-        <div style={{'height':'100%'}}>
-            <div className='container'>
-                <div className='row align-items-center'>
-                    <div className='col-sm'>
-                        <h1 className='display-6'>Login to your account</h1>
-                        <form onSubmit={submitValueLog}>
-                            <input className='form-control' placeholder='Username' id='username' type='text' onChange={e => setlogusername(e.target.value)}/><br/>
-                            <input className='form-control' placeholder='Password' id='password' type='password' onChange={e => setlogpassword(e.target.value)} required/><br/>
-                            <br/>
-                            <div className='form-check form-check-inline'>
-                                <input type='radio' className='form-check-input' name='typeofuser' id='customer' value='customer' onChange={e => settypeofuser(e.target.value)}/>
-                                <label htmlFor='customer' className='form-check-label' style={{'color':'#000000'}}>Customer</label>
-                            </div>
-                            <div className='form-check form-check-inline'>
-                                <input type='radio' className='form-check-input' name='typeofuser' value='seller' onChange={e => settypeofuser(e.target.value)}/>
-                                <label htmlFor='seller' className='form-check-label' style={{'color':'#000000'}}>Seller</label>
-                            </div>
-                            {error === ''?null:<Alert message={error} type='danger'/>}
-                            <a href="/forgotpassword">Forgot Password?</a><br/>
-                            <br/><button tag='input' type='submit' className='btn btn-primary'>Submit</button>
-                        </form>
+    if(status===''){
+        return(<Loadingspinner/>);
+    }else if(status===true){
+        return(window.location='http://localhost:3000/');
+    }else{
+        return (
+            <div style={{'height':'100%'}}>
+                <div className='container'>
+                    <div className='row align-items-center'>
+                        <div className='col-sm'>
+                            <h1 className='display-6'>Login to your account</h1>
+                            <form onSubmit={submitValueLog}>
+                                <input className='form-control' placeholder='Username' id='username' type='text' onChange={e => setlogusername(e.target.value)}/><br/>
+                                <input className='form-control' placeholder='Password' id='password' type='password' onChange={e => setlogpassword(e.target.value)} required/><br/>
+                                <br/>
+                                <div className='form-check form-check-inline'>
+                                    <input type='radio' className='form-check-input' name='typeofuser' id='customer' value='customer' onChange={e => settypeofuser(e.target.value)}/>
+                                    <label htmlFor='customer' className='form-check-label' style={{'color':'#000000'}}>Customer</label>
+                                </div>
+                                <div className='form-check form-check-inline'>
+                                    <input type='radio' className='form-check-input' name='typeofuser' value='seller' onChange={e => settypeofuser(e.target.value)}/>
+                                    <label htmlFor='seller' className='form-check-label' style={{'color':'#000000'}}>Seller</label>
+                                </div>
+                                {error === ''?null:<Alert message={error} type='danger'/>}
+                                <a href="/forgotpassword">Forgot Password?</a><br/>
+                                <br/><button tag='input' type='submit' className='btn btn-primary'>Submit</button>
+                            </form>
+                        </div>
+                        <div className='col-sm text-center'>
+                            <h2 style={{'color':'#000000'}}>OR</h2>
+                        </div><br/>
+                        <div className='col-sm'>
+                            <h1 className='display-6'>New User Signup!</h1>
+                            <form onSubmit={submitValueRegister}>
+                                <input type="text" className='form-control' placeholder="Name" onChange={e => setname(e.target.value)} required/><br/>
+                                <input type="email" className='form-control' placeholder="Email"  onChange={e => setemail(e.target.value)} required/><br/>
+                                <input type="text" className='form-control' placeholder="Username" onChange={e => setregusername(e.target.value)} required/><br/><button onClick={checkabailability}>Check availability</button>
+                                {availability===true ? <alert message='Username available' type='success'/>: availability === false ? <alert message='Username not available' type='danger'/> :null}
+                                <input type="password" className='form-control' placeholder="Password" onChange={e => setregpassword(e.target.value)} required/><br/>
+                                <input type="password" className='form-control' placeholder="Confirm Password" onChange={e => setconfirmpassword(e.target.value)} required/><br/>
+                                {passworderror!=='' ? <alert message={passworderror} type='danger'/>: <alert message='Passwords match' type='success'/>}
+                                <input type="tel" className='form-control' placeholder="Phone" onChange={e => setphone(e.target.value)} required/><br/>
+                                <input as="textarea" className='form-control' placeholder="Address" onChange={e => setaddress(e.target.value)}/><br/>
+                                <small><Link to="/registerseller">Want to sell with us ?</Link></small><br/><br/>
+                                <button type='submit' className='btn btn-primary'>Signup</button>
+                            </form>
+                        </div>
                     </div>
-                    <div className='col-sm text-center'>
-                        <h2 style={{'color':'#000000'}}>OR</h2>
-                    </div><br/>
-                    <div className='col-sm'>
-                        <h1 className='display-6'>New User Signup!</h1>
-                        <form onSubmit={submitValueRegister}>
-                            <input type="text" className='form-control' placeholder="Name" onChange={e => setname(e.target.value)} required/><br/>
-                            <input type="email" className='form-control' placeholder="Email"  onChange={e => setemail(e.target.value)} required/><br/>
-                            <input type="text" className='form-control' placeholder="Username" onChange={e => setregusername(e.target.value)} required/><br/><button onClick={checkabailability}>Check availability</button>
-                            {availability===true ? <alert message='Username available' type='success'/>: availability === false ? <alert message='Username not available' type='danger'/> :null}
-                            <input type="password" className='form-control' placeholder="Password" onChange={e => setregpassword(e.target.value)} required/><br/>
-                            <input type="password" className='form-control' placeholder="Confirm Password" onChange={e => setconfirmpassword(e.target.value)} required/><br/>
-                            {passworderror!=='' ? <alert message={passworderror} type='danger'/>: <alert message='Passwords match' type='success'/>}
-                            <input type="tel" className='form-control' placeholder="Phone" onChange={e => setphone(e.target.value)} required/><br/>
-                            <input as="textarea" className='form-control' placeholder="Address" onChange={e => setaddress(e.target.value)}/><br/>
-                            <small><Link to="/registerseller">Want to sell with us ?</Link></small><br/><br/>
-                            <button type='submit' className='btn btn-primary'>Signup</button>
-                        </form>
-                    </div>
-                </div>
-            </div>       
-        </div>             
-    );
+                </div>       
+            </div>             
+        );
+    }
 }
 export default Login;
