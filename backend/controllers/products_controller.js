@@ -76,7 +76,7 @@ exports.getsingle=function (req, res) {
         if (err) throw err
         const db = client.db('opticonnect');
         (async()=>{
-            const result = await db.collection('products').aggregate([{$match:{'_id':ObjectId(req.query.id)}},{$lookup:{from: 'seller',localField: 'sellerid',foreignField: '_id',as: 'shop'}},{ $skip : ((parseInt(req.params.page)-1)*10) },{ $limit : 10 }]).toArray();
+            const result = await db.collection('products').aggregate([{$match:{'_id':ObjectId(req.params.id)}},{$lookup:{from: 'seller',localField: 'sellerid',foreignField: '_id',as: 'shop'}}]).toArray();
             if (result.length > 0){
                 return res.status(200).send(result);
             }else{

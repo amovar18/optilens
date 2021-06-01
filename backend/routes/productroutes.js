@@ -7,7 +7,7 @@ router.get("/all/:page",product.getall);
 router.get("/contact_lens/:page",product.getcontact_lens);
 router.get("/spectacles/:page",product.getspectacles);
 router.get("/sunglasses/:page",product.getsunglasses);
-router.get("/getsingle",product.getsingle);
+router.get("/getsingle/:id",product.getsingle);
 router.post("/create",verifyToken,product.create);
 router.get("/sort/:type/:price/:sort/:page",product.sort);
 module.exports= router;

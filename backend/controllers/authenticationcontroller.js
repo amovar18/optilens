@@ -24,18 +24,28 @@ exports.authenticate=function (req, res) {
         if(req.body.typeofuser === "customer"){
             (async ()=>{
                 const user =await  db.collection('customer').find({'username':username}).toArray();
-                bcrypt.compare(password,user[0]['password'],(err,hash_result)=>{
-                    if(err)
-                        return res.status(401).send(err);           
-                
-                    if( user.length > 0){
-                        const payload = {'_id': user[0]['_id'],type:'customer'}
-                        let token = jwt.sign(payload, key,{expiresIn: '72h'});
-                        return res.cookie('token', token, {expires: new Date(Date.now() + 72 * 3600000),httpOnly:true}).send('OK');
-                    }else{
-                        res.status(404).send('not found');
-                    }
-                })    
+                if(user[0]){
+                    bcrypt.compare(password,user[0]['password'],(err,hash_result)=>{
+                        if(err)
+                            return res.status(401).send(err);           
+                        if(hash_result===false){
+                            return res.status(401).send('Wrong password');
+                        }
+                        if( user.length > 0){
+                            console.log(hash_result)
+                            const payload = {'_id': user[0]['_id'],type:'customer'}
+                            let token = jwt.sign(payload, key,{expiresIn: '72h'});
+                            return res.cookie('token', token, {expires: new Date(Date.now() + 72 * 3600000),httpOnly:true}).send({
+                                'user':user,
+                                'links':[{title:'Home', path:'/'},{ title: `Product`, path: `/product/all/1` },{ title: `FAQ`, path: `/faq` },{ title: `About us`, path: `/about` },{ title: `Cart`, path: `/cart` },{ title: `Your Orders`, path: `/yorders` },{ title: `Logout`, path: `/logout` }]
+                            });
+                        }else{
+                            return res.status(404).send('not found');
+                        }
+                    })    
+                }else{
+                    return res.status(401).send('wrong password');
+                }
             })();
         }
         if(req.body.typeofuser === "seller"){
@@ -47,7 +57,10 @@ exports.authenticate=function (req, res) {
                 
                     if(user.length > 0){
                         let token = jwt.sign({_id: user[0]['_id'],type:'seller'}, key,{expiresIn: '72h'});
-                        return res.cookie('token', token, {expires: new Date(Date.now() + 72 * 3600000),httpOnly:true}).send('OK');
+                        return res.cookie('token', token, {expires: new Date(Date.now() + 72 * 3600000),httpOnly:true}).send({   
+                            'user':user,
+                            'links':[{title:'Home', path:'/'},{ title: `About us`, path: `/about` },{ title: `Insert Products`, path: `/insertproduct` },{ title: `All Orders`, path: `/recievedorders` },{ title: `Pending Orders`, path: `/pendingorders` },{ title: `FAQ`, path: `/faq` },{ title: `Logout`, path: `/logout` }]                        
+                        });
                     }else{
                         return res.status(404).send('not found');
                     }

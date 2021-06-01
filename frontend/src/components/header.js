@@ -1,19 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import React from 'react';
 import '../App.css';
+import { useSelector } from 'react-redux';
 function Header(){
-	const [links,setLinks]=useState([]);
-	useEffect(()=>{
-		axios({
-			method:'GET',
-			url:'http://localhost:5000/auth/getlinks',
-			withCredentials:true
-		}).then((response)=>{
-			setLinks(response.data);
-		}).catch((error)=>{
-			setLinks([]);
-		})
-	},[]);
+	const {links}= useSelector(state=>state.authentication);
     return (
 		<nav className='navbar navbar-expand-lg navbar-light' style={{'backgroundColor':'#B0E0E6'}}>
             <div className='container-fluid'>
