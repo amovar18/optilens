@@ -1,25 +1,19 @@
-import axios from 'axios';
-import React,{ useEffect, useState } from 'react';
+import React,{ useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Redirect } from 'react-router';
+import {userDeauth} from '../slices/authentication/authenticationSlice'
 import Loadingspinner from './Loadingspinner';
 function Logout(){
-    const [loggedout,setloggedout]=useState('loading');
+    const {isAuthenticated} = useSelector(state => state.authentication); 
+    const dispatch = useDispatch();
     useEffect(()=>{
-        axios({
-            method: 'GET',
-            url: 'http://localhost:5000/auth/signout',
-            withCredentials: true,
-        }).then((response) => {
-            setloggedout(true);
-        }, (error) => {
-            setloggedout(false);
-        });
-    },[]);
-    if(loggedout==='loading'){
-        return(<Loadingspinner/>);
-    }else if(loggedout===false){
-        return(<div>{window.location='http://localhost:3000/'}</div>);
+        dispatch(userDeauth());
+        // eslint-disable-next-line
+    },[isAuthenticated]);
+    if(isAuthenticated === true){
+        return(<Loadingspinner/>)
     }else{
-        return(<div>{window.location='http://localhost:3000/login'}</div>);
+        return(<Redirect to='/'/>);
     }
       
   }

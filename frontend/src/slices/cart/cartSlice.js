@@ -1,14 +1,41 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import axios from 'axios';
-export const cartAdd = createAsyncThunk(
-    'cart/Add',
-    async (id,lens_details,{rejectWithValue})=>{
+export const checkout = createAsyncThunk(
+    'cart/checkout',
+    async (_, { getState , rejectWithValue})=>{
+        const {name,city,state,pincode,address_line_1,address_line_2,area,total_price} = getState().cart;
         try{
-            const response = await axios.post('http://localhost:5000/cart/addtocart',{withCredentials:true,
-            data:{'id':id,'lens_details':lens_details}});
+            const response = await axios.post('http://localhost:5000/cart/addtocart',
+            {data:{
+                'delivery_address':address_line_1+'\n'+address_line_2+'\n'+area+'\n'+city+'-'+pincode+'\n'+state,
+				'total_price':total_price,
+				'name':name
+            }},
+            {withCredentials:true});
             return response.data;
         }catch(error){
-            return rejectWithValue(error.response.status);
+            return rejectWithValue(error.response);
+        }
+    }
+)
+export const cartAdd = createAsyncThunk(
+    'cart/Add',
+    async (id,{ getState , rejectWithValue })=>{
+        const {lens_details} = getState().cart;
+        try{
+            await axios({
+                method:'POST',
+                url:'http://localhost:5000/cart/addtocart',
+                withCredentials:true,
+                data:{
+                    'id':id,
+                    'lens_details':lens_details
+                }
+                }).then((response)=>{
+                return response.data;
+            });
+        }catch(error){
+            return rejectWithValue(error.response);
         }
     }
 )
@@ -30,26 +57,61 @@ const cartSlice = createSlice({
     name:'cart',
     initialState:{
         cart:[],
-        total_price:0
+        lens_details:{
+            rsign:'0',
+			lsign:'0',
+			resph:0,
+			reax:0,
+			recyl:0,
+			readd:0,
+			lesph:0,
+			leax:0,
+			lecyl:0,
+			leadd:0,
+        },
+        total_price:0,
+        delivery_address:'',
+		name:'',
+		city:'',
+		state:'',
+		pincode:'',
+		address_line_1:'',
+		address_line_2:'',
+		area:'',
+        inserted:false,
+        fetched:false,
+        cartAddError:false,
+        checkoutError:false,
+
+        errormessage:''
     },
-    reducers:{},
-    extraReducers:{
-        [cartAdd.fulfilled]:(state, action)=>{
-            
-            state.push(action.payload);
-        },
-        [cartDelete.fulfilled]:(state,action)=>{
-            state=action.payload;
-            return state;
-        },
-        [cartGet.fulfilled]:(state, action)=>{
-            state=action.payload;
-            return state;
-        },
-        [cartAdd.rejected]: (state, action)=>{
-            return action.payload;
+    reducers:{
+        setValue:(state, action)=>{
+            state[action.payload.name]=action.payload.value;
         }
+    },
+    extraReducers:{
+        [cartDelete.fulfilled]:(state,action)=>{
+            state.cart=action.payload;
+        },[cartGet.fulfilled]:(state, action)=>{
+            state.cart=action.payload['cart'];
+            state.total_price=action.payload['total_price'];
+            state.fetched=true
+        },[cartGet.rejected]:(state, action)=>{
+            state.cart=[];
+            state.error=true;
+        },[cartAdd.rejected]: (state, action)=>{
+            state.cartAddError=true;
+            if(action.error.message === '403'){
+                state.errormessage = 'First Login then you can add products';
+            }
+        },[checkout.fulfilled]:(state, action)=>{
+            state.cart=[];
+        },[checkout.rejected]:(state, action)=>{
+            state.checkoutError=500;
+        },
     }
 
 })
+export const {setValue} = cartSlice.actions;
 export default cartSlice.reducer;

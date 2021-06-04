@@ -1,6 +1,6 @@
-var express = require('express');
-var router = express.Router();
-var seller=require('../controllers/sellercontroller');
+const express = require('express');
+const router = express.Router();
+const seller=require('../controllers/sellercontroller');
 
 router.post("/create",seller.create);
 router.get("/allowed",seller.isallowed);

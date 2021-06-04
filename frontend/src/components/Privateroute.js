@@ -1,27 +1,16 @@
-import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
+import { useSelector } from 'react-redux';
 import { Redirect, Route} from 'react-router-dom';
 import Loadingspinner from './Loadingspinner';
 const PrivateRoute = ({component: Component, ...rest}) => {
-    const [isallowed,setAllowed] = useState('loading');
-    useEffect(()=>{
-        axios({
-            method:'GET',
-            url:'http://localhost:5000/user/allowedgeneral',
-            withCredentials:true
-        }).then((response)=>{
-            setAllowed(response.data);
-        }).catch((error)=>{
-            setAllowed(false);
-        })
-    })
-    if(isallowed==='loading'){
+    const {isAuthenticated, userType} = useSelector(state => state.authentication);  
+    if(isAuthenticated==='loading' && userType===''){
         return(<Loadingspinner/>);
-    }else if(isallowed===true){
+    }else if(userType==='' || userType ==='customer'){
         return (
             <Route {...rest} render={props => (<Component {...props} />)}/>
         );
-    }else if(isallowed===false){
+    }else if(isAuthenticated===true && userType==='seller'){
         return (<Redirect to='/insertproduct'/>); 
     }
 };

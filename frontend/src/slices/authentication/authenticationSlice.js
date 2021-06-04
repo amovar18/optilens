@@ -2,35 +2,48 @@ import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import axios from 'axios';
 export const userAuth = createAsyncThunk(
     'authentication/userAuth',
-    async ( {getState} ) =>{
-        const {username,password,typeofuser}=getState().authentication;
+    async (_, { getState , rejectWithValue} ) =>{
+        const {loginUsername,loginPassword,typeofuser} = getState().authentication;
         try{
             const response = axios.post('http://localhost:5000/auth/signin',{
-                'username':username,
-                'password':password,
+                'username':loginUsername,
+                'password':loginPassword,
                 'typeofuser':typeofuser
             },{withCredentials:true});
             return (await response).data;
         }catch(err){
-            return Promise.reject(401);
+            return rejectWithValue(err.response);
+        }
+    }
+)
+export const refreshToken = createAsyncThunk(
+    'authentication/refreshToken',
+    async (_, { rejectWithValue }) =>{
+        try{
+            const response = axios.get('http://localhost:5000/auth/getstatus',{withCredentials:true});
+            return (await response).data;
+        }catch(err){
+            return rejectWithValue(err.response.data)
         }
     }
 )
 export const checkUsernameAvailability = createAsyncThunk(
     'authentication/checkUsernameAvailability',
-    async ( {getState} ) =>{
-        const {Registration_username}=getState().authentication;
-        try{
-            const response = axios.get('http://localhost:5000/user/availability/'+Registration_username,{withCredentials:true});
-            return (await response).data;
-        }catch(err){
-            return Promise.reject(401);
+    async (_, { getState, rejectWithValue } ) =>{
+        const {Registration_username} = getState().authentication;
+        if(Registration_username!==''){
+            try{
+                const response = axios.get('http://localhost:5000/user/availability/'+Registration_username,{withCredentials:true});
+                return (await response).data;
+            }catch(err){
+                return rejectWithValue(err.response);
+            }
         }
     }
 )
 export const createCustomer = createAsyncThunk(
     'authentication/create',
-    async ( {getState} ) =>{
+    async (_, { getState , rejectWithValue} ) =>{
         const {Registration_username,Registration_password,Registration_name,Registration_email,Registration_address,Registration_phone}=getState().authentication;
         try{
             const response = axios.post('http://localhost:5000/user/create',{
@@ -43,33 +56,37 @@ export const createCustomer = createAsyncThunk(
             },{withCredentials:true});
             return (await response).data;
         }catch(err){
-            return Promise.reject(401);
+            return rejectWithValue(err.response);
         }
     }
 )
 
 export const userDeauth = createAsyncThunk(
     'authentication/userDeauth',
-    async () =>{
+    async (_, {rejectWithValue}) =>{
         try{
             const response = await axios.get('http://localhost:5000/auth/signout',{withCredentials:true});
-            return response.status;
+            return response.data;
         }catch(error){
-            return Promise.reject(500);
+            return rejectWithValue(error.response);
         }
     }
 )
 const authenticationSlice = createSlice({
     name:'authentication',
     initialState:{
+        userType:'',
+        fetched:false,
         user:{},
-        username:'',
-        password:'',
-        typeofuser:'',
-        isAuthenticated:false,
         error:'',
-        links:[{title:'Home', path:'/'},{ title: `About us`, path: `/about` },{ title: `Product`, path: `/product/all` },{ title: `FAQ`, path: `/faq` },{ title: `Login`, path: `/login` }],
 
+        loginUsername:'',
+        loginPassword:'',
+        typeofuser:'',
+        loginerror:'',
+                                
+        links:[{title:'Home', path:'/'},{ title: `About us`, path: `/about` },{ title: `Product`, path: `/product/all/1` },{ title: `FAQ`, path: `/faq` },{ title: `Login`, path: `/login` }],
+        
         Registration_username:'',
         Registration_password:'',
         Registration_name:'',
@@ -78,77 +95,64 @@ const authenticationSlice = createSlice({
         Registration_phone:'',
         Registration_confirm_password:'',
         registrationError:'',
-        availability:'',
         passwordMatch:'',
-        criteriaError:''
-        
+        criteriaError:'',
+        availability:'NaN',
+        errormessage:'',
+        isActive:'',
     },
     reducers:{
-        setUsername:(state, action)=>{
-            state.username=action.payload;
-        },setPassword:(state, action)=>{
-            state.password=action.payload;
-        },setUser:(state,action)=>{
-            state.typeofuser=action.payload;
-        },setRegistrationPassword:(state,action)=>{
-            let regex=RegExp("^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{6,})");
-            if(regex.test(action.payload)===true){
-                state.Registration_password=action.payload;
-                state.criteriaError=false;
-            }else{
-                state.criteriaError=true;
-            }
-        },setRegistrationConfirmPassword:(state,action)=>{
-            if (state.Registration_confirm_password !== undefined && state.Registration_password !== undefined) {  
-                if (state.Registration_confirm_password !== state.Registration_password) {
-                    state.passwordMatch=false;
-                }else{
-                    state.passwordMatch=true;
-                    state.Registration_confirm_password=action.payload;
-                }
-            }
-        },setRegistrationUsername:(state,action)=>{
-            state.Registration_username=action.payload;
-        },setRegistrationAddress:(state,action)=>{
-            state.Registration_address=action.payload;
-        },setRegistrationEmail:(state,action)=>{
-            state.Registration_email=action.payload;
-        },setRegistrationPhone:(state,action)=>{
-            state.Registration_phone=action.payload;
-        },setRegistrationName:(state,action)=>{
-            state.Registration_name=action.payload;
+        setValue:(state,action)=>{
+            state[action.payload.name]=action.payload.value;
+        },setpasswordMatch:(state, action)=>{
+            state.passwordMatch = action.payload;
+        },setcriteriaError:(state, action)=>{
+            state.criteriaError = action.payload;
         }
     },
     extraReducers:{
         [userAuth.fulfilled]:(state, action)=>{
-            console.log(action)
-            state.user=action.payload.user;
-            state.links=action.payload.links;
-            console.log(state);
-            state.isAuthenticated=true;
-            return action.payload.status;
+            // sign in user and set usertype links and user details;
+            state.usertype = action.payload.userType;
+            state.user = action.payload.user;
+            state.links = action.payload.links;
+            state.isAuthenticated = true;
         },[userAuth.rejected]:(state, action)=>{
-            state.error = true;
+            // if authentication gets rejected due to some reason
+            state.errormessage = action.error;
+            state.loginerror = true;
         },[userDeauth.fulfilled]:(state,action)=>{
+            // user get successfully loggedout
             state.isAuthenticated=false;
-            state.user=action.payload.user;
+            state.user={};
+            state.userType='';
             state.links=action.payload.links;
-            return action.payload.status;
-        },[userDeauth.rejected]:(state, action)=>{
-            return action.payload;
         },[createCustomer.fulfilled]:(state, action)=>{
+            // customer is created successfully
             state.isAuthenticated=true;
             state.user=action.payload.user;
             state.links=action.payload.links;
-            return action.payload.status;
         },[createCustomer.rejected]:(state, action)=>{
+            // problem in creating customer
             state.registrationError = true;
+            state.errormessage = action.error;
         },[checkUsernameAvailability.fulfilled]:(state, action)=>{
-            state.availability = true;
+            state.availability = action.payload;
         },[checkUsernameAvailability.rejected]:(state,action)=>{
             state.availability = false;
+        },[refreshToken.fulfilled]:(state,action)=>{
+            // refresh the token if available
+            state.userType = action.payload.userType;
+            state.user=action.payload.user;
+            state.links=action.payload.links;
+            state.isAuthenticated = true;
+        },[refreshToken.rejected]:(state, action)=>{
+            state.isAuthenticated = false;
+            state.links=action.payload.links;
+            state.user = {}; 
+            state.userType = '';
         }
     }
 })
-export const {setPassword,setUser,setUsername,setRegistrationAddress,setRegistrationName,setRegistrationEmail,setRegistrationPassword,setRegistrationUsername,setRegistrationPhone, setRegistrationConfirmPassword}=authenticationSlice.actions;
+export const {setValue, setpasswordMatch, setcriteriaError}=authenticationSlice.actions;
 export default authenticationSlice.reducer;

@@ -26,7 +26,7 @@ function single_product_list(props){
                             <br/>
                         </div>
                     </Link>
-            ))};
+            ))}
             </div>
         );
     }else{

@@ -17,6 +17,7 @@ import Recievedorders from './Recievedorders';
 import Privateroutecustomer from './Privateroutecustomer';
 import Singleorder from './single_order';
 import Pendingorders from './pendingorders';
+import NotFound from './NotFound';
 const Mainrouter = () => {
     return (
         <Switch>
@@ -34,6 +35,7 @@ const Mainrouter = () => {
             <Privaterouteseller path="/insertproduct"  component={Register_product}/>
             <Privaterouteseller path="/pendingorders"  component={Pendingorders}/>
             <Privateroute path="/productdisplay/:productId" component={ProductDisplay}/>
+            <Route path='*' component={NotFound}/>
         </Switch>
     );
 }

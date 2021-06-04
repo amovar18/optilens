@@ -1,42 +1,22 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Sidefilter from './sidefilter';
-import axios from 'axios';
 import Singleproductlist from './single_product_list';
-export default class Product extends React.Component{
-	constructor(props){
-		super(props);
-		this.state={
-			products:[],
-			sort:false
-		}
-		this.handleSubmit=this.handleSubmit.bind(this);
-	}
-	componentDidMount(){
-		let currentComponent=this;
-		if(this.state.sort===false){
-			axios({
-				method: 'GET',
-				url: 'http://localhost:5000/product/'+this.props.match.params.type+'/'+this.props.match.params.page,
-			}).then((response) => {
-				currentComponent.setState({products:response.data});
-			}).catch((error) => {
-				console.log(error);
-			});
-		}
-	}
-	handleSubmit(sortData,e){
+import {useDispatch, useSelector} from 'react-redux';
+import { productGet, productSort } from '../slices/product/productSlice';
+export default function Product(props){
+	const dispatch =  useDispatch();
+	const {products} = useSelector(state => state.product);
+	useEffect(()=>{
+		dispatch(productGet());
+		// eslint-disable-next-line
+	},[])
+	const submit = (e) =>{
 		e.preventDefault();
-		this.setState({sort:true});
-		axios({
-			method: 'GET',
-			url: 'http://localhost:5000/product/sort/'+this.props.match.params.type+'/'+sortData.price+'/'+sortData.sort
-		}).then((response) => {
-			this.setState({products:response.data});
-		}).catch((error) => {
-			console.log(error);
-		});
+		dispatch(productSort());
 	}
-	render(){
+	if(products.length === 0){
+		return(<h1>Could not load data from server</h1>);
+	}else{
 		return (
 			<div className='container'>
 				<br/>
@@ -47,11 +27,11 @@ export default class Product extends React.Component{
 							<div className='modal-dialog modal-fullscreen-sm-down'>
 									<div className='modal-content'>
 									<div className="modal-header">
-        								<h5 className="modal-title" id="exampleModalLabel">Sort and Filter</h5>
-        								<button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-	      							</div>
+    									<h5 className="modal-title" id="exampleModalLabel">Sort and Filter</h5>
+    									<button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+		      						</div>
 									<div className='modal-body'>
-										<Sidefilter onSubmitForm={this.handleSubmit}/>
+										<Sidefilter onSubmitForm={submit}/>
 									</div>
 								</div>
 							</div>
@@ -61,7 +41,7 @@ export default class Product extends React.Component{
 				<hr/>
 				<div className='row justify-contents-start'>
 					<div className='col-12'>
-						<Singleproductlist data={this.state.products}/>	
+						<Singleproductlist data={products}/>	
 					</div>
 				</div>
 			</div>

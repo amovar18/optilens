@@ -7,5 +7,4 @@ const verifyToken = require('./verifyToken');
 router.get("/getstatus",auth.checkstatus);
 router.get("/signout",verifyToken,auth.signout);
 router.post("/signin",auth.authenticate);
-router.get("/getlinks",auth.links);
 module.exports= router;

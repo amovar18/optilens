@@ -30,7 +30,7 @@ exports.getcart=function (req, res) {
                     const total_price = await db.collection('customer').aggregate([{ '$match': { '_id': ObjectId(cid)}}, {'$unwind': {'path': '$cart'}}, {'$unwind': {'path': '$cart.price'}}, {'$group': {'_id': 'total_price', 'total_price': {'$sum': {'$multiply': ['$cart.price', '$cart.quantity']}}}}]).toArray();
                     if(cart[0].cart.length > 0){
                         cart[0]['total_price']=total_price[0]['total_price'];
-                        return res.status(200).send(cart);
+                        return res.status(200).send(cart[0]);
                     }else{
                         return res.status(200).send([]);
                     }
@@ -77,6 +77,7 @@ exports.addtocart=function (req, res) {
         if(result.type==='customer'){   
             const cid=result['_id'];
             const product_id=req.body.id;
+
             MongoClient.connect('mongodb://localhost:27017/opticonnect',{ useUnifiedTopology: true }, function (err, client) {
                 if (err) throw err
                 const db = client.db('opticonnect');

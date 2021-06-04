@@ -2,64 +2,100 @@ import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import axios from 'axios';
 export const productSort = createAsyncThunk(
     'product/Sort',
-    async (type, price, sort)=>{
-        const response = await axios.get('http://localhost:5000/product/sort/'+type+'/'+price+'/'+sort,{withCredentials:true});
-        return response.data;
+    async (_, { getState , rejectWithValue})=>{
+        const {type, price, sort, current_page} = getState().product;
+        try{
+            const response = await axios.get('http://localhost:5000/product/sort/'+type+'/'+price+'/'+sort+'/'+current_page,{withCredentials:true});
+            return response.data;
+        }catch(error){
+            return rejectWithValue(error.response);
+        }
     }
 )
 export const productGetSingle = createAsyncThunk(
     'porduct/productGetSingle',
-    async (id)=>{
-        const response = await axios.get('http://localhost:5000/product/getsingle/'+id,{withCredentials:true,data:{'pid':id}});
-        return response.data;
+    async (id ,{ rejectWithValue})=>{
+        try{
+            const response = await axios.get('http://localhost:5000/product/getsingle/'+id,{withCredentials:true,data:{'pid':id}});
+            return response.data;
+        }catch(error){
+            return rejectWithValue(error.response)
+        }
     }
 )
 export const productGet = createAsyncThunk(
     'product/productGet',
-    async (type, page)=>{
-        const response = await axios.get('http://localhost:5000/product/'+type+'/'+page,{withCredentials:true});
-        return response.status;
+    async (_, { getState , rejectWithValue})=>{
+        const {type, current_page, price, sort} = getState().product;
+        try{
+            const response = await axios.get('http://localhost:5000/product/sort/'+type+'/'+price+'/'+sort+'/'+current_page,{withCredentials:true});
+            return response.data;
+        }catch(error){
+            return rejectWithValue(error.response);
+        }    
     }
 )
 export const productAdd = createAsyncThunk(
     'product/productAdd',
-    async (formData, {rejectWithValue})=>{
+    async (formData, { rejectWithValue })=>{
         try{
-            const response = await axios.post('http://localhost:5000/product/create',{withCredentials:true,Headers:{'Content-Type':'multipart/form-data'},data:formData});
-            return response.data;
+            await axios({
+                method:'POST',
+                url:'http://localhost:5000/product/create',
+                withCredentials:true,
+                headers:{'Content-Type':'multipart/form-data'},
+                data:formData
+            }).then((response)=>{
+                return response.data;
+            });
+            
         }catch(error){
-            return rejectWithValue(error.response.status);
+            return rejectWithValue(error.response);
         }
     }
 )
 const productSlice = createSlice({
-    name:'cart',
+    name:'product',
     initialState:{
         products:[],
         singleProduct:[],
+        shopname:[],
         total_pages:0,
-        sort:false
+        current_page:1,
+        sort:'NAN',
+        type:'all',
+        price:'NAN',
+        fetcherror:'',
+
+        productname:'',
+        productprice:0,
+        producttype:'',
+        productdescription:'',
+        brand:'',
+        stored:false
     },
-    reducers:{},
+    reducers:{
+        setValue:(state, action)=>{
+            state[action.payload.name] = action.payload.value;
+        }
+    },
     extraReducers:{
         [productSort.fulfilled]:(state, action)=>{
-            state.push(action.payload);
-        },
-        [productGetSingle.fulfilled]:(state,action)=>{
-            state.singleProduct=action.payload;
-            return state;
-        },
-        [productGet.fulfilled]:(state, action)=>{
-            state=action.payload;
-            return state;
-        },
-        [productAdd.fulfilled]:(state, action)=>{
-            return action.payload;
-        },
-        [productAdd.rejected]:(state, action)=>{
-            return action.payload;
+            state.products = action.payload;
+        },[productGetSingle.fulfilled]:(state,action)=>{
+            state.singleProduct = action.payload[0];
+            state.shopname = action.payload[0]['shop'][0];
+        },[productGet.fulfilled]:(state, action)=>{
+            state.products=action.payload;
+        },[productAdd.fulfilled]:(state, action)=>{
+            state.stored = true;
+        },[productAdd.rejected]:(state, action)=>{
+            state.stored = true;
+        },[productAdd.pending]:(state, action)=>{
+            state.stored = false;
         }
     }
 
 })
+export const {setValue} = productSlice.actions;
 export default productSlice.reducer;
