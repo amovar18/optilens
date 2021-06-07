@@ -1,1 +1,0 @@
-web: npm index.js
