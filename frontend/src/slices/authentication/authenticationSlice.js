@@ -5,12 +5,19 @@ export const userAuth = createAsyncThunk(
     async (_, { getState , rejectWithValue} ) =>{
         const {loginUsername,loginPassword,typeofuser} = getState().authentication;
         try{
-            const response = axios.post('https://opticonnect-backend.herokuapp.com/auth/signin',{
+            axios({
+                url:'https://opticonnect-backend.herokuapp.com/auth/signin',
+                method:'POST',
+                data:{
                 'username':loginUsername,
                 'password':loginPassword,
                 'typeofuser':typeofuser
-            },{withCredentials:true});
-            return (await response).data;
+                },
+                withCredentials:true
+            }).then((response)=>{
+                return response.data;
+            });
+            
         }catch(err){
             return rejectWithValue(err.response.data);
         }
@@ -23,7 +30,7 @@ export const refreshToken = createAsyncThunk(
             const response = axios.get('https://opticonnect-backend.herokuapp.com/auth/getstatus',{withCredentials:true});
             return (await response).data;
         }catch(err){
-            return rejectWithValue(err.response.data)
+            return rejectWithValue(err.response.data);
         }
     }
 )
