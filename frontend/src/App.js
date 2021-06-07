@@ -8,7 +8,7 @@ function App(){
       return (
           <BrowserRouter>
             <div className="App" style={{'minHeight':'100vh','height':'100%'}}>
-                <Header />
+                <Header/>
                 <MainRouter/>  		      
             </div>
           </BrowserRouter>
