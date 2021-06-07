@@ -31,4 +31,4 @@ app.use("/user",userRouter);
 app.use("/seller",sellerRouter);
 app.use("/auth",authRouter);
 app.use("/order",orderRouter); 
-app.listen(process.env.PORT || 5000, '0.0.0.0');
+app.listen(process.env.PORT || 5000, process.env.HOST || '::');
