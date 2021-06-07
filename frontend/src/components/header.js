@@ -4,7 +4,7 @@ import {refreshToken} from '../slices/authentication/authenticationSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import Loadingspinner from './Loadingspinner';
 
-function Header(){
+export default function Header(){
 	const {isAuthenticated, links} = useSelector(state => state.authentication);
   	const dispatch = useDispatch();
   	useEffect(()=>{
@@ -39,6 +39,3 @@ function Header(){
 	    );
 	}
 }
-
-
-export default Header;
