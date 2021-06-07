@@ -6,7 +6,7 @@ export const checkUsernameAvailability = createAsyncThunk(
         const {username} = getState().seller;
         if(username!==''){
             try{
-                const response = axios.get('http://localhost:5000/seller/availability/'+username,{withCredentials:true});
+                const response = axios.get('https://opticonnect-backend.herokuapp.com/seller/availability/'+username,{withCredentials:true});
                 return (await response).data;
             }catch(err){
                 return rejectWithValue(err.response);
@@ -20,7 +20,7 @@ export const createSeller = createAsyncThunk(
         try{
             await axios({
                 method:'POST',
-                url:'http://localhost:5000/seller/create',
+                url:'https://opticonnect-backend.herokuapp.com/seller/create',
                 withCredentials:true,
                 data:formData,
                 headers:{'Content-Type': 'multipart/form-data'},

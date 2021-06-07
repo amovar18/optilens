@@ -5,7 +5,7 @@ export const checkout = createAsyncThunk(
     async (_, { getState , rejectWithValue})=>{
         const {name,city,state,pincode,address_line_1,address_line_2,area,total_price} = getState().cart;
         try{
-            const response = await axios.post('http://localhost:5000/cart/addtocart',
+            const response = await axios.post('https://opticonnect-backend.herokuapp.com/cart/addtocart',
             {data:{
                 'delivery_address':address_line_1+'\n'+address_line_2+'\n'+area+'\n'+city+'-'+pincode+'\n'+state,
 				'total_price':total_price,
@@ -25,7 +25,7 @@ export const cartAdd = createAsyncThunk(
         try{
             await axios({
                 method:'POST',
-                url:'http://localhost:5000/cart/addtocart',
+                url:'https://opticonnect-backend.herokuapp.com/cart/addtocart',
                 withCredentials:true,
                 data:{
                     'id':id,
@@ -42,14 +42,14 @@ export const cartAdd = createAsyncThunk(
 export const cartDelete = createAsyncThunk(
     'cart/delete',
     async (id)=>{
-        const response = await axios.delete('http://localhost:5000/cart/delete',{withCredentials:true,data:{'pid':id}});
+        const response = await axios.delete('https://opticonnect-backend.herokuapp.com/cart/delete',{withCredentials:true,data:{'pid':id}});
         return response.data;
     }
 )
 export const cartGet = createAsyncThunk(
     'cart/getCart',
     async ()=>{
-        const response = await axios.get('http://localhost:5000/cart/getcart',{withCredentials:true});
+        const response = await axios.get('https://opticonnect-backend.herokuapp.com/cart/getcart',{withCredentials:true});
         return response.data;
     }
 )

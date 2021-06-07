@@ -5,7 +5,7 @@ export const getSingle = createAsyncThunk(
     'transaction/getSingle',
     async (id, {rejectWithValue})=>{
         try{
-            const response = await axios.delete('http://localhost:5000/cart/delete',{withCredentials:true,data:{'pid':id}});
+            const response = await axios.delete('https://opticonnect-backend.herokuapp.com/cart/delete',{withCredentials:true,data:{'pid':id}});
             return response.data;
         }catch(error){
             return rejectWithValue(error.response.data);
@@ -17,7 +17,7 @@ export const getAll = createAsyncThunk(
     async (_, { rejectWithValue})=>{
         try{
             console.log('here');
-            const response = await axios.get('http://localhost:5000/transaction/',{withCredentials:true});
+            const response = await axios.get('https://opticonnect-backend.herokuapp.com/transaction/',{withCredentials:true});
             return response.data;
         }catch(error){
             return rejectWithValue(error.response.data);

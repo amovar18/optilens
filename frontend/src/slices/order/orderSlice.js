@@ -7,7 +7,7 @@ export const setdelivery = createAsyncThunk(
         const {awb, delivery_partner} = getState().order;
         try{
             axios({
-                url:'http://localhost:5000/order/setdelivery',
+                url:'https://opticonnect-backend.herokuapp.com/order/setdelivery',
                 method:'POST',
                 data:{
                     'product_id':product_id,
@@ -27,7 +27,7 @@ export const getPending = createAsyncThunk(
     'order/getPending',
     async (_, { rejectWithValue})=>{
         try{
-            const response = await axios.get('http://localhost:5000/order/getallpending',{withCredentials:true});
+            const response = await axios.get('https://opticonnect-backend.herokuapp.com/order/getallpending',{withCredentials:true});
             return response.data;
         }catch(error){
             return rejectWithValue(error.response.data);
@@ -38,7 +38,7 @@ export const getAll = createAsyncThunk(
     'order/getAll',
     async (_, { rejectWithValue})=>{
         try{
-            const response = await axios.get('http://localhost:5000/order/getall',{withCredentials:true});
+            const response = await axios.get('https://opticonnect-backend.herokuapp.com/order/getall',{withCredentials:true});
             return response.data;
         }catch(error){
             return rejectWithValue(error.response.data);
