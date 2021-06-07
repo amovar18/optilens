@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
-import Enterprescription from './enterprescription';
-import Carousel from './carousel';
-import Alert from './alert';
+import Enterprescription from './Enterprescription';
+import Carousel from './Carousel';
+import Alert from './Alert';
 import { useDispatch, useSelector } from 'react-redux';
 import { cartAdd } from '../slices/cart/cartSlice';
 import { productGetSingle } from '../slices/product/productSlice';
-export default function ProductDisplay(props){
+export default function Productdisplay(props){
 	const dispatch = useDispatch();
 	const {singleProduct, shopname} = useSelector(state => state.product);
 	const { errormessage} = useSelector(state => state.cart);

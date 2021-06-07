@@ -12,7 +12,7 @@ export const userAuth = createAsyncThunk(
             },{withCredentials:true});
             return (await response).data;
         }catch(err){
-            return rejectWithValue(err.response);
+            return rejectWithValue(err.response.data);
         }
     }
 )
@@ -36,7 +36,7 @@ export const checkUsernameAvailability = createAsyncThunk(
                 const response = axios.get('http://localhost:5000/user/availability/'+Registration_username,{withCredentials:true});
                 return (await response).data;
             }catch(err){
-                return rejectWithValue(err.response);
+                return rejectWithValue(err.response.data);
             }
         }
     }
@@ -56,7 +56,7 @@ export const createCustomer = createAsyncThunk(
             },{withCredentials:true});
             return (await response).data;
         }catch(err){
-            return rejectWithValue(err.response);
+            return rejectWithValue(err.response.data);
         }
     }
 )
@@ -76,6 +76,7 @@ const authenticationSlice = createSlice({
     name:'authentication',
     initialState:{
         userType:'',
+        isAuthenticated:false,
         fetched:false,
         user:{},
         error:'',
@@ -119,23 +120,24 @@ const authenticationSlice = createSlice({
             state.isAuthenticated = true;
         },[userAuth.rejected]:(state, action)=>{
             // if authentication gets rejected due to some reason
-            state.errormessage = action.error;
-            state.loginerror = true;
+            state.loginerror = action.payload;
         },[userDeauth.fulfilled]:(state,action)=>{
             // user get successfully loggedout
+            console.log(action.payload)
             state.isAuthenticated=false;
             state.user={};
-            state.userType='';
+            state.userType=action.payload.userType;
             state.links=action.payload.links;
         },[createCustomer.fulfilled]:(state, action)=>{
             // customer is created successfully
             state.isAuthenticated=true;
             state.user=action.payload.user;
             state.links=action.payload.links;
+            state.userType= action.payload.userType;
         },[createCustomer.rejected]:(state, action)=>{
             // problem in creating customer
             state.registrationError = true;
-            state.errormessage = action.error;
+            state.errormessage = action.payload;
         },[checkUsernameAvailability.fulfilled]:(state, action)=>{
             state.availability = action.payload;
         },[checkUsernameAvailability.rejected]:(state,action)=>{
@@ -150,7 +152,7 @@ const authenticationSlice = createSlice({
             state.isAuthenticated = false;
             state.links=action.payload.links;
             state.user = {}; 
-            state.userType = '';
+            state.userType = action.payload.userType;
         }
     }
 })

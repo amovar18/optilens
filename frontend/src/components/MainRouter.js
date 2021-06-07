@@ -5,18 +5,18 @@ import Cart from "./Cart";
 import Product from "./Product";
 import About from "./About";
 import Faq from "./Faq";
-import Login from "./login";
-import Register_seller from './register_seller';
-import ProductDisplay from './productdisplay';
-import logout from './logout';
+import Logincontainer from "./Logincontainer";
+import Register_seller from './Registerseller';
+import ProductDisplay from './Productdisplay';
+import Logout from './Logout';
 import Privateroute from './Privateroute';
-import yorders from './yorders';
+import yorders from './Yorders';
 import Privaterouteseller from './Privaterouteseller';
-import Register_product from './register_product';
+import Register_product from './Registerproduct';
 import Recievedorders from './Recievedorders';
 import Privateroutecustomer from './Privateroutecustomer';
-import Singleorder from './single_order';
-import Pendingorders from './pendingorders';
+import Singleorder from './Singleorder';
+import Pendingorders from './Pendingorders';
 import NotFound from './NotFound';
 const Mainrouter = () => {
     return (
@@ -26,8 +26,8 @@ const Mainrouter = () => {
             <Privateroutecustomer path="/cart"  component={Cart}/>
             <Privateroute path="/product/:type/:page"  component={Product}/>
             <Route path="/faq"  component={Faq}/>
-            <Route path="/login" component={Login}/>
-            <Route path="/logout" component={logout}/>
+            <Route path="/login" component={Logincontainer}/>
+            <Route path="/logout" component={Logout}/>
             <Route path="/registerseller" component={Register_seller}/>
             <Privateroutecustomer path="/yorders/:id" component={Singleorder}/>
             <Privateroutecustomer path="/yorders" component={yorders}/>

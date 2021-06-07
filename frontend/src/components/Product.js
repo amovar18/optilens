@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
-import Sidefilter from './sidefilter';
-import Singleproductlist from './single_product_list';
+import Sidefilter from './Sidefilter';
+import Singleproductlist from './Singleproductlist';
 import {useDispatch, useSelector} from 'react-redux';
 import { productGet, productSort } from '../slices/product/productSlice';
 export default function Product(props){

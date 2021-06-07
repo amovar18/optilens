@@ -1,4 +1,4 @@
-import React,{ useEffect } from 'react';
+import React,{ useEffect} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Redirect } from 'react-router';
 import {userDeauth} from '../slices/authentication/authenticationSlice'
@@ -10,9 +10,10 @@ function Logout(){
         dispatch(userDeauth());
         // eslint-disable-next-line
     },[isAuthenticated]);
+
     if(isAuthenticated === true){
         return(<Loadingspinner/>)
-    }else{
+    }else if( isAuthenticated===false){
         return(<Redirect to='/'/>);
     }
       

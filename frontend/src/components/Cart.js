@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import Showprescription from './showprescription';
+import Showprescription from './Showprescription';
 import { Link, Redirect } from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
 import Loadingspinner from './Loadingspinner';

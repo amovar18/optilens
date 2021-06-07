@@ -1,5 +1,5 @@
 import React from 'react';
-function showprescription(props){
+export default function Showprescription(props){
 	return (
 		<div className='table-responsive'>
 			<table className='table'>
@@ -35,5 +35,3 @@ function showprescription(props){
 		</div>
 	);
 }
-
-export default showprescription;
