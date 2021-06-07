@@ -1,5 +1,5 @@
 import React from 'react';
-import Alert from './alert';
+import Alert from './Alert';
 import { useDispatch, useSelector } from 'react-redux';
 import { setcriteriaError, setValue, setpasswordMatch, checkUsernameAvailability, createSeller} from '../slices/seller/sellerSlice';
 export default function Register_seller(props){

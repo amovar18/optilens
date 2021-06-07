@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 import Loadingspinner from './Loadingspinner';
-import Alert from './alert';
+import Alert from './Alert';
 import {Link} from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getSingle } from '../slices/transaction/transactionSlice';
-import Carousel from './carousel';
+import Carousel from './Carousel';
 export default function Singleorder(props){
 	const dispatch= useDispatch();
 	const {transaction, fetched} = useSelector(state => state.transaction);

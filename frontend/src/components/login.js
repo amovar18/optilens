@@ -13,7 +13,7 @@ export default function Login(props){
         dispatch(userAuth()).then(()=>{return(<Redirect to='/'/>)});
     }
     return(
-        <div className='col-sm'>
+        <div className='container-fluid'>
             <h1 className='lead' style={{'fontSize':'1.5rem'}}>Login to your account</h1>
             <form onSubmit={submitValueLog}>
                 <input className='form-control' placeholder='Username' id='username' type='text' onChange={e => dispatch(setValue({name:e.target.name, value:e.target.value}))} name='loginUsername'/><br/>

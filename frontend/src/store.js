@@ -4,11 +4,13 @@ import authenticationReducer from './slices/authentication/authenticationSlice';
 import productReducer from './slices/product/productSlice';
 import transactionReducer from './slices/transaction/transactionSlice';
 import sellerReducer from './slices/seller/sellerSlice';
+import orderReducer from './slices/order/orderSlice';
 const rootReducer = combineReducers({
     cart:cartReducer,
     authentication:authenticationReducer,
     product:productReducer,
     seller:sellerReducer,
+    order:orderReducer,
     transaction: transactionReducer  
 })
 const store = configureStore({

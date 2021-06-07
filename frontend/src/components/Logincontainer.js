@@ -18,12 +18,17 @@ export default function Logincontainer(){
         return (
             <div style={{'height':'100%'}}>
                 <div className='container'>
-                    <div className='row align-items-center'>
-                        <Login/>
+                    <div className='row align-items-center text-center'>
+                        <div className='col-sm'>
+                            <Login/>
+                        </div>
                         <div className='col-sm text-center'>
                             <h1 className='display-6'>OR</h1>
                         </div><br/>
-                        <Registercustomer/>
+                        <div className='col-sm text-center'>
+                            <Registercustomer/>    
+                        </div>
+                        
                     </div>
                 </div>       
             </div>             
