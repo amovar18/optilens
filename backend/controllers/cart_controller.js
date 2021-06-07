@@ -21,7 +21,7 @@ exports.getcart=function (req, res) {
         if(result.type==='customer'){
             const cid=result['_id'];
 
-            MongoClient.connect('process.env.MONGO_URI',{ useUnifiedTopology: true }, function (err, client) {
+            MongoClient.connect(process.env.MONGO_URI,{ useUnifiedTopology: true }, function (err, client) {
                 if (err) throw err
 
                 const db = client.db('opticonnect');
@@ -51,7 +51,7 @@ exports.delete=function (req, res) {
         if(result.type==='customer'){
             const cid=result['_id'];
             const pid=req.body.pid;
-            MongoClient.connect('process.env.MONGO_URI', {useUnifiedTopology: true },function (err, client) {
+            MongoClient.connect(process.env.MONGO_URI, {useUnifiedTopology: true },function (err, client) {
                 if (err) throw err
                 const db = client.db('opticonnect');
                 (async ()=>{
@@ -78,7 +78,7 @@ exports.addtocart=function (req, res) {
             const cid=result['_id'];
             const product_id=req.body.id;
 
-            MongoClient.connect('process.env.MONGO_URI',{ useUnifiedTopology: true }, function (err, client) {
+            MongoClient.connect(process.env.MONGO_URI,{ useUnifiedTopology: true }, function (err, client) {
                 if (err) throw err
                 const db = client.db('opticonnect');
                 (async ()=>{

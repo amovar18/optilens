@@ -17,7 +17,7 @@ app.use(bodyParser.json());
 
 const saltRounds = 10;
 exports.create=function (req, res) {
-    MongoClient.connect('process.env.MONGO_URI',{ useUnifiedTopology: true }, function (err, client) {
+    MongoClient.connect(process.env.MONGO_URI,{ useUnifiedTopology: true }, function (err, client) {
         if (err) throw err
         const db = client.db('opticonnect');
         bcrypt.genSalt(saltRounds, function(err, salt) {
@@ -49,7 +49,7 @@ exports.create=function (req, res) {
     });
 };
 exports.available=function (req, res) {
-    MongoClient.connect('process.env.MONGO_URI',{ useUnifiedTopology: true }, function (err, client) {
+    MongoClient.connect(process.env.MONGO_URI,{ useUnifiedTopology: true }, function (err, client) {
         if (err) throw err
         const db = client.db('opticonnect');
         (async ()=>{

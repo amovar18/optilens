@@ -32,7 +32,7 @@ exports.create=function (req, res) {
     jwt.verify(token, key, (err, result) => {
         if (err) return res.sendStatus(403);    
         const id=result['_id'];
-        MongoClient.connect('process.env.MONGO_URI',{ useUnifiedTopology: true }, function (err, client) {
+        MongoClient.connect(process.env.MONGO_URI,{ useUnifiedTopology: true }, function (err, client) {
             if (err) throw err
             const db = client.db('opticonnect');
             upload(req,res,function(err){
@@ -72,7 +72,7 @@ exports.create=function (req, res) {
 };
 exports.getsingle=function (req, res) {
         
-    MongoClient.connect('process.env.MONGO_URI', function (err, client) {
+    MongoClient.connect(process.env.MONGO_URI, function (err, client) {
         if (err) throw err
         const db = client.db('opticonnect');
         (async()=>{
@@ -86,7 +86,7 @@ exports.getsingle=function (req, res) {
     });
 };
 exports.sort=function(req,res){
-    MongoClient.connect('process.env.MONGO_URI', function (err, client) {
+    MongoClient.connect(process.env.MONGO_URI, function (err, client) {
         if (err) throw err
 
         const db = client.db('opticonnect');

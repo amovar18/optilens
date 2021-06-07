@@ -12,7 +12,7 @@ app.use(cors());
 app.use(bodyParser.json());
 
 exports.getalltransactions=function (req, res) { 
-    MongoClient.connect('process.env.MONGO_URI', function (err, client) {
+    MongoClient.connect(process.env.MONGO_URI, function (err, client) {
         if (err) throw err
         const db = client.db('opticonnect');
         const token=req.cookies.token;
@@ -38,7 +38,7 @@ exports.getalltransactions=function (req, res) {
 
 exports.single_transaction=function (req, res) {
     const tid=req.params.id;
-    MongoClient.connect('process.env.MONGO_URI', function (err, client) {
+    MongoClient.connect(process.env.MONGO_URI, function (err, client) {
         if (err) throw err
         const db = client.db('opticonnect');
         const token=req.cookies.token;
@@ -62,7 +62,7 @@ exports.single_transaction=function (req, res) {
     });
 };
 exports.insert=function (req, res) {
-    MongoClient.connect('process.env.MONGO_URI', function (err, client) {
+    MongoClient.connect(process.env.MONGO_URI, function (err, client) {
         if (err) throw err
         const token=req.cookies.token;
         if(token){
