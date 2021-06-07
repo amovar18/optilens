@@ -5,8 +5,6 @@ const cors = require('cors');
 const { MongoClient, ObjectId } = require("mongodb");
 const jwt = require('jsonwebtoken');
 const cookieParser = require('cookie-parser');
-const e = require('express');
-
 app.use(cookieParser());
 app.use(cors());
 app.use(bodyParser.json());
