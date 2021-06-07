@@ -19,7 +19,7 @@ exports.getallpending=function (req, res) {
                 return res.status(500).send('internal error');
             }
             const id=result['_id'];
-            MongoClient.connect('mongodb://localhost:27017/opticonnect', function (err, client) {
+            MongoClient.connect('process.env.MONGO_URI', function (err, client) {
                 if(err){
                     return res.status(500).send('internal error');
                 } 
@@ -45,7 +45,7 @@ exports.getall=function (req, res) {
                 return res.status(500).send('internal error');
             }
             const id=result['_id'];
-            MongoClient.connect('mongodb://localhost:27017/opticonnect', function (err, client) {
+            MongoClient.connect('process.env.MONGO_URI', function (err, client) {
                 if(err){
                     return res.status(500).send('internal error');
                 } 
@@ -75,7 +75,7 @@ exports.setdelivery=function(req,res){
             const transaction_id = req.body.transaction_id;
             const awb = req.body.awb;
             const delivery_partner = req.body.delivery_partner;
-            MongoClient.connect('mongodb://localhost:27017/opticonnect',(error,client)=>{
+            MongoClient.connect('process.env.MONGO_URI',(error,client)=>{
                 if(error){
                     return res.status(500).send('internal error');
                 }

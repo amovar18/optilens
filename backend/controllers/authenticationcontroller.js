@@ -16,7 +16,7 @@ app.use(cors());
 app.use(bodyParser.json());
 exports.authenticate=function (req, res) {
         
-    MongoClient.connect('mongodb://localhost:27017/opticonnect',{ useUnifiedTopology: true }, function (err, client) {
+    MongoClient.connect('process.env.MONGO_URI',{ useUnifiedTopology: true }, function (err, client) {
         if (err) throw err
         const db = client.db('opticonnect');
         const username=req.body.username;
@@ -85,7 +85,7 @@ exports.authenticate=function (req, res) {
 
 exports.checkstatus=function (req, res) {
     const token = req.cookies.token;
-    MongoClient.connect('mongodb://localhost:27017/opticonnect',{ useUnifiedTopology: true }, function (err, client) {
+    MongoClient.connect('process.env.MONGO_URI',{ useUnifiedTopology: true }, function (err, client) {
         if (err) throw err
         const db = client.db('opticonnect');
         if(token===null || token === undefined) return res.status(401).send({'links':[{title:'Home', path:'/'},{ title: `About us`, path: `/about` },{ title: `Product`, path: `/product/all/1` },{ title: `FAQ`, path: `/faq` },{ title: `Login`, path: `/login` }],'userType':''});

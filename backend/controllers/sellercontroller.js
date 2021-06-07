@@ -20,7 +20,7 @@ app.use(cors());
 app.use(bodyParser.json());
 exports.create=function (req, res) {
         
-    MongoClient.connect('mongodb://localhost:27017/opticonnect',{ useUnifiedTopology: true }, function (err, client) {
+    MongoClient.connect('process.env.MONGO_URI',{ useUnifiedTopology: true }, function (err, client) {
         if (err) throw err
         const db = client.db('opticonnect');
         console.log(req.body)
@@ -73,7 +73,7 @@ exports.create=function (req, res) {
 };
 exports.available=function (req, res) {
     console.log(req.body)
-    MongoClient.connect('mongodb://localhost:27017/opticonnect',{ useUnifiedTopology: true }, function (err, client) {
+    MongoClient.connect('process.env.MONGO_URI',{ useUnifiedTopology: true }, function (err, client) {
         if (err) throw err
         const db = client.db('opticonnect');
         (async()=>{
