@@ -25,6 +25,7 @@ app.use(bodyParser.json());
 app.use(express.urlencoded({extended:false}));
 app.use(cors(corsOptions));
 app.use(cookieParser());
+app.set('trust proxy', 1);
 
 app.use("/product",productRouter);
 app.use("/cart",cartRouter);
