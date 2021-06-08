@@ -12,7 +12,7 @@ export default function Header(){
 	    	dispatch(refreshToken());
 		}
 	    // eslint-disable-next-line
-  	},[isAuthenticated]);
+  	},[]);
   	if(isAuthenticated==='loading'){
 	    return(<Loadingspinner/>);
   	}else{
