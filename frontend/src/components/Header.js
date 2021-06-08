@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Loadingspinner from './Loadingspinner';
 
 export default function Header(){
-	const { links} = useSelector(state => state.authentication);
+	const { isAuthenticated, links} = useSelector(state => state.authentication);
 	const fetched = useRef(false);
   	const dispatch = useDispatch();
   	useEffect(()=>{
@@ -13,8 +13,8 @@ export default function Header(){
 		fetched.current = true;
 	    // eslint-disable-next-line
   	},[]);
-  	if(fetched.current===false){
-	    return(<div><h1>Header</h1><Loadingspinner/></div>);
+  	if(fetched.current===false && isAuthenticated===true){
+	    return(<div className='container-fluid'><Loadingspinner/></div>);
   	}else{
 	    return (
 			<nav className='navbar navbar-expand-lg navbar-light' style={{'backgroundColor':'#B0E0E6'}}>

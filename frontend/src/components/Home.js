@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 function Home(){
 	return (
-		<div>
+		<div className='container-fluid'>
 			<div className="row justify-content-start">
 				<div className="col-sm">
 					<Link to="/product/contact_lens/1"><img src={"/images/contact-lenses.jpg"} alt='contact lens' className="gallery"/></Link>
