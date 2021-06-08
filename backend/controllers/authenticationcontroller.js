@@ -61,7 +61,7 @@ exports.authenticate=function (req, res) {
                         if(user.length > 0){
                             if(user[0]['isactive']===1){
                                 let token = jwt.sign({_id: user[0]['_id'],type:'seller'}, key,{expiresIn: '72h'});
-                                return res.cookie('token', token, {expires: new Date(Date.now() + 72 * 3600000),httpOnly:true}).send({   
+                                return res.cookie('token', token, {expires: new Date(Date.now() + 72 * 3600000),httpOnly:true,sameSite:'none'}).send({   
                                     'user':user,
                                     'links':[{title:'Home', path:'/'},{ title: `About us`, path: `/about` },{ title: `Insert Products`, path: `/insertproduct` },{ title: `All Orders`, path: `/recievedorders` },{ title: `Pending Orders`, path: `/pendingorders` },{ title: `FAQ`, path: `/faq` },{ title: `Logout`, path: `/logout` }],
                                     'userType':'seller'                        

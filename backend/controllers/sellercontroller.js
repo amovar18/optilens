@@ -23,7 +23,6 @@ exports.create=function (req, res) {
     MongoClient.connect(process.env.MONGO_URI,{ useUnifiedTopology: true }, function (err, client) {
         if (err) throw err
         const db = client.db('opticonnect');
-        console.log(req.body)
         upload(req,res,function(err){
             if (err instanceof multer.MulterError) {
                 return res.send(err);
@@ -49,15 +48,12 @@ exports.create=function (req, res) {
                         (async ()=>{
                             const seller = await db.collection('seller').insertOne(tobeinserted);
                             if(seller.insertedCount===1){
-                                    console.log(req.file);
                                     const uploadTask = storageRef.child('certificates/'+seller['insertedId']+'/documents/_'+Date.now()).put(req.file.buffer);
                                     uploadTask.on('state_changed', (snapshot) => {
                                         
                                     }, (error) => {
-                                        console.log(error);
                                     }, () => {
                                         uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
-                                            console.log('done');
                                             db.collection('seller').updateOne({'_id':ObjectId(seller['insertedId'])},{$set:{'company_registration_certificate':downloadURL}},(err, object)=> {
                                                 return res.status(200).send('done');
                                             });
@@ -72,13 +68,11 @@ exports.create=function (req, res) {
         });
 };
 exports.available=function (req, res) {
-    console.log(req.body)
     MongoClient.connect(process.env.MONGO_URI,{ useUnifiedTopology: true }, function (err, client) {
         if (err) throw err
         const db = client.db('opticonnect');
         (async()=>{
             const seller = await db.collection('seller').find({ "username": req.params.username }, { $exists: true }).toArray();
-            console.log(seller);
             if(seller.length > 0){
                 return res.status(200).send(false);
             }else{
