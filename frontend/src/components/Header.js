@@ -14,7 +14,7 @@ export default function Header(){
 	    // eslint-disable-next-line
   	},[]);
   	if(fetched.current===false){
-	    return(<Loadingspinner/>);
+	    return(<div><h1>Header</h1><Loadingspinner/></div>);
   	}else{
 	    return (
 			<nav className='navbar navbar-expand-lg navbar-light' style={{'backgroundColor':'#B0E0E6'}}>
