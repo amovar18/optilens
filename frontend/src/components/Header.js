@@ -8,7 +8,9 @@ export default function Header(){
 	const {isAuthenticated, links} = useSelector(state => state.authentication);
   	const dispatch = useDispatch();
   	useEffect(()=>{
-	    dispatch(refreshToken());
+		if(isAuthenticated===false){
+	    	dispatch(refreshToken());
+		}
 	    // eslint-disable-next-line
   	},[isAuthenticated]);
   	if(isAuthenticated==='loading'){
