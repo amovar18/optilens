@@ -14,7 +14,7 @@ export default function Header(){
 	    // eslint-disable-next-line
   	},[]);
   	if(fetched.current===false && isAuthenticated===true){
-	    return(<div className='container-fluid'><Loadingspinner/></div>);
+	    return(<div className='container-fluid'></div>);
   	}else{
 	    return (
 			<nav className='navbar navbar-expand-lg navbar-light' style={{'backgroundColor':'#B0E0E6'}}>
