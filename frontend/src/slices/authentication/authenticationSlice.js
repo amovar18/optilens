@@ -5,18 +5,14 @@ export const userAuth = createAsyncThunk(
     async (_, { getState , rejectWithValue} ) =>{
         const {loginUsername,loginPassword,typeofuser} = getState().authentication;
         try{
-            axios({
-                url:'https://opticonnect-backend.herokuapp.com/auth/signin',
-                method:'POST',
-                data:{
+            const response = await axios.post('https://opticonnect-backend.herokuapp.com/auth/signin',{
                 'username':loginUsername,
                 'password':loginPassword,
                 'typeofuser':typeofuser
                 },
-                withCredentials:true
-            }).then((response)=>{
-                return response.data;
-            });
+                {withCredentials:true});
+            return response.data;
+            
             
         }catch(err){
             return rejectWithValue(err.response.data);
