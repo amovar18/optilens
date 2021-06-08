@@ -32,7 +32,7 @@ exports.getcart=function (req, res) {
                         cart[0]['total_price']=total_price[0]['total_price'];
                         return res.status(200).send(cart[0]);
                     }else{
-                        return res.status(200).send([]);
+                        return res.status(200).send([{'cart':[],'total_price':0}]);
                     }
 
                 })();
