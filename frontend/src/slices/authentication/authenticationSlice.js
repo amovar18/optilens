@@ -93,7 +93,7 @@ const authenticationSlice = createSlice({
         typeofuser:'',
         loginerror:'',
                                 
-        links:[{title:'Home', path:'/'},{ title: `About us`, path: `/about` },{ title: `Product`, path: `/product/all/1` },{ title: `FAQ`, path: `/faq` },{ title: `Login`, path: `/login` }],
+        links:[],
         
         Registration_username:'',
         Registration_password:'',
@@ -163,5 +163,5 @@ const authenticationSlice = createSlice({
         }
     }
 })
-export const {setValue, setpasswordMatch, setcriteriaError}=authenticationSlice.actions;
+export const {setValue, setpasswordMatch, setcriteriaError} = authenticationSlice.actions;
 export default authenticationSlice.reducer;
