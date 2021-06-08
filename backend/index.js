@@ -16,6 +16,7 @@ const corsOptions = {
     "http://localhost:3000",
     "http://127.0.0.1",
     "https://60be34e0c6098483ca849634--loving-kepler-fcdb88.netlify.app",
+    "https://loving-kepler-fcdb88.netlify.app"
   ],
   credentials: true
 }
