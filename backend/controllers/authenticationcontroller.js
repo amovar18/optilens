@@ -85,8 +85,7 @@ exports.authenticate=function (req, res) {
 
 exports.checkstatus=function (req, res) {
     const token = req.cookies.token;
-    if (err) throw err
-    if(token===null || token === undefined) return res.status(401).send({'links':[{title:'Home', path:'/'},{ title: `About us`, path: `/about` },{ title: `Product`, path: `/product/all/1` },{ title: `FAQ`, path: `/faq` },{ title: `Login`, path: `/login` }],'userType':''});
+    if(token === null || token === undefined) return res.status(401).send({'links':[{title:'Home', path:'/'},{ title: `About us`, path: `/about` },{ title: `Product`, path: `/product/all/1` },{ title: `FAQ`, path: `/faq` },{ title: `Login`, path: `/login` }],'userType':''});
     jwt.verify(token, key, (error,result)=>{
         if(error){
             return res.status(500).send(result);
@@ -103,7 +102,7 @@ exports.checkstatus=function (req, res) {
                 'userType':'seller'
             });
         }
-    })      
+    }) 
 };
 
 exports.signout=function (req, res) {
