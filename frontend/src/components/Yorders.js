@@ -10,7 +10,6 @@ export default function Yorders(props){
 	useEffect(()=>{
 		dispatch(getAll());
 	},[dispatch]);
-	console.log(transaction, fetched);
 	if(fetched === 'loading'){
 			return(<Loadingspinner/>);
 	}else if(fetched===true){

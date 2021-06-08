@@ -4,7 +4,6 @@ import { Redirect, Route} from 'react-router-dom';
 import Loadingspinner from './Loadingspinner';
 const PrivateRouteCustomer = ({component: Component, ...rest}) => {
     const {isAuthenticated, userType} = useSelector(state => state.authentication);
-    console.log(isAuthenticated, userType);
     const fetched = useRef(false);
     useEffect(()=>{
         fetched.current=true;
