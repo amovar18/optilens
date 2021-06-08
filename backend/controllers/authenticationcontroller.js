@@ -122,6 +122,6 @@ exports.checkstatus=function (req, res) {
 };
 
 exports.signout=function (req, res) {
-    res.clearCookie('token');
+    res.clearCookie('token',{httpOnly:true, sameSite:true});
     res.status(200).send({'links':[{title:'Home', path:'/'},{ title: `About us`, path: `/about` },{ title: `Product`, path: `/product/all/1` },{ title: `FAQ`, path: `/faq` },{ title: `Login`, path: `/login` }],userType:''});
 };
