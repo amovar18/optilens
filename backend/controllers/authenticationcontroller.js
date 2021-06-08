@@ -34,7 +34,7 @@ exports.authenticate=function (req, res) {
                         if( user.length > 0){
                             const payload = {'_id': user[0]['_id'],type:'customer'}
                             let token = jwt.sign(payload, key,{expiresIn: '72h'});
-                            return res.cookie('token', token, {expires: new Date(Date.now() + 72 * 3600000),httpOnly:true}).send({
+                            return res.cookie('token', token, {expires: new Date(Date.now() + 72 * 3600000),httpOnly:true,secure:true,sameSite:'none'}).send({
                                 'user':user,
                                 'links':[{title:'Home', path:'/'},{ title: `Product`, path: `/product/all/1` },{ title: `FAQ`, path: `/faq` },{ title: `About us`, path: `/about` },{ title: `Cart`, path: `/cart` },{ title: `Your Orders`, path: `/yorders` },{ title: `Logout`, path: `/logout` }],
                                 'userType':'customer'

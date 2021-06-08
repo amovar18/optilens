@@ -44,7 +44,7 @@ export default function Registercustomer(){
                         <form onSubmit={e =>submitValueRegister(e)}>
                             <div className="input-group mb-3">
                                 <input type="text" aria-label="Recipient's username" aria-describedby="button-check" className='form-control' placeholder="Username" onChange={e =>  dispatch(setValue({name:e.target.name, value:e.target.value}))} name='Registration_username' required/><br/>
-                                <button className="btn btn-primary" type="submit" id="button-check" onClick={checkavailability} >check</button>
+                                <button className="btn btn-primary" type="submit" id="button-check" onClick={checkavailability} >check</button><br/>
                                 {availability===true ? <Alert message='Username available' type='success'/>: availability === false ? <Alert message='Username not available' type='danger'/> : null}
                             </div>
                             <input type="text" className='form-control' placeholder="Name" onChange={e => dispatch(setValue({name:e.target.name, value:e.target.value}))} name="Registration_name" required/><br/>
