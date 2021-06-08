@@ -38,8 +38,7 @@ exports.create=function (req, res) {
                 (async ()=>{
                     const customer = await db.collection('customer').insertOne(tobeinserted);
                     if(customer.insertedCount===1){
-                        console.log(customer.insertedId)
-                        const payload = {'_id': customer.insertedId,type:'customer'}
+                        const payload = {'_id': customer.insertedId,type:'customer','username':req.body.username}
                         let token = jwt.sign(payload, key,{expiresIn: '72h'});
                         return res.cookie('token', token, {expires: new Date(Date.now() + 72 * 3600000),httpOnly:true,sameSite:'none'}).send('OK');
                     }
