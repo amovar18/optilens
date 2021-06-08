@@ -1,8 +1,8 @@
 import React from 'react';
 import './Homestyles.css';
-import contacts from '../images/contact-lenses.jpg';
-import sunglasses from '../images/sunglasses.jpg';
-import spectacles from '../images/spectacles.jpg';
+import contacts from '../../public/images/contact-lenses.jpg';
+import sunglasses from '../../public/images/sunglasses.jpg';
+import spectacles from '../../public/images/spectacles.jpg';
 import { Link } from 'react-router-dom';
 
 function Home(){
