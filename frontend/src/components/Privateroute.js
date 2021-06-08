@@ -7,7 +7,8 @@ const PrivateRoute = ({component: Component, ...rest}) => {
     const fetched = useRef(false);
     useEffect(()=>{
         fetched.current=true;
-    },[]);
+    },[fetched]);
+    console.log(fetched.current);
     if(fetched.current === false){
         return(<div><Loadingspinner/><h1>Private route</h1></div>);
     }else if(fetched.current === true && (userType==='' || userType ==='customer')){
