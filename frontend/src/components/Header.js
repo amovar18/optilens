@@ -1,19 +1,19 @@
-import React,{useEffect} from 'react';
+import React,{useEffect, useRef} from 'react';
 import '../App.css';
 import {refreshToken} from '../slices/authentication/authenticationSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import Loadingspinner from './Loadingspinner';
 
 export default function Header(){
-	const {isAuthenticated, links} = useSelector(state => state.authentication);
+	const { links} = useSelector(state => state.authentication);
+	const fetched = useRef(false);
   	const dispatch = useDispatch();
   	useEffect(()=>{
-		if(isAuthenticated === false){
-	    	dispatch(refreshToken());
-		}
+	    dispatch(refreshToken());
+		fetched.current = true;
 	    // eslint-disable-next-line
   	},[]);
-  	if(isAuthenticated==='loading'){
+  	if(fetched.current===false){
 	    return(<Loadingspinner/>);
   	}else{
 	    return (
