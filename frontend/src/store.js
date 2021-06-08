@@ -7,6 +7,7 @@ import sellerReducer from './slices/seller/sellerSlice';
 import orderReducer from './slices/order/orderSlice';
 import {persistReducer} from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
+
 const rootReducer = combineReducers({
     cart:cartReducer,
     authentication:authenticationReducer,
