@@ -85,40 +85,25 @@ exports.authenticate=function (req, res) {
 
 exports.checkstatus=function (req, res) {
     const token = req.cookies.token;
-    MongoClient.connect(process.env.MONGO_URI,{ useUnifiedTopology: true }, function (err, client) {
-        if (err) throw err
-        const db = client.db('opticonnect');
-        if(token===null || token === undefined) return res.status(401).send({'links':[{title:'Home', path:'/'},{ title: `About us`, path: `/about` },{ title: `Product`, path: `/product/all/1` },{ title: `FAQ`, path: `/faq` },{ title: `Login`, path: `/login` }],'userType':''});
-        jwt.verify(token, key, (error,result)=>{
-            if(error){
-                return res.status(500).send(result);
-            }
-            if(result['type'] === "customer"){
-                (async ()=>{
-                    const user =await  db.collection('customer').find({'_id':ObjectId(result['_id'])}).toArray();
-                    if(user[0]['_id'].toString() === result['_id'].toString()){
-                        return res.status(200).send({   
-                            'user':user,
-                            'links':[{title:'Home', path:'/'},{ title: `Product`, path: `/product/all/1` },{ title: `FAQ`, path: `/faq` },{ title: `About us`, path: `/about` },{ title: `Cart`, path: `/cart` },{ title: `Your Orders`, path: `/yorders` },{ title: `Logout`, path: `/logout` }],
-                            'userType':'customer'
-                        });
-                    }
-                })();
-            }
-            if(result['type'] === "seller"){
-                (async()=>{
-                    const user=await db.collection('seller').find({'_id':ObjectId(result['_id'])}).toArray();
-                    if(user[0]['_id'].toString() === result['_id'].toString()){
-                        return res.status(200).send({   
-                            'user':user,
-                            'links':[{title:'Home', path:'/'},{ title: `About us`, path: `/about` },{ title: `Insert Products`, path: `/insertproduct` },{ title: `All Orders`, path: `/recievedorders` },{ title: `Pending Orders`, path: `/pendingorders` },{ title: `FAQ`, path: `/faq` },{ title: `Logout`, path: `/logout` }],
-                            'userType':'seller'
-                        });
-                    }
-                })();
-            }
-        })      
-    });
+    if (err) throw err
+    if(token===null || token === undefined) return res.status(401).send({'links':[{title:'Home', path:'/'},{ title: `About us`, path: `/about` },{ title: `Product`, path: `/product/all/1` },{ title: `FAQ`, path: `/faq` },{ title: `Login`, path: `/login` }],'userType':''});
+    jwt.verify(token, key, (error,result)=>{
+        if(error){
+            return res.status(500).send(result);
+        }
+        if(result['type'] === "customer"){
+            return res.status(200).send({
+                'links':[{title:'Home', path:'/'},{ title: `Product`, path: `/product/all/1` },{ title: `FAQ`, path: `/faq` },{ title: `About us`, path: `/about` },{ title: `Cart`, path: `/cart` },{ title: `Your Orders`, path: `/yorders` },{ title: `Logout`, path: `/logout` }],
+                'userType':'customer'
+            });
+        }
+        if(result['type'] === "seller"){
+            return res.status(200).send({   
+                'links':[{title:'Home', path:'/'},{ title: `About us`, path: `/about` },{ title: `Insert Products`, path: `/insertproduct` },{ title: `All Orders`, path: `/recievedorders` },{ title: `Pending Orders`, path: `/pendingorders` },{ title: `FAQ`, path: `/faq` },{ title: `Logout`, path: `/logout` }],
+                'userType':'seller'
+            });
+        }
+    })      
 };
 
 exports.signout=function (req, res) {

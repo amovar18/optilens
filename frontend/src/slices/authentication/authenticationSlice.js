@@ -81,7 +81,7 @@ const authenticationSlice = createSlice({
         userType:'',
         isAuthenticated:false,
         fetched:false,
-        user:{},
+        username: '',
         error:'',
 
         loginUsername:'',
