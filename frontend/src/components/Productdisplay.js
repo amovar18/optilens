@@ -18,6 +18,7 @@ export default function Productdisplay(props){
 	}
 	useEffect(()=>{
 		dispatch(productGetSingle(props.match.params.productId));	
+		fetched.current=true;
 		// eslint-disable-next-line
 	},[]);
 	if(fetched.current===false){

@@ -1,18 +1,11 @@
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import './Homestyles.css';
 import { Link , Redirect} from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import Loadingspinner from './Loadingspinner';
 
 function Home(){
-	const fetched = useRef(false);
 	const {isAuthenticated, userType} = useSelector(state => state.authentication);
-	useEffect(()=>{
-		fetched.current=true;
-	},[])
-	if(fetched.current===false){
-		return(<Loadingspinner/>);
-	}else if(isAuthenticated===true && userType==='seller'){
+	if(isAuthenticated===true && userType==='seller'){
         return (<Redirect to='/insertproduct'/>); 
     }else{
 		return (
