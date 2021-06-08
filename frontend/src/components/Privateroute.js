@@ -6,11 +6,11 @@ const PrivateRoute = ({component: Component, ...rest}) => {
     const {isAuthenticated, userType} = useSelector(state => state.authentication);  
     const fetched = useRef(false);
     useEffect(()=>{
-        fetched.current=true;
-    },[fetched]);
+        fetched.current = true;
+    },[]);
     console.log(fetched.current);
-    if(fetched.current === false){
-        return(<div><Loadingspinner/><h1>Private route</h1></div>);
+    if(fetched.current === false && (userType==='' || userType ==='customer')){
+        return(<Loadingspinner/>);
     }else if(fetched.current === true && (userType==='' || userType ==='customer')){
         return (
             <Route {...rest} render={props => (<Component {...props} />)}/>
