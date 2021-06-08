@@ -11,7 +11,7 @@ export default function Logincontainer(){
         fetched.current=true;
     },[])
     if(fetched.current===false){
-        return(<Loadingspinner/>);
+        return(<div><Loadingspinner/><h1>Login</h1></div>);
     }else if(isAuthenticated === true ){
         return(<Redirect to='/'/>);
     }else if(isAuthenticated === false && userType === ''){
