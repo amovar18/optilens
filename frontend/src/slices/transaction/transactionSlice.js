@@ -16,7 +16,6 @@ export const getAll = createAsyncThunk(
     'transaction/getAll',
     async (_, { rejectWithValue})=>{
         try{
-            console.log('here');
             const response = await axios.get('https://opticonnect-backend.herokuapp.com/transaction/',{withCredentials:true});
             return response.data;
         }catch(error){

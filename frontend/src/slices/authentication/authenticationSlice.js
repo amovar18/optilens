@@ -130,7 +130,6 @@ const authenticationSlice = createSlice({
             state.loginerror = action.payload;
         },[userDeauth.fulfilled]:(state,action)=>{
             // user get successfully loggedout
-            console.log(action.payload)
             state.isAuthenticated=false;
             state.user={};
             state.userType=action.payload.userType;
