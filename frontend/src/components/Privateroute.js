@@ -9,7 +9,7 @@ const PrivateRoute = ({component: Component, ...rest}) => {
         fetched.current=true;
     },[]);
     if(fetched.current === false){
-        return(<Loadingspinner/>);
+        return(<div><Loadingspinner/><h1>Private route</h1></div>);
     }else if(fetched.current === true && (userType==='' || userType ==='customer')){
         return (
             <Route {...rest} render={props => (<Component {...props} />)}/>
