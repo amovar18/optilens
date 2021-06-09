@@ -1,18 +1,11 @@
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import { Redirect } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import Loadingspinner from './Loadingspinner';
 import Registercustomer from './Registercustomer';
 import Login from './Login';
 export default function Logincontainer(){
-    const fetched = useRef(false);
     const {isAuthenticated, userType } = useSelector(state => state.authentication);
-    useEffect(()=>{
-        fetched.current=true;
-    },[])
-    if(fetched.current===false){
-        return(<Loadingspinner/>);
-    }else if(isAuthenticated === true ){
+    if(isAuthenticated === true ){
         return(<Redirect to='/'/>);
     }else if(isAuthenticated === false && userType === ''){
         return (

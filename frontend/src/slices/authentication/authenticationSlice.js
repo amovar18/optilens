@@ -74,7 +74,7 @@ export const userDeauth = createAsyncThunk(
             const response = await axios.get('https://opticonnect-backend.herokuapp.com/auth/signout',{withCredentials:true});
             return response.data;
         }catch(error){
-            return rejectWithValue(error.response);
+            return rejectWithValue(error.response.data);
         }
     }
 )

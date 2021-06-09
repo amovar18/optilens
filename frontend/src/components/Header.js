@@ -3,6 +3,7 @@ import '../App.css';
 import {refreshToken} from '../slices/authentication/authenticationSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import Loadingspinner from './Loadingspinner';
+import {NavLink} from 'react-router-dom';
 
 export default function Header(){
 	const { isAuthenticated, links} = useSelector(state => state.authentication);
@@ -28,9 +29,9 @@ export default function Header(){
                 	    	<ul className='navbar-nav mb-2 mb-lg-0'>
 								{links!==undefined ? links.map(({title,path})=>(
 									<li className='nav-item' key={title}>
-										<a className='nav-link' style={{'color':'#750D37'}} aria-current='page' href={path}>
+										<NavLink className='nav-link' style={{'color':'#750D37'}} aria-current='page' to={path}>
 											{title}
-										</a>
+										</NavLink>
 									</li>
 								)):null}
             	    	    </ul>
