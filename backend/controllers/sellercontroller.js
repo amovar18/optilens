@@ -40,13 +40,13 @@ exports.create=function (req, res) {
                             'password':hash,
                             'email':req.body.email,
                             'phone':req.body.phone,
-                            'name':req.body.name,
+                            'name':req.body.owner,
                             'isactive':0,
                             'company_registration_certificate':'',
                             'address':req.body.address,
                             'shopname':req.body.shopname};
                         (async ()=>{
-                            const isDuplicate =  await db.collection('seller').find({'username':req.body.username,'password':hash,'email':req.body.email,'phone':req.body.phone,'name':req.body.name,'address':req.body.address,'shopname':req.body.shopname}).toArray();
+                            const isDuplicate =  await db.collection('seller').find({'username':req.body.username,'address':req.body.address}).toArray();
                             if(isDuplicate[0]){
                                 const seller = await db.collection('seller').insertOne(tobeinserted);
                                 if(seller.insertedCount===1){
