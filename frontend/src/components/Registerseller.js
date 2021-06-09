@@ -3,7 +3,7 @@ import Alert from './Alert';
 import { useDispatch, useSelector } from 'react-redux';
 import { setcriteriaError, setValue, setpasswordMatch, checkUsernameAvailability, createSeller} from '../slices/seller/sellerSlice';
 export default function Register_seller(props){
-    const {username,phone, email, owner, name,password, confirm_password, availability,passwordMatch, criteriaError, address_line_1,address_line_2, area, pincode, city, state} = useSelector(state => state.seller);
+    const {username,phone, email, owner, shopname,password, confirm_password, availability,passwordMatch, criteriaError, address_line_1,address_line_2, area, pincode, city, state} = useSelector(state => state.seller);
     const dispatch = useDispatch();
     const checkavailability = (e) =>{
         if(username!==''){
@@ -36,7 +36,7 @@ export default function Register_seller(props){
             const address=address_line_1+'\n'+address_line_2+'\n'+area+'-'+pincode+'\n'+city+'\n'+state;
             formData.append('email',email);
             formData.append('password',password);
-            formData.append('name',name);
+            formData.append('shopname',shopname);
             formData.append('owner',owner);
             formData.append('username',username);
             formData.append('phone',phone);
