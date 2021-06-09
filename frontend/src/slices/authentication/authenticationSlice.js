@@ -23,7 +23,7 @@ export const refreshToken = createAsyncThunk(
     'authentication/refreshToken',
     async (_, { getState , rejectWithValue }) =>{
         const {isAuthenticated} = getState().authentication;
-        if(!isAuthenticated){
+        if(isAuthenticated===false){
             try{
                 const response = axios.get('https://opticonnect-backend.herokuapp.com/auth/getstatus',{withCredentials:true});
                 return (await response).data;
