@@ -120,7 +120,7 @@ const authenticationSlice = createSlice({
     extraReducers:{
         [userAuth.fulfilled]:(state, action)=>{
             // sign in user and set usertype links and user details;
-            state.usertype = action.payload.userType;
+            state.userType = action.payload.userType;
             state.user = action.payload.user;
             state.links = action.payload.links;
             state.isAuthenticated = true;
