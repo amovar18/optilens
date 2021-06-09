@@ -16,7 +16,7 @@ export const checkUsernameAvailability = createAsyncThunk(
 )
 export const createSeller = createAsyncThunk(
     'seller/create',
-    async ( formData ) =>{        
+    async ( formData, {rejectWithValue} ) =>{        
         try{
             await axios({
                 method:'POST',
@@ -28,7 +28,7 @@ export const createSeller = createAsyncThunk(
                 return response.data;
             })
         }catch(err){
-            return Promise.reject(401);
+            return rejectWithValue(err.response.data);
         }
     }
 )
@@ -51,8 +51,11 @@ const sellerSlice = createSlice({
         registrationError:'',
         passwordMatch:'NaN',
         criteriaError:'NaN',
-        availability:'NaN'
+        availability:'NaN',
         
+        success:'',
+        error:'false',
+        errorMessage:''
     },
     reducers:{
         setValue:(state,action)=>{
@@ -65,9 +68,10 @@ const sellerSlice = createSlice({
     },
     extraReducers:{
         [createSeller.fulfilled]:(state, action)=>{
-            return action.payload.status;
+            state.success = true;
         },[createSeller.rejected]:(state, action)=>{
             state.error = true;
+            state.errorMessage =  action.payload;
         },[checkUsernameAvailability.fulfilled]:(state, action)=>{
             state.availability = action.payload;
         },[checkUsernameAvailability.rejected]:(state,action)=>{

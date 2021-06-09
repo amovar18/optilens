@@ -46,20 +46,25 @@ exports.create=function (req, res) {
                             'address':req.body.address,
                             'shopname':req.body.shopname};
                         (async ()=>{
-                            const seller = await db.collection('seller').insertOne(tobeinserted);
-                            if(seller.insertedCount===1){
-                                    const uploadTask = storageRef.child('certificates/'+seller['insertedId']+'/documents/_'+Date.now()).put(req.file.buffer);
-                                    uploadTask.on('state_changed', (snapshot) => {
-                                        
-                                    }, (error) => {
-                                    }, () => {
-                                        uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
-                                            db.collection('seller').updateOne({'_id':ObjectId(seller['insertedId'])},{$set:{'company_registration_certificate':downloadURL}},(err, object)=> {
-                                                return res.status(200).send('done');
+                            const isDuplicate =  await db.collection('seller').find({'username':req.body.username,'password':hash,'email':req.body.email,'phone':req.body.phone,'name':req.body.name,'address':req.body.address,'shopname':req.body.shopname}).toArray();
+                            if(isDuplicate[0]){
+                                const seller = await db.collection('seller').insertOne(tobeinserted);
+                                if(seller.insertedCount===1){
+                                        const uploadTask = storageRef.child('certificates/'+seller['insertedId']+'/documents/_'+Date.now()).put(req.file.buffer);
+                                        uploadTask.on('state_changed', (snapshot) => {
+                                            
+                                        }, (error) => {
+                                        }, () => {
+                                            uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
+                                                db.collection('seller').updateOne({'_id':ObjectId(seller['insertedId'])},{$set:{'company_registration_certificate':downloadURL}},(err, object)=> {
+                                                    return res.status(200).send('done');
+                                                });
                                             });
                                         });
-                                    });
-                                };
+                                    };
+                                }else{
+                                    return res.status(400).send('Seller already registered!');
+                                }
                             })();
                         })
                     });
