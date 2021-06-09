@@ -121,7 +121,7 @@ const authenticationSlice = createSlice({
         [userAuth.fulfilled]:(state, action)=>{
             // sign in user and set usertype links and user details;
             state.userType = action.payload.userType;
-            state.user = action.payload.user;
+            state.userType = action.payload.userType;
             state.links = action.payload.links;
             state.isAuthenticated = true;
         },[userAuth.rejected]:(state, action)=>{
