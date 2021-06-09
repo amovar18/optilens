@@ -2,6 +2,7 @@ import React,{useEffect, useRef} from 'react';
 import '../App.css';
 import {refreshToken} from '../slices/authentication/authenticationSlice';
 import { useDispatch, useSelector } from 'react-redux';
+import Loadingspinner from './Loadingspinner';
 
 export default function Header(){
 	const { isAuthenticated, links} = useSelector(state => state.authentication);
@@ -13,7 +14,7 @@ export default function Header(){
 	    // eslint-disable-next-line
   	},[]);
   	if(fetched.current===false && isAuthenticated===true){
-	    return(<div className='container-fluid'></div>);
+	    return(<Loadingspinner/>);
   	}else{
 	    return (
 			<nav className='navbar navbar-expand-lg navbar-light' style={{'backgroundColor':'#B0E0E6'}}>

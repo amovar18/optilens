@@ -21,12 +21,15 @@ export const userAuth = createAsyncThunk(
 )
 export const refreshToken = createAsyncThunk(
     'authentication/refreshToken',
-    async (_, { rejectWithValue }) =>{
-        try{
-            const response = axios.get('https://opticonnect-backend.herokuapp.com/auth/getstatus',{withCredentials:true});
-            return (await response).data;
-        }catch(err){
-            return rejectWithValue(err.response.data);
+    async (_, { getState , rejectWithValue }) =>{
+        const {isAuthenticated} = getState().authentication;
+        if(!isAuthenticated){
+            try{
+                const response = axios.get('https://opticonnect-backend.herokuapp.com/auth/getstatus',{withCredentials:true});
+                return (await response).data;
+            }catch(err){
+                return rejectWithValue(err.response.data);
+            }
         }
     }
 )
