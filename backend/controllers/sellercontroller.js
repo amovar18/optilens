@@ -47,7 +47,9 @@ exports.create=function (req, res) {
                             'shopname':req.body.shopname};
                         (async ()=>{
                             const isDuplicate =  await db.collection('seller').find({'username':req.body.username,'address':req.body.address}).toArray();
+                            console.log(isDuplicate)
                             if(isDuplicate[0]){
+                                
                                 const seller = await db.collection('seller').insertOne(tobeinserted);
                                 if(seller.insertedCount===1){
                                         const uploadTask = storageRef.child('certificates/'+seller['insertedId']+'/documents/_'+Date.now()).put(req.file.buffer);
