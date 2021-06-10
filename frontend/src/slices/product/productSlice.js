@@ -69,7 +69,7 @@ const productSlice = createSlice({
 
         productname:'',
         productprice:0,
-        producttype:'',
+        producttype:'spectacles',
         productdescription:'',
         brand:'',
         stored:false
