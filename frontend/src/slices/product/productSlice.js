@@ -88,11 +88,11 @@ const productSlice = createSlice({
         },[productGet.fulfilled]:(state, action)=>{
             state.products=action.payload;
         },[productAdd.fulfilled]:(state, action)=>{
-            state.stored = true;
-        },[productAdd.rejected]:(state, action)=>{
-            state.stored = true;
-        },[productAdd.pending]:(state, action)=>{
             state.stored = false;
+        },[productAdd.rejected]:(state, action)=>{
+            state.stored = false;
+        },[productAdd.pending]:(state, action)=>{
+            state.stored = true;
         }
     }
 
