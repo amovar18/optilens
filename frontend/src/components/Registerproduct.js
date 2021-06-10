@@ -26,6 +26,7 @@ export default function Register_product (props){
                 <div className='row justify-contents-start'>
                     <div className='col-sm'></div>
                     <div className='col-sm' >
+                        <p className='lead'>Insert Product</p>
                         <form onSubmit={submit}>
                             <input className='form-control' type="input" placeholder="Product Name" name="productname" onChange={e => dispatch(setValue({name:e.target.name, value:e.target.value}))} required/><br/>
                             <select className='form-select' name="producttype" onChange={e => dispatch(setValue({name:e.target.name, value:e.target.value}))} required>
@@ -36,10 +37,10 @@ export default function Register_product (props){
                             <input className='form-control' type="input" placeholder="Product Brand" name="brand" onChange={ e => dispatch(setValue({name:e.target.name, value:e.target.value}))} required/><br/>
                             <input className='form-control' type="input" placeholder="Product Price" name="productprice" onChange={e => dispatch(setValue({name:e.target.name, value:e.target.value}))} required/><br/>
                             <textarea className='form-control' type="textarea" placeholder="Product Description" name="productdescription"  onChange={e => dispatch(setValue({name:e.target.name, value:e.target.value}))} required></textarea><br/>
-                            <label className='form-label' htmlFor='mainImage'>Main Image</label><input className='form-control' type='file' id='mainImage' name="mainimage"  required/><br/>
-                            <label className='form-label' htmlFor='frontImage'>Front view</label><input className='form-control' type='file' id='frontImage' name="frontimage" required/><br/>
-                            <label className='form-label' htmlFor='leftImage'>Left view</label><input className='form-control' type='file' id='leftImage' name="leftimage"  required/><br/>
-                            <label className='form-label' htmlFor='rightImage'>Right view</label><input className='form-control' type='file' id='rightImage' name="rightimage"  required/><br/>
+                            <label className='form-label' htmlFor='mainImage'>Image No. 1</label><input className='form-control' type='file' id='mainImage' name="mainimage"  required/><br/>
+                            <label className='form-label' htmlFor='frontImage'>Image No. 2</label><input className='form-control' type='file' id='frontImage' name="frontimage" required/><br/>
+                            <label className='form-label' htmlFor='leftImage'>Image No. 3</label><input className='form-control' type='file' id='leftImage' name="leftimage"  required/><br/>
+                            <label className='form-label' htmlFor='rightImage'>Image No. 4</label><input className='form-control' type='file' id='rightImage' name="rightimage"  required/><br/>
                             <center><button type="submit" className="btn btn-primary">Insert</button></center>
                         </form>
                     </div>
