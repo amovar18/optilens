@@ -1,9 +1,9 @@
 import React from 'react';
 import Alert from './Alert';
-import history from '../history';
+import {withRouter} from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { setcriteriaError, setValue, setpasswordMatch, checkUsernameAvailability, createSeller} from '../slices/seller/sellerSlice';
-export default function Register_seller(props){
+function Register_seller(props){
     const {username,phone, email, owner, shopname,password, confirm_password, availability,passwordMatch, criteriaError, address_line_1,address_line_2, area, pincode, city, state, success} = useSelector(state => state.seller);
     const dispatch = useDispatch();
     const checkavailability = (e) =>{
@@ -48,17 +48,15 @@ export default function Register_seller(props){
         }
     }
     if(success===true){
+        setTimeout(() => {
+            props.history.push('/');
+        }, 5000)
         return(
             <div className='container-fluid' style={{'backgroundColor':'#D3D3D3','height':'100vh'}}>
                 <div className='row' style={{'height':'100vh'}}>
                     <div className='col' />
                     <div className='col align-self-center'>
-                        <h1>Once you are verified you will be sent and email then you can start selling your products</h1>
-                        {
-                            setTimeout(() => {
-                                history.push('/');
-                            }, 5000)
-                        }        
+                        <h1>Once you are verified you will be sent and email then you can start selling your products</h1>     
                     </div>
                     <div className='col'/>
                 </div>
@@ -104,3 +102,4 @@ export default function Register_seller(props){
         );
     }
 }
+export default withRouter(Register_seller);
