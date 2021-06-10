@@ -1,9 +1,10 @@
 import React from 'react';
 import Alert from './Alert';
-import {withRouter} from 'react-router-dom';
+import {useHistory} from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { setcriteriaError, setValue, setpasswordMatch, checkUsernameAvailability, createSeller} from '../slices/seller/sellerSlice';
 function Register_seller(props){
+    let history = useHistory();
     const {username,phone, email, owner, shopname,password, confirm_password, availability,passwordMatch, criteriaError, address_line_1,address_line_2, area, pincode, city, state, success} = useSelector(state => state.seller);
     const dispatch = useDispatch();
     const checkavailability = (e) =>{
@@ -49,7 +50,7 @@ function Register_seller(props){
     }
     if(success===true){
         setTimeout(() => {
-            props.history.push('/');
+            history.push('/');
         }, 5000)
         return(
             <div className='container-fluid' style={{'backgroundColor':'#D3D3D3','height':'100vh'}}>
@@ -102,4 +103,4 @@ function Register_seller(props){
         );
     }
 }
-export default withRouter(Register_seller);
+export default Register_seller;
