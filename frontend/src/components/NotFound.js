@@ -1,8 +1,9 @@
 import React from 'react';
-import { withRouter } from 'react-router';
+import { useHistory } from 'react-router';
 function NotFound(props){
+    let history = useHistory();
     setTimeout(() => {
-        props.history.push('/');
+        history.push('/');
     }, 3000);
     return(
         <div className='container-fluid' style={{'backgroundColor':'#D3D3D3','height':'100vh'}}>
@@ -17,4 +18,4 @@ function NotFound(props){
         </div>
     );
 }
-export default withRouter(NotFound);
+export default NotFound;
