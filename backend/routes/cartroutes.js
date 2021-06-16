@@ -1,6 +1,6 @@
-var express = require('express');
-var router = express.Router();
-var cart=require('../controllers/cart_controller');
+const express = require('express');
+const router = express.Router();
+const cart=require('../controllers/cart_controller');
 const verifyToken = require('./verifyToken');
 
 router.get("/getcart",verifyToken,cart.getcart);

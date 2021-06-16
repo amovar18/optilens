@@ -1,6 +1,6 @@
-var express = require('express');
-var router = express.Router();
-var transaction=require('../controllers/transaction_controller');
+const express = require('express');
+const router = express.Router();
+const transaction=require('../controllers/transaction_controller');
 const verifyToken = require('./verifyToken');
 
 router.get("/:id/",verifyToken,transaction.single_transaction);

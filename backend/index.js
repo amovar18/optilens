@@ -1,14 +1,14 @@
-var express = require('express');
-var app=express();
-var cors=require('cors');
-var cookieParser=require('cookie-parser');
-var cartRouter = require('./routes/cartroutes');
-var productRouter = require('./routes/productroutes');
-var transactionRouter = require('./routes/transactionroutes');
-var userRouter = require('./routes/userroutes');
-var sellerRouter = require('./routes/sellerroutes');
-var authRouter = require('./routes/authenticationroutes');
-var orderRouter = require('./routes/ordersroutes');
+const express = require('express');
+const app=express();
+const cors=require('cors');
+const cookieParser=require('cookie-parser');
+const cartRouter = require('./routes/cartroutes');
+const productRouter = require('./routes/productroutes');
+const transactionRouter = require('./routes/transactionroutes');
+const userRouter = require('./routes/userroutes');
+const sellerRouter = require('./routes/sellerroutes');
+const authRouter = require('./routes/authenticationroutes');
+const orderRouter = require('./routes/ordersroutes');
 
 const bodyParser = require('body-parser');
 const corsOptions = {

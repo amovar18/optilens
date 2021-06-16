@@ -11,14 +11,14 @@ require('firebase/storage');
 global.XMLHttpRequest=require('xhr2');
 const upload = multer({storage:multer.memoryStorage()}).array('image');
 const firebaseConfig = {
-    apiKey: "AIzaSyAAtMzILEeWN-A1xByAb_ANvkMlVTWRvbk",
-    authDomain: "opticonnect-cb1ae.firebaseapp.com",
-    projectId: "opticonnect-cb1ae",
-    storageBucket: "opticonnect-cb1ae.appspot.com",
-    messagingSenderId: "666794700836",
-    appId: "1:666794700836:web:96788ccc8de614412268b1",
-    measurementId: "G-3J8TTJRD9P"
-  };
+    apiKey: process.env.apiKey,
+    authDomain: process.env.authDomain,
+    projectId: process.env.projectId,
+    storageBucket: process.env.storageBucket,
+    messagingSenderId: process.env.messagingSenderId,
+    appId: process.env.appId,
+    measurementId: process.env.measurementId
+};
 
 firebase.initializeApp(firebaseConfig);
 const storageRef = firebase.storage().ref();
