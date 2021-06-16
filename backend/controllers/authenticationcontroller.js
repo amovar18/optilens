@@ -14,6 +14,15 @@ const key='09f26e402586e2faa8da4c98a35f1b20d6b033c6097befa8be3486a829587fe2f90a8
 app.use(cookieParser);
 app.use(cors());
 app.use(bodyParser.json());
+/**
+ * @apiVersion 0.2.0
+ * @api {post} /auth/signin signin or authenticate a user.
+ * @apiSuccess {cookie} Token containing id and type of user details.
+ * @apiSuccess {String} userType type of user.
+ * @apiSuccess {Object[]} Links Available links for user.
+ * @apiError Wrong password The provided password was wrong.
+ * @apiError UserNotFound   The <code>id</code> of the User was not found.
+*/
 exports.authenticate=function (req, res) {
         
     MongoClient.connect(process.env.MONGO_URI,{ useUnifiedTopology: true }, function (err, client) {
