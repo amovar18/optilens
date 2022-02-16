@@ -23,17 +23,13 @@ export const cartAdd = createAsyncThunk(
     async (id,{ getState , rejectWithValue })=>{
         const {lens_details} = getState().cart;
         try{
-            await axios({
-                method:'POST',
-                url:'https://optilens-backend.herokuapp.com/cart/addtocart',
-                withCredentials:true,
-                data:{
-                    'id':id,
-                    'lens_details':lens_details
-                }
-                }).then((response)=>{
-                return response.data;
+            const response = axios.post('https://optilens-backend.herokuapp.com/cart/addtocart',{
+                'id':id,
+                'lens_details':lens_details
+            },{
+                withCredentials:true
             });
+            return (await response).status;
         }catch(error){
             return rejectWithValue(error.response);
         }
@@ -83,7 +79,8 @@ const cartSlice = createSlice({
         cartAddError:false,
         checkoutError:false,
 
-        errormessage:''
+        errormessage:'',
+        successMessage:''
     },
     reducers:{
         setValue:(state, action)=>{
@@ -104,6 +101,11 @@ const cartSlice = createSlice({
             state.cartAddError=true;
             if(action.error.message === '403'){
                 state.errormessage = 'First Login then you can add products';
+            }
+        },[cartAdd.fulfilled]:(state,action) => {
+            console.log(action)
+            if(action.payload === 200){
+                state.successMessage = 'Product added to cart';
             }
         },[checkout.fulfilled]:(state, action)=>{
             state.cart=[];

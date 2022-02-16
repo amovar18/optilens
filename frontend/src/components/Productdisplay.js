@@ -6,18 +6,19 @@ import { useDispatch, useSelector } from 'react-redux';
 import { cartAdd } from '../slices/cart/cartSlice';
 import { productGetSingle } from '../slices/product/productSlice';
 import Loadingspinner from './Loadingspinner';
-import {Navigate} from 'react-router-dom';
+import {Navigate, useParams} from 'react-router-dom';
 export default function Productdisplay(props){
+	const params = useParams();
 	const dispatch = useDispatch();
 	const {singleProduct, shopname} = useSelector(state => state.product);
 	const {isAuthenticated, userType} = useSelector(state => state.authentication);
-	const { errormessage} = useSelector(state => state.cart);
+	const { errormessage, successMessage} = useSelector(state => state.cart);
 	const fetched = useRef(false);
 	const submit = (event) =>{
-		dispatch(cartAdd(props.match.params.productId));
+		dispatch(cartAdd(params.productId));
 	}
 	useEffect(()=>{
-		dispatch(productGetSingle(props.match.params.productId));	
+		dispatch(productGetSingle(params.productId));	
 		fetched.current=true;
 		// eslint-disable-next-line
 	},[]);
@@ -51,6 +52,7 @@ export default function Productdisplay(props){
 						</div>
 						<Enterprescription handleSubmit={submit}/>	
 						{errormessage!==''?<Alert message={errormessage} type='danger'/>:null}
+						{successMessage!==''?<Alert message={successMessage} type='success'/>:null}
 					</div>
 				</div>:null}
 			</div>

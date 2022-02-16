@@ -60,6 +60,7 @@ exports.delete=function (req, res) {
                     if(result.modifiedCount === 1 ){
                         db.collection('customer').find({'_id':ObjectId(cid)}).toArray((error,object)=>{
                             object[0]['total_price']=total_price[0]['total_price'];
+                            console.log(object)
                             return res.status(200).send(object);
                         });
                     }

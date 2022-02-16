@@ -2,13 +2,15 @@ import React , { useEffect, useRef } from 'react';
 import Sidefilter from './Sidefilter';
 import Singleproductlist from './Singleproductlist';
 import {useDispatch, useSelector} from 'react-redux';
-import { productGet, productSort } from '../slices/product/productSlice';
+import { setValue, productGet, productSort } from '../slices/product/productSlice';
 import Loadingspinner from './Loadingspinner';
-import {Navigate} from 'react-router-dom';
+import {Navigate, useParams} from 'react-router-dom';
 export default function Product(props){
+	const params = useParams();
 	const dispatch =  useDispatch();
 	const {products} = useSelector(state => state.product);
 	useEffect(()=>{
+		dispatch(setValue({name:'type', value:params.type}))
 		dispatch(productGet());
 		// eslint-disable-next-line
 	},[])
