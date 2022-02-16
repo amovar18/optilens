@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Redirect } from 'react-router';
+import { Navigate } from 'react-router';
 import {setValue, userAuth } from '../slices/authentication/authenticationSlice';
 import Alert from './Alert';
 
@@ -13,7 +13,7 @@ export default function Login(props){
         dispatch(userAuth());
     }
     if(isAuthenticated === true){
-        return(<Redirect to='/'/>);
+        return(<Navigate to='/'/>);
     }else{
         return(
             <div className='container-fluid'>

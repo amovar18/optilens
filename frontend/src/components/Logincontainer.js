@@ -1,12 +1,12 @@
 import React from 'react';
-import { Redirect } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import Registercustomer from './Registercustomer';
 import Login from './Login';
 export default function Logincontainer(){
     const {isAuthenticated, userType } = useSelector(state => state.authentication);
     if(isAuthenticated === true ){
-        return(<Redirect to='/'/>);
+        return(<Navigate to='/'/>);
     }else if(isAuthenticated === false && userType === ''){
         return (
             <div style={{'height':'100%'}}>

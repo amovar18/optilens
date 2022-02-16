@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import Showprescription from './Showprescription';
-import { Link, Redirect } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
 import Loadingspinner from './Loadingspinner';
 import {cartGet, cartDelete, checkout, setValue} from '../slices/cart/cartSlice';
@@ -20,7 +20,7 @@ export function Cart(props){
 		// eslint-disable-next-line
 	},[])
 	if(inserted===true){
-		return(<Redirect to='/yorders'/>);
+		return(<Navigate to='/yorders'/>);
 	}else if(fetched === 'loading'){
 		return(<Loadingspinner/>);
 	}else{

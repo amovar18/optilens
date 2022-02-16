@@ -1,12 +1,12 @@
 import React from 'react';
 import './Homestyles.css';
-import { Link , Redirect} from 'react-router-dom';
+import { Link , Navigate} from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 function Home(){
 	const {isAuthenticated, userType} = useSelector(state => state.authentication);
 	if(isAuthenticated===true && userType==='seller'){
-        return (<Redirect to='/insertproduct'/>); 
+        return (<Navigate to='/insertproduct'/>); 
     }else{
 		return (
 			<div className='container-fluid'>

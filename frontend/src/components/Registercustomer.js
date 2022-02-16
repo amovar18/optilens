@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, Redirect } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import Alert from './Alert';
 import { useDispatch, useSelector } from 'react-redux';
 import {setpasswordMatch,setValue, createCustomer, checkUsernameAvailability, setcriteriaError} from '../slices/authentication/authenticationSlice';
@@ -36,7 +36,7 @@ export default function Registercustomer(){
         }
     }
     if(isAuthenticated === true){
-        return(<Redirect to='/'/>);
+        return(<Navigate to='/'/>);
     }else{
         return (
             <div style={{'height':'100%'}}>

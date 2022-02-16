@@ -1,10 +1,10 @@
 import React from 'react';
 import Alert from './Alert';
-import {useHistory} from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { setcriteriaError, setValue, setpasswordMatch, checkUsernameAvailability, createSeller} from '../slices/seller/sellerSlice';
 function Register_seller(props){
-    let history = useHistory();
+    let history = useNavigate();
     const {username,phone, email, owner, shopname,password, confirm_password, availability,passwordMatch, criteriaError, address_line_1,address_line_2, area, pincode, city, state, success} = useSelector(state => state.seller);
     const dispatch = useDispatch();
     const checkavailability = (e) =>{

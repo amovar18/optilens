@@ -1,7 +1,7 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 function NotFound(props){
-    let history = useHistory();
+    let history = useNavigate();
     setTimeout(() => {
         history.push('/');
     }, 3000);
@@ -10,7 +10,7 @@ function NotFound(props){
             <div className='row' style={{'height':'100vh'}}>
                 <div className='col' />
                 <div className='col align-self-center'>
-                    <h1>404: Not Found Redirecting you to home.</h1>
+                    <h1>404: Not Found Navigateing you to home.</h1>
                     
                 </div>
                 <div className='col'/>

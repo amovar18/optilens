@@ -4,7 +4,7 @@ import Singleproductlist from './Singleproductlist';
 import {useDispatch, useSelector} from 'react-redux';
 import { productGet, productSort } from '../slices/product/productSlice';
 import Loadingspinner from './Loadingspinner';
-import {Redirect} from 'react-router-dom';
+import {Navigate} from 'react-router-dom';
 export default function Product(props){
 	const dispatch =  useDispatch();
 	const {products} = useSelector(state => state.product);
@@ -24,7 +24,7 @@ export default function Product(props){
 	if(fetched.current===false){
 		return(<Loadingspinner/>);
 	}else if(isAuthenticated===true && userType==='seller'){
-        return (<Redirect to='/insertproduct'/>); 
+        return (<Navigate to='/insertproduct'/>); 
     }else{
 		if(products.length === 0){
 			return(<h1>Could not load data from server</h1>);

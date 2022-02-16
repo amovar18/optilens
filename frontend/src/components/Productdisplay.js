@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { cartAdd } from '../slices/cart/cartSlice';
 import { productGetSingle } from '../slices/product/productSlice';
 import Loadingspinner from './Loadingspinner';
-import {Redirect} from 'react-router-dom';
+import {Navigate} from 'react-router-dom';
 export default function Productdisplay(props){
 	const dispatch = useDispatch();
 	const {singleProduct, shopname} = useSelector(state => state.product);
@@ -24,7 +24,7 @@ export default function Productdisplay(props){
 	if(fetched.current===false){
 		return(<Loadingspinner/>);
 	}else if(isAuthenticated===true && userType==='seller'){
-        return (<Redirect to='/insertproduct'/>); 
+        return (<Navigate to='/insertproduct'/>); 
     }else{
 		return (
 			<div className='container'>

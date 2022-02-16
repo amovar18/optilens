@@ -1,15 +1,9 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { Redirect, Route} from 'react-router-dom';
-const PrivateRouteSeller = ({component: Component, ...rest}) => {
+import { Navigate } from 'react-router-dom';
+const PrivateRouteSeller = ({children}) => {
     const {isAuthenticated, userType} = useSelector(state => state.authentication);
-    if(isAuthenticated===true && userType==='seller'){
-        return (
-            <Route {...rest} render={props => (<Component {...props} />)}/>
-        );
-    }else{
-        return (<Redirect to='/'/>);   
-    }
+    return (isAuthenticated===true && userType==='seller') ? children : <Navigate to='/'/>;   
 };
 
 export default PrivateRouteSeller;
