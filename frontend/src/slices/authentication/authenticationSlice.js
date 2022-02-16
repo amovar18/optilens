@@ -5,7 +5,7 @@ export const userAuth = createAsyncThunk(
     async (_, { getState , rejectWithValue} ) =>{
         const {loginUsername,loginPassword,typeofuser} = getState().authentication;
         try{
-            const response = await axios.post('https://opticonnect-backend.herokuapp.com/auth/signin',{
+            const response = await axios.post('https://optilens-backend.herokuapp.com/auth/signin',{
                 'username':loginUsername,
                 'password':loginPassword,
                 'typeofuser':typeofuser
@@ -25,7 +25,7 @@ export const refreshToken = createAsyncThunk(
         const {isAuthenticated} = getState().authentication;
         if(isAuthenticated===false){
             try{
-                const response = axios.get('https://opticonnect-backend.herokuapp.com/auth/getstatus',{withCredentials:true});
+                const response = axios.get('https://optilens-backend.herokuapp.com/auth/getstatus',{withCredentials:true});
                 return (await response).data;
             }catch(err){
                 return rejectWithValue(err.response.data);
@@ -39,7 +39,7 @@ export const checkUsernameAvailability = createAsyncThunk(
         const {Registration_username} = getState().authentication;
         if(Registration_username!==''){
             try{
-                const response = axios.get('https://opticonnect-backend.herokuapp.com/user/availability/'+Registration_username,{withCredentials:true});
+                const response = axios.get('https://optilens-backend.herokuapp.com/user/availability/'+Registration_username,{withCredentials:true});
                 return (await response).data;
             }catch(err){
                 return rejectWithValue(err.response.data);
@@ -52,7 +52,7 @@ export const createCustomer = createAsyncThunk(
     async (_, { getState , rejectWithValue} ) =>{
         const {Registration_username,Registration_password,Registration_name,Registration_email,Registration_address,Registration_phone}=getState().authentication;
         try{
-            const response = axios.post('https://opticonnect-backend.herokuapp.com/user/create',{
+            const response = axios.post('https://optilens-backend.herokuapp.com/user/create',{
                 'name' : Registration_name,
                 'username' : Registration_username,
                 'phone' : Registration_phone,
@@ -71,7 +71,7 @@ export const userDeauth = createAsyncThunk(
     'authentication/userDeauth',
     async (_, {rejectWithValue}) =>{
         try{
-            const response = await axios.get('https://opticonnect-backend.herokuapp.com/auth/signout',{withCredentials:true});
+            const response = await axios.get('https://optilens-backend.herokuapp.com/auth/signout',{withCredentials:true});
             return response.data;
         }catch(error){
             return rejectWithValue(error.response.data);

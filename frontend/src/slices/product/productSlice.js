@@ -5,7 +5,7 @@ export const productSort = createAsyncThunk(
     async (_, { getState , rejectWithValue})=>{
         const {type, price, sort, current_page} = getState().product;
         try{
-            const response = await axios.get('https://opticonnect-backend.herokuapp.com/product/sort/'+type+'/'+price+'/'+sort+'/'+current_page,{withCredentials:true});
+            const response = await axios.get('https://optilens-backend.herokuapp.com/product/sort/'+type+'/'+price+'/'+sort+'/'+current_page,{withCredentials:true});
             return response.data;
         }catch(error){
             return rejectWithValue(error.response);
@@ -16,7 +16,7 @@ export const productGetSingle = createAsyncThunk(
     'porduct/productGetSingle',
     async (id ,{ rejectWithValue})=>{
         try{
-            const response = await axios.get('https://opticonnect-backend.herokuapp.com/product/getsingle/'+id,{withCredentials:true,data:{'pid':id}});
+            const response = await axios.get('https://optilens-backend.herokuapp.com/product/getsingle/'+id,{withCredentials:true,data:{'pid':id}});
             return response.data;
         }catch(error){
             return rejectWithValue(error.response)
@@ -28,7 +28,7 @@ export const productGet = createAsyncThunk(
     async (_, { getState , rejectWithValue})=>{
         const {type, current_page, price, sort} = getState().product;
         try{
-            const response = await axios.get('https://opticonnect-backend.herokuapp.com/product/sort/'+type+'/'+price+'/'+sort+'/'+current_page,{withCredentials:true});
+            const response = await axios.get('https://optilens-backend.herokuapp.com/product/sort/'+type+'/'+price+'/'+sort+'/'+current_page,{withCredentials:true});
             return response.data;
         }catch(error){
             return rejectWithValue(error.response);
@@ -41,7 +41,7 @@ export const productAdd = createAsyncThunk(
         try{
             await axios({
                 method:'POST',
-                url:'https://opticonnect-backend.herokuapp.com/product/create',
+                url:'https://optilens-backend.herokuapp.com/product/create',
                 withCredentials:true,
                 headers:{'Content-Type':'multipart/form-data'},
                 data:formData
