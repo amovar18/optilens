@@ -21,7 +21,7 @@ export function Cart(props){
 	},[])
 	if(inserted===true){
 		return(<Navigate to='/yorders'/>);
-	}else if(fetched === 'loading'){
+	}else if(fetched === false){
 		return(<Loadingspinner/>);
 	}else{
 		if(cart.length!==0){

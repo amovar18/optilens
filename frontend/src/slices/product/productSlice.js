@@ -72,7 +72,8 @@ const productSlice = createSlice({
         producttype:'spectacles',
         productdescription:'',
         brand:'',
-        stored:false
+        stored:false,
+        fetched: false,
     },
     reducers:{
         setValue:(state, action)=>{
@@ -87,6 +88,7 @@ const productSlice = createSlice({
             state.shopname = action.payload[0]['shop'][0];
         },[productGet.fulfilled]:(state, action)=>{
             state.products=action.payload;
+            state.fetched = true;
         },[productAdd.fulfilled]:(state, action)=>{
             state.stored = false;
         },[productAdd.rejected]:(state, action)=>{

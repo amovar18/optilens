@@ -12,7 +12,7 @@ export default function Productdisplay(props){
 	const dispatch = useDispatch();
 	const {singleProduct, shopname} = useSelector(state => state.product);
 	const {isAuthenticated, userType} = useSelector(state => state.authentication);
-	const { errormessage, successMessage} = useSelector(state => state.cart);
+	const {errormessage, successMessage} = useSelector(state => state.cart);
 	const fetched = useRef(false);
 	const submit = (event) =>{
 		dispatch(cartAdd(params.productId));

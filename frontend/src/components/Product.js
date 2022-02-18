@@ -1,4 +1,4 @@
-import React , { useEffect, useRef } from 'react';
+import React , { useEffect } from 'react';
 import Sidefilter from './Sidefilter';
 import Singleproductlist from './Singleproductlist';
 import {useDispatch, useSelector} from 'react-redux';
@@ -8,7 +8,7 @@ import {Navigate, useParams} from 'react-router-dom';
 export default function Product(props){
 	const params = useParams();
 	const dispatch =  useDispatch();
-	const {products} = useSelector(state => state.product);
+	const {products,fetched,fetcherror} = useSelector(state => state.product);
 	useEffect(()=>{
 		dispatch(setValue({name:'type', value:params.type}))
 		dispatch(productGet());
@@ -18,22 +18,17 @@ export default function Product(props){
 		e.preventDefault();
 		dispatch(productSort());
 	}
-	const fetched = useRef(false);
 	const {isAuthenticated, userType} = useSelector(state => state.authentication);
-	useEffect(()=>{
-		fetched.current=true;
-	},[])
-	if(fetched.current===false){
+	if(fetched===false && fetcherror===''){
 		return(<Loadingspinner/>);
 	}else if(isAuthenticated===true && userType==='seller'){
         return (<Navigate to='/insertproduct'/>); 
     }else{
-		if(products.length === 0){
-			return(<h1>Could not load data from server</h1>);
-		}else{
-			return (
-				<div className='container'>
-					<br/>
+		return (
+			<div className='container'>
+				<br/>
+				{products ?
+				<>
 					<div className='row justify-contents-center'>
 						<div className='col-2'>
 							<button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Filter/Sort</button>
@@ -58,8 +53,11 @@ export default function Product(props){
 							<Singleproductlist data={products}/>	
 						</div>
 					</div>
-				</div>
-			);
-		}
+				</>	
+				:
+				<h1>Could not load data from server</h1>
+				}
+			</div>
+		);
 	}
 }

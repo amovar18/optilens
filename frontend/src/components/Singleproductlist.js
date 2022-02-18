@@ -2,7 +2,7 @@ import React from 'react';
 import {Link} from 'react-router-dom';
 function single_product_list(props){
     const {data}=props;
-    if(data.length>0){
+    if(data){
         return(
             <div>
                 {data.map(({_id,productname,price,image,shop,brand})=>(
