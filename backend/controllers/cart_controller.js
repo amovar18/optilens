@@ -57,13 +57,14 @@ exports.delete=function (req, res) {
                 (async ()=>{
                     const result =await  db.collection('customer').updateOne({ '_id': ObjectID(cid)},{$pull : {'cart': {'_id':ObjectId(pid)}}});
                     const total_price = await db.collection('customer').aggregate([{ '$match': { '_id': ObjectId(cid)}}, {'$unwind': {'path': '$cart'}}, {'$unwind': {'path': '$cart.price'}}, {'$group': {'_id': '$cart.price', 'total_price': {'$sum': {'$multiply': ['$cart.price', '$cart.quantity']}}}}]).toArray();
-                    console.log(result.modifiedCount, result, total_price)
-                    if(result.modifiedCount === 1 ){
+                    if(result.modifiedCount === 1 && total_price ){
                         db.collection('customer').find({'_id':ObjectId(cid)}).toArray((error,object)=>{
                             object[0]['total_price']=total_price[0]['total_price'];
                             console.log(object)
                             return res.status(200).send(object);
                         });
+                    }else{
+                        return res.status(200).send([]);
                     }
                 })();
             });
