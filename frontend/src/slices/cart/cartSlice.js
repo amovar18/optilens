@@ -5,11 +5,11 @@ export const checkout = createAsyncThunk(
     async (_, { getState , rejectWithValue})=>{
         const {name,city,state,pincode,address_line_1,address_line_2,area,total_price} = getState().cart;
         try{
-            const response = await axios.post('https://optilens-backend.herokuapp.com/cart/addtocart',
+            const response = await axios.post('https://optilens-backend.herokuapp.com/transaction/insert',
             {data:{
-                'delivery_address':address_line_1+'\n'+address_line_2+'\n'+area+'\n'+city+'-'+pincode+'\n'+state,
+                'deliveryaddress':address_line_1+'\n'+address_line_2+'\n'+area+'\n'+city+'-'+pincode+'\n'+state,
 				'total_price':total_price,
-				'name':name
+				'clientname':name
             }},
             {withCredentials:true});
             return response.data;
@@ -103,12 +103,12 @@ const cartSlice = createSlice({
                 state.errormessage = 'First Login then you can add products';
             }
         },[cartAdd.fulfilled]:(state,action) => {
-            console.log(action)
             if(action.payload === 200){
                 state.successMessage = 'Product added to cart';
             }
         },[checkout.fulfilled]:(state, action)=>{
-            state.cart=[];
+            state.cart=[]
+            state.inserted=true;
         },[checkout.rejected]:(state, action)=>{
             state.checkoutError=500;
         },

@@ -6,7 +6,7 @@ import Loadingspinner from './Loadingspinner';
 import {cartGet, cartDelete, checkout, setValue} from '../slices/cart/cartSlice';
 export function Cart(props){
 	const dispatch= useDispatch();
-	const {fetched,cart,inserted,name,city,state,pincode,address_line_1,	address_line_2,area,total_price} = useSelector(state => state.cart);
+	const {fetched,cart,inserted,name,city,state,pincode,address_line_1,address_line_2,area,total_price} = useSelector(state => state.cart);
 	const checkout_local = (e) =>{
 		e.preventDefault();
 		dispatch(checkout());
@@ -85,7 +85,7 @@ export function Cart(props){
 									Client Name
 								</td>
 								<td colSpan='2'>
-									<input className='form-control' name='name' placeholder='Client Name' onChange={e => dispatch(setValue(e.target.name,e.target.value))} value={name}/>
+									<input className='form-control' name='name' placeholder='Client Name' onChange={e => dispatch(setValue({name:e.target.name, value:e.target.value}))} value={name}/>
 								</td>
 							</tr>
 							<tr>
@@ -93,12 +93,12 @@ export function Cart(props){
 									Delivery Address
 								</td>
 								<td colSpan='2'>
-								<input className='form-control' name='address_line_1' placeholder='Address line 1' onChange={e => dispatch(setValue(e.target.name,e.target.value))} value={address_line_1}/>
-								<input className='form-control' name='address_line_2' placeholder='Address line 2' onChange={e => dispatch(setValue(e.target.name,e.target.value))} value={address_line_2}/>
-								<input className='form-control' name='area' placeholder='Area' onChange={e => dispatch(setValue(e.target.name,e.target.value))} value={area}/>
-								<input className='form-control' name='city' placeholder='City' onChange={e => dispatch(setValue(e.target.name,e.target.value))} value={city}/>
-								<input className='form-control' name='pincode' placeholder='Pincode' onChange={e => dispatch(setValue(e.target.name,e.target.value))} value={pincode}/>
-								<input className='form-control' name='state' placeholder='State' onChange={e => dispatch(setValue(e.target.name,e.target.value))} value={state}/>
+								<input className='form-control' name='address_line_1' placeholder='Address line 1' onChange={e => dispatch(setValue({name:e.target.name,value:e.target.value}))} value={address_line_1}/>
+								<input className='form-control' name='address_line_2' placeholder='Address line 2' onChange={e => dispatch(setValue({name:e.target.name, value:e.target.value}))} value={address_line_2}/>
+								<input className='form-control' name='area' placeholder='Area' onChange={e => dispatch(setValue({name:e.target.name, value:e.target.value}))} value={area}/>
+								<input className='form-control' name='city' placeholder='City' onChange={e => dispatch(setValue({name:e.target.name, value:e.target.value}))} value={city}/>
+								<input className='form-control' name='pincode' placeholder='Pincode' onChange={e => dispatch(setValue({name:e.target.name, value:e.target.value}))} value={pincode}/>
+								<input className='form-control' name='state' placeholder='State' onChange={e => dispatch(setValue({name:e.target.name, value:e.target.value}))} value={state}/>
 								</td>
 							</tr>
 							
