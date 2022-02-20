@@ -8,6 +8,7 @@ const transactionRouter = require('./routes/transactionroutes');
 const userRouter = require('./routes/userroutes');
 const sellerRouter = require('./routes/sellerroutes');
 const authRouter = require('./routes/authenticationroutes');
+const adminRouter = require('./routes/adminRoutes');
 const orderRouter = require('./routes/ordersroutes');
 
 const bodyParser = require('body-parser');
@@ -34,4 +35,5 @@ app.use("/user",userRouter);
 app.use("/seller",sellerRouter);
 app.use("/auth",authRouter);
 app.use("/order",orderRouter); 
+app.use("/admin",adminRouter); 
 app.listen(process.env.PORT || 5000, process.env.HOST || '::');

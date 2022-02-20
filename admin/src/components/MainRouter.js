@@ -13,6 +13,7 @@ const Mainrouter = () => {
             <Route path="/sellers"  element={<SellerDisplay/>}/>
             <Route path="/customers"  element={<CustomerDisplay/>}/>
             <Route path="/sales" element={<Logincontainer/>}/>
+            <Route path="/login" element={<Logincontainer/>}/>
             <Route path="/logout" element={<Logout/>}/>
             <Route path='*' element={<NotFound/>}/>
         </Routes>

@@ -5,7 +5,7 @@ export const userAuth = createAsyncThunk(
     async (_, { getState , rejectWithValue} ) =>{
         const {loginUsername,loginPassword} = getState().authentication;
         try{
-            const response = await axios.post('https://optilens-backend.herokuapp.com/admin/auth/signin',{
+            const response = await axios.post('https://optilens-backend.herokuapp.com/admin/signin',{
                 'username':loginUsername,
                 'password':loginPassword,
                 },
