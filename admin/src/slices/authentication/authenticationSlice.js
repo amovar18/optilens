@@ -54,6 +54,7 @@ const authenticationSlice = createSlice({
         loginUsername:'',
         loginPassword:'',
         loginerror:'',
+        links:[{title:'Login', path:'/login'}],
     },
     reducers:{
         setValue:(state,action)=>{

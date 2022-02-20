@@ -1,5 +1,4 @@
 import React,{useEffect, useRef} from 'react';
-import '../App.css';
 import {refreshToken} from '../slices/authentication/authenticationSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import Loadingspinner from './Loadingspinner';
