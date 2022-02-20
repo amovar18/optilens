@@ -24,7 +24,7 @@ export const refreshToken = createAsyncThunk(
         const {isAuthenticated} = getState().authentication;
         if(isAuthenticated===false){
             try{
-                const response = axios.get('https://optilens-backend.herokuapp.com/auth/getstatus',{withCredentials:true});
+                const response = axios.get('https://optilens-backend.herokuapp.com/admin/getstatus',{withCredentials:true});
                 return (await response).data;
             }catch(err){
                 return rejectWithValue(err.response.data);

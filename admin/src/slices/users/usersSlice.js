@@ -45,7 +45,7 @@ export const customerFetch = createAsyncThunk(
     async (_, { rejectWithValue} ) =>{
 
         try{
-            const response = axios.get('https://optilens-backend.herokuapp.com/admin/customers',{withCredentials:true});
+            const response = axios.get('https://optilens-backend.herokuapp.com/admin/customer',{withCredentials:true});
             return (await response).data;
         }catch(err){
             return rejectWithValue(err.response.data);
@@ -81,7 +81,7 @@ const userSlice = createSlice({
             state.activationDeactivationSuccessful = false;
             state.error = 'some error occured';
         },[customerFetch.fulfilled]: (state, action) => {
-            state.customers = action.payload;
+            state.customers = action.payload.customers;
             state.fetched = true;
         },[customerFetch.rejected]: (state, action) => {
             state.error = 'Error while fetching data';

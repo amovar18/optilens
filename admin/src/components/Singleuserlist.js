@@ -1,8 +1,11 @@
 import React from 'react';
 import {useDispatch} from 'react-redux';
-function Singleuserlist(props,actionTodDo){
-    const {data}=props;
+function Singleuserlist(props){
+    const {data, actionToDo}=props;
     const dispatch =  useDispatch();
+    const performAction = (action,_id) => {
+        dispatch(actionToDo(action,_id))
+    }
     if(data){
         return(
             <table class="table">
@@ -20,7 +23,7 @@ function Singleuserlist(props,actionTodDo){
                         <td>{_id}</td>
                         <td>{name}</td>
                         <td>{username}</td>
-                        <td>{active === 1 ? <button type="button" class="btn btn-primary" onClick={dispatch(actionTodDo('activate', _id))}>Activate</button> : <button type="button" class="btn btn-danger" onClick={dispatch(actionTodDo('activate', _id))}>Deactivate</button>}</td>
+                        <td>{active === 1 ? <button type="button" class="btn btn-primary" onClick={performAction('activate', _id)}>Activate</button> : <button type="button" class="btn btn-danger" onClick={performAction('activate', _id)}>Deactivate</button>}</td>
                     </tr>
                 ))}
                 </tbody>
