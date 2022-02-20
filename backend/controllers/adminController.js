@@ -22,12 +22,14 @@ app.use(bodyParser.json());
  * @apiError UserNotFound   The <code>id</code> of the User was not found.
 */
 exports.authenticate=function (req, res) {
-    if(req.body.usernam === 'admin' && req.body.password === 'admin'){
+    if(req.body.username === 'admin' && req.body.password === 'admin'){
         const payload = {'username':'admin'}
         let token = jwt.sign(payload, key,{expiresIn: '72h'});
         return res.cookie('token', token, {expires: new Date(Date.now() + 72 * 3600000),httpOnly:true,secure:true,sameSite:'none'}).send({
             'links':[{title:'Home', path:'/'},{ title: `Customers`, path: `/customers` },{ title: `Sellers`, path: `/sellers` },{ title: `Sales`, path: `/sales` },{ title: `Logout`, path: `/logout` }],
         });
+    }else{
+        return res.status(403).send('unauthorised');
     }
 };
 
