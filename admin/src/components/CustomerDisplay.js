@@ -15,7 +15,7 @@ function CustomerDisplay(){
 				<>
 					<div className='row justify-contents-start'>
 						<div className='col-12'>
-							<Singleuserlist data={customers} actionToDo={customerActivate}/>	
+							<Singleuserlist data={customers} action={customerActivate}/>	
 						</div>
 					</div>
 				</>	

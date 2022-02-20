@@ -1,11 +1,12 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import {useDispatch} from 'react-redux';
 function Singleuserlist(props){
-    const {data, actionToDo}=props;
+    const {data, action}=props;
     const dispatch =  useDispatch();
-    const performAction = (action,_id) => {
-        dispatch(actionToDo(action,_id))
-    }
+    const performAction = useCallback((actionToDo,_id) => {
+        const payload = {actionToDo,_id};
+        dispatch(action(payload))
+    },[action, dispatch]);
     if(data){
         return(
             <table class="table">
@@ -23,7 +24,7 @@ function Singleuserlist(props){
                         <td>{_id}</td>
                         <td>{name}</td>
                         <td>{username}</td>
-                        <td>{active === 1 ? <button type="button" class="btn btn-primary" onClick={performAction('activate', _id)}>Activate</button> : <button type="button" class="btn btn-danger" onClick={performAction('activate', _id)}>Deactivate</button>}</td>
+                        <td>{active === 1 ? <button type="button" class="btn btn-primary" onClick={e => performAction('activate', _id)}>Activate</button> : <button type="button" class="btn btn-danger" onClick={e => performAction('deactivate', _id)}>Deactivate</button>}</td>
                     </tr>
                 ))}
                 </tbody>

@@ -2,11 +2,11 @@ import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import axios from 'axios';
 export const customerActivate = createAsyncThunk(
     'users/customerActivate',
-    async (actionTodDo, id, { rejectWithValue } ) =>{
+    async ({actionToDo, _id}, { rejectWithValue } ) =>{
         try{
             const response = axios.post('https://optilens-backend.herokuapp.com/admin/customer/setunset',{
-                _id:id,
-                actionTodDo
+                '_id':_id,
+                actionToDo:actionToDo
             },{withCredentials:true});
             return (await response).data;
         }catch(err){
@@ -33,7 +33,7 @@ export const sellerFetch = createAsyncThunk(
     async (_, { rejectWithValue} ) =>{
 
         try{
-            const response = axios.get('https://optilens-backend.herokuapp.com/admin/sellers',{withCredentials:true});
+            const response = axios.get('https://optilens-backend.herokuapp.com/admin/seller',{withCredentials:true});
             return (await response).data;
         }catch(err){
             return rejectWithValue(err.response.data);
@@ -87,7 +87,7 @@ const userSlice = createSlice({
             state.error = 'Error while fetching data';
             state.fetched = true;
         },[sellerFetch.fulfilled]: (state, action) => {
-            state.sellers = action.payload;
+            state.sellers = action.payload.customers;
             state.fetched = true;
         },[sellerFetch.rejected]: (state, action) => {
             state.error = 'Error while fetching data';

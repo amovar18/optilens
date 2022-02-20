@@ -4,7 +4,7 @@ import { sellerFetch, sellerActivate } from '../slices/users/usersSlice';
 import Singleuserlist from './Singleuserlist';
 function SellerDisplay(){
 	const dispatch =  useDispatch();
-	const { sellers } = useSelector((state)=>state.sellers);
+	const { sellers } = useSelector((state)=>state.user);
 	useEffect(() => {
 		dispatch(sellerFetch())
 	},[dispatch])
@@ -15,7 +15,7 @@ function SellerDisplay(){
 				<>
 					<div className='row justify-contents-start'>
 						<div className='col-12'>
-							<Singleuserlist data={sellers} actionToDo={sellerActivate}/>	
+							<Singleuserlist data={sellers} action={sellerActivate}/>	
 						</div>
 					</div>
 				</>	
