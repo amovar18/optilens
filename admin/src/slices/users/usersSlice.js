@@ -4,7 +4,9 @@ export const customerActivate = createAsyncThunk(
     'users/customerActivate',
     async (actionTodDo, id, { rejectWithValue } ) =>{
         try{
-            const response = axios.post('https://optilens-backend.herokuapp.com/user/'+id+'/create/'+actionTodDo,{
+            const response = axios.post('https://optilens-backend.herokuapp.com/admin/customer/setunset',{
+                _id:id,
+                actionTodDo
             },{withCredentials:true});
             return (await response).data;
         }catch(err){
@@ -16,7 +18,9 @@ export const sellerActivate = createAsyncThunk(
     'users/sellerActivate',
     async (actionTodDo, id, { rejectWithValue} ) =>{
         try{
-            const response = axios.post('https://optilens-backend.herokuapp.com/user/'+id+'/create/'+actionTodDo,{
+            const response = axios.post('https://optilens-backend.herokuapp.com/admin/seller/setunset',{
+                _id:id,
+                actionTodDo
             },{withCredentials:true});
             return (await response).data;
         }catch(err){
@@ -29,7 +33,7 @@ export const sellerFetch = createAsyncThunk(
     async (_, { rejectWithValue} ) =>{
 
         try{
-            const response = axios.get('https://optilens-backend.herokuapp.com/sellers',{withCredentials:true});
+            const response = axios.get('https://optilens-backend.herokuapp.com/admin/sellers',{withCredentials:true});
             return (await response).data;
         }catch(err){
             return rejectWithValue(err.response.data);
@@ -41,7 +45,7 @@ export const customerFetch = createAsyncThunk(
     async (_, { rejectWithValue} ) =>{
 
         try{
-            const response = axios.get('https://optilens-backend.herokuapp.com/customers',{withCredentials:true});
+            const response = axios.get('https://optilens-backend.herokuapp.com/admin/customers',{withCredentials:true});
             return (await response).data;
         }catch(err){
             return rejectWithValue(err.response.data);
