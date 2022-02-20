@@ -55,7 +55,7 @@ exports.fetchUsers = function(req,res){
     MongoClient.connect(process.env.MONGO_URI,{ useUnifiedTopology: true }, async function (err, client) {
         if (err) throw err
         const db = client.db('opticonnect');
-        const customer = await db.collection(req.params.usertype).find({'_id':ObjectId(req.body['_id'])}).toArray();;
+        const customer = await db.collection(req.params.usertype).find({}).toArray();;
         return res.send({'customers':customer});
     });
 }

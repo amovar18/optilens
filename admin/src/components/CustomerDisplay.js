@@ -4,7 +4,7 @@ import { customerFetch, customerActivate } from '../slices/users/usersSlice';
 import Singleuserlist from './Singleuserlist';
 function CustomerDisplay(){
 	const dispatch =  useDispatch();
-	const { customers } = useSelector((state)=>state.customers);
+	const { customers } = useSelector((state)=>state.user);
 	useEffect(() => {
 		dispatch(customerFetch())
 	},[dispatch])
