@@ -1,5 +1,5 @@
 {
-  "name": "optilens",
+  "name": "@optilens/frontend",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
