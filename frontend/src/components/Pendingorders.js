@@ -10,7 +10,6 @@ export default function Pendingorders(props){
 	const submit = ({productid,transactionid},e) =>{
 		e.preventDefault();
 		if(awb!=='' && delivery_partner!==''){
-			console.log(e);
 			dispatch(setdelivery({'productId' : productid, 'transactionId':transactionid}))
 		}
 	}
@@ -21,6 +20,7 @@ export default function Pendingorders(props){
 	if(fetched === 'loading'){
 		return (<Loadingspinner/>);	
 	}else{
+		console.log(orders.length);
 		if(errorMessage===''){
 			if(orders.length!==0){
 				return (

@@ -71,17 +71,17 @@ exports.setdelivery=function(req,res){
         }
         if(result['type']==='seller'){
             const id = result['_id'];
-            const product_id = req.body.product_id;
-            const transaction_id = req.body.transaction_id;
+            const productId = req.body.productId;
+            const transactionId = req.body.transactionId;
             const awb = req.body.awb;
-            const delivery_partner = req.body.delivery_partner;
+            const deliveryPartner = req.body.deliveryPartner;
             MongoClient.connect(process.env.MONGO_URI,(error,client)=>{
                 if(error){
                     return res.status(500).send('internal error');
                 }
                 const db = client.db('opticonnect');
                 (async ()=>{
-                    const result = await db.collection('transactions').updateOne({'_id':ObjectId(transaction_id),'products._id':ObjectId(product_id)},{$set:{'products.$.awbno':awb,'products.$.deliveryPartner':delivery_partner,"products.$.inTransit":1}});
+                    const result = await db.collection('transactions').updateOne({'_id':ObjectId(transactionId),'products._id':ObjectId(productId)},{$set:{'products.$.awbno':awb,'products.$.deliveryPartner':deliveryPartner,"products.$.inTransit":1}});
                     if(result.modifiedCount===1){
                         const orders = await db.collection('transactions').aggregate([{$match:{'products.sellerId' : ObjectId(id) }},{$match:{$and:[{"products.inTransit":0},{"products.ordered":1}] }},{$unwind: {path:'$products'}}]).toArray();
                         if(orders.length > 0){
