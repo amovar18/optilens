@@ -88,7 +88,7 @@ exports.setdelivery=function(req,res){
                         if(orders.length > 0){
                             return res.status(200).send(orders);
                         }else{
-                            return res.status(404).send([]);
+                            return res.status(200).send([]);
                         }
                     }
                 })();
