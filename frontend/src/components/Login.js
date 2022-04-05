@@ -23,11 +23,11 @@ export default function Login(props){
                     <input className='form-control' placeholder='Password' id='password' type='password' onChange={e => dispatch(setValue({name:e.target.name, value:e.target.value}))} name='loginPassword' required/><br/>
                     <br/>
                     <div className='form-check form-check-inline'>
-                        <input type='radio' className='form-check-input' name='typeofuser' id='customer' value='customer' onChange={e => dispatch(setValue({name:e.target.name, value:e.target.value}))}/>
+                        <input type='radio' className='form-check-input' name='typeOfUser' id='customer' value='customer' onChange={e => dispatch(setValue({name:e.target.name, value:e.target.value}))}/>
                         <label htmlFor='customer' className='form-check-label' style={{'color':'#000000'}}>Customer</label>
                     </div>
                     <div className='form-check form-check-inline'>
-                        <input type='radio' className='form-check-input' name='typeofuser' value='seller' onChange={e => dispatch(setValue({name:e.target.name, value:e.target.value}))}/>
+                        <input type='radio' className='form-check-input' name='typeOfUser' value='seller' onChange={e => dispatch(setValue({name:e.target.name, value:e.target.value}))}/>
                         <label htmlFor='seller' className='form-check-label' style={{'color':'#000000'}}>Seller</label>
                     </div>
                     {loginerror !== '' ?<Alert message={loginerror} type='danger'/>:null}

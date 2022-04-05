@@ -6,12 +6,12 @@ import Loadingspinner from './Loadingspinner';
 import {cartGet, cartDelete, checkout, setValue} from '../slices/cart/cartSlice';
 export function Cart(props){
 	const dispatch= useDispatch();
-	const {fetched,cart,inserted,name,city,state,pincode,address_line_1,address_line_2,area,total_price} = useSelector(state => state.cart);
-	const checkout_local = (e) =>{
+	const {fetched,cart,inserted,name,city,state,pincode,addressLine1,addressLine2,area,totalPrice} = useSelector(state => state.cart);
+	const checkoutLocal = (e) =>{
 		e.preventDefault();
 		dispatch(checkout());
 	}
-	const delete_from_cart= (e) =>{
+	const deleteFromCart= (e) =>{
 		e.preventDefault();
 		dispatch(cartDelete(e.target.value))
 	}
@@ -68,7 +68,7 @@ export function Cart(props){
 										{parseInt(e.price)*e.quantity}
 									</td>
 									<td>
-										<button className='btn btn-danger' value={e._id} onClick={delete_from_cart} type='submit' id="delete">Delete</button>
+										<button className='btn btn-danger' value={e._id} onClick={deleteFromCart} type='submit' id="delete">Delete</button>
 									</td>
 								</tr>
 							))}
@@ -77,7 +77,7 @@ export function Cart(props){
 									Total Price =
 								</td>
 								<td colSpan='2'>
-									{total_price}
+									{totalPrice}
 								</td>
 							</tr>
 							<tr>
@@ -93,8 +93,8 @@ export function Cart(props){
 									Delivery Address
 								</td>
 								<td colSpan='2'>
-								<input className='form-control' name='address_line_1' placeholder='Address line 1' onChange={e => dispatch(setValue({name:e.target.name,value:e.target.value}))} value={address_line_1}/>
-								<input className='form-control' name='address_line_2' placeholder='Address line 2' onChange={e => dispatch(setValue({name:e.target.name, value:e.target.value}))} value={address_line_2}/>
+								<input className='form-control' name='addressLine1' placeholder='Address line 1' onChange={e => dispatch(setValue({name:e.target.name,value:e.target.value}))} value={addressLine1}/>
+								<input className='form-control' name='addressLine2' placeholder='Address line 2' onChange={e => dispatch(setValue({name:e.target.name, value:e.target.value}))} value={addressLine2}/>
 								<input className='form-control' name='area' placeholder='Area' onChange={e => dispatch(setValue({name:e.target.name, value:e.target.value}))} value={area}/>
 								<input className='form-control' name='city' placeholder='City' onChange={e => dispatch(setValue({name:e.target.name, value:e.target.value}))} value={city}/>
 								<input className='form-control' name='pincode' placeholder='Pincode' onChange={e => dispatch(setValue({name:e.target.name, value:e.target.value}))} value={pincode}/>
@@ -105,7 +105,7 @@ export function Cart(props){
 							<tr>
 								<td colSpan='4'></td>
 								<td colSpan='2'>
-									<button className='btn btn-primary' onClick={checkout_local} type='submit'>Proceed</button>
+									<button className='btn btn-primary' onClick={checkoutLocal} type='submit'>Proceed</button>
 								</td>
 							</tr>
 						</tbody>

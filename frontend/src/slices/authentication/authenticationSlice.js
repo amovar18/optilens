@@ -3,12 +3,12 @@ import axios from 'axios';
 export const userAuth = createAsyncThunk(
     'authentication/userAuth',
     async (_, { getState , rejectWithValue} ) =>{
-        const {loginUsername,loginPassword,typeofuser} = getState().authentication;
+        const {loginUsername,loginPassword,typeOfUser} = getState().authentication;
         try{
             const response = await axios.post('https://optilens-backend.herokuapp.com/auth/signin',{
                 'username':loginUsername,
                 'password':loginPassword,
-                'typeofuser':typeofuser
+                'typeOfUser':typeOfUser
                 },
                 {withCredentials:true});
             return response.data;
@@ -89,7 +89,7 @@ const authenticationSlice = createSlice({
 
         loginUsername:'',
         loginPassword:'',
-        typeofuser:'',
+        typeOfUser:'',
         loginerror:'',
                                 
         links:[],

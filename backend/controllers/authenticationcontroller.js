@@ -30,7 +30,7 @@ exports.authenticate=function (req, res) {
         const db = client.db('opticonnect');
         const username=req.body.username;
         const password=req.body.password;
-        if(req.body.typeofuser === "customer"){
+        if(req.body.typeOfUser === "customer"){
             (async ()=>{
                 const user =await  db.collection('customer').find({'username':username}).toArray();
                 if(user[0]){
@@ -56,7 +56,7 @@ exports.authenticate=function (req, res) {
                 }
             })();
         }
-        if(req.body.typeofuser === "seller"){
+        if(req.body.typeOfUser === "seller"){
             (async()=>{
                 const user=await db.collection('seller').find({'username':username}).toArray();
                 if(user[0]){
