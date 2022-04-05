@@ -19,8 +19,8 @@ export default function Pendingorders(props){
 	},[])
 	if(fetched === 'loading'){
 		return (<Loadingspinner/>);	
-	}else{
-		console.log(orders.length);
+	}else if(fetched === true){
+		console.log(orders);
 		if(errorMessage===''){
 			if(orders.length!==0){
 				return (
@@ -41,7 +41,7 @@ export default function Pendingorders(props){
 								<tbody>
 									{orders.map((order)=>{
 										return(
-											<tr>
+											<tr key={order['_id']}>
 												<td>{order['products']['productname']}</td>
 												<td><Showprescription lens={order['products']['lens_details']}/></td>
 												<td>{order['clientname']}</td>

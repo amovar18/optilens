@@ -65,7 +65,7 @@ const orderSlice = createSlice({
     extraReducers:{
         [getPending.fulfilled]:(state,action)=>{
             state.fetched = true;
-            state.order = action.payload;
+            state.orders = action.payload;
         },[getPending.rejected]:(state,action)=>{
             state.fetched = true;
             state.error = action.payload;

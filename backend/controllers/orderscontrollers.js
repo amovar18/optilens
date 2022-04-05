@@ -84,6 +84,7 @@ exports.setdelivery=function(req,res){
                     const result = await db.collection('transactions').updateOne({'_id':ObjectId(transactionId),'products._id':ObjectId(productId)},{$set:{'products.$.awbno':awb,'products.$.deliveryPartner':deliveryPartner,"products.$.inTransit":1}});
                     if(result.modifiedCount===1){
                         const orders = await db.collection('transactions').aggregate([{$match:{'products.sellerId' : ObjectId(id) }},{$match:{$and:[{"products.inTransit":0},{"products.ordered":1}] }},{$unwind: {path:'$products'}}]).toArray();
+                        console.log(orders);
                         if(orders.length > 0){
                             return res.status(200).send(orders);
                         }else{
