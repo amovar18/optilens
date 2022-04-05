@@ -28,10 +28,10 @@ export default function Singleorder(props){
                             	        <div className="accordion" id="accordionExample">
                             	            {t.products.map((products)=>{
                                 	            return(
-													<div className="accordion-item" key={products.productname}>
+													<div className="accordion-item" key={products.productName}>
                                         	    	<h2 className="accordion-header" id="headingOne">
 	                                        	        <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-    	                                        	        {products.productname}
+    	                                        	        {products.productName}
     	                                            	</button>
             	                                    </h2>
     	            	                            <div id="collapseOne" className="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
@@ -39,13 +39,20 @@ export default function Singleorder(props){
             	            	                            <div className="card mb-3">
                 	            	                            <Carousel images={products.image}/>
                     	                                        <div className="card-body">
-                        	        	                            <h5 className="card-title"><Link to={'/productdisplay/'+products._id}>{products.productname}</Link></h5>
+                        	        	                            <h5 className="card-title"><Link to={'/productdisplay/'+products._id}>{products.productName}</Link></h5>
                                         	                        <p className="card-text">Quantity: <small className="text-muted">{products.quantity}</small></p>
                         	                	                    <p className="card-text">Total price: <small className='text-muted'>{parseInt(products.price)*parseInt(products.quantity)}</small></p>
                             	                	            </div>
                                 	                	    </div>
 	                                	                </div>
     	                                	        </div>
+													{
+														t.deliveryAddress && (
+															<p className='card-footer'>
+																Delivery Address: {t.deliveryAddress}
+															</p>
+														)
+													}
                                             	</div>
 												)
                                             })}
