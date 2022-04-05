@@ -22,7 +22,7 @@ exports.getalltransactions=function (req, res) {
                     return res.status(500).send('internalerror');
                 }
                 (async()=>{
-                    const transaction = await db.collection('transactions').find({'customerid':ObjectId(result['_id'])}).toArray();
+                    const transaction = await db.collection('transactions').find({'customerId':ObjectId(result['_id'])}).toArray();
                     if(transaction.length > 0){
                         return res.status(200).send(transaction);
                     }else{
