@@ -25,7 +25,7 @@ exports.getallpending=function (req, res) {
                 } 
                 const db = client.db('opticonnect');
                 ( async()=>{
-                    const orders = await db.collection('transactions').aggregate([{$match:{'products.sellerid' : ObjectId(id) }},{$match:{$and:[{"products.in_transit":0},{"products.ordered":1}] }},{$unwind: {path:'$products'}}]).toArray();
+                    const orders = await db.collection('transactions').aggregate([{$match:{'products.sellerId' : ObjectId(id) }},{$match:{$and:[{"products.inTransit":0},{"products.ordered":1}] }},{$unwind: {path:'$products'}}]).toArray();
                     if(orders.length > 0){
                         return res.status(200).send(orders);
                     }else{
@@ -51,7 +51,7 @@ exports.getall=function (req, res) {
                 } 
                 const db = client.db('opticonnect');
                 ( async()=>{
-                    const orders = await db.collection('transactions').aggregate([{$match:{'products.sellerid' : ObjectId(id) }},{$unwind: {path:'$products'}}]).toArray();
+                    const orders = await db.collection('transactions').aggregate([{$match:{'products.sellerId' : ObjectId(id) }},{$unwind: {path:'$products'}}]).toArray();
                     if(orders.length > 0){
                         return res.status(200).send(orders);
                     }else{
@@ -81,9 +81,9 @@ exports.setdelivery=function(req,res){
                 }
                 const db = client.db('opticonnect');
                 (async ()=>{
-                    const result = await db.collection('transactions').updateOne({'_id':ObjectId(transaction_id),'products._id':ObjectId(product_id)},{$set:{'products.$.awbno':awb,'products.$.delivery_partner':delivery_partner,"products.$.in_transit":1}});
+                    const result = await db.collection('transactions').updateOne({'_id':ObjectId(transaction_id),'products._id':ObjectId(product_id)},{$set:{'products.$.awbno':awb,'products.$.deliveryPartner':delivery_partner,"products.$.inTransit":1}});
                     if(result.modifiedCount===1){
-                        const orders = await db.collection('transactions').aggregate([{$match:{'products.sellerid' : ObjectId(id) }},{$match:{$and:[{"products.in_transit":0},{"products.ordered":1}] }},{$unwind: {path:'$products'}}]).toArray();
+                        const orders = await db.collection('transactions').aggregate([{$match:{'products.sellerId' : ObjectId(id) }},{$match:{$and:[{"products.inTransit":0},{"products.ordered":1}] }},{$unwind: {path:'$products'}}]).toArray();
                         if(orders.length > 0){
                             return res.status(200).send(orders);
                         }else{

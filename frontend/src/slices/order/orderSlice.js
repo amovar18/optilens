@@ -3,17 +3,17 @@ import axios from 'axios';
 
 export const setdelivery = createAsyncThunk(
     'order/setdelivery',
-    async ({product_id, transaction_id}, { getState , rejectWithValue})=>{
+    async ({productId, transactionId}, { getState , rejectWithValue})=>{
         const {awb, delivery_partner} = getState().order;
         try{
             axios({
                 url:'https://optilens-backend.herokuapp.com/order/setdelivery',
                 method:'POST',
                 data:{
-                    'product_id':product_id,
-					'transaction_id':transaction_id,
-					'awb':awb,
-					'delivery_partner':delivery_partner
+                    productId,
+					transactionId,
+					awb,
+					delivery_partner
                 }
             }).then((response)=>{
                 return response.data;
@@ -54,7 +54,7 @@ const orderSlice = createSlice({
         errorMessage:'',
 
         awb:'',
-		delivery_partner:'',
+		deliveryPartner:'',
     },
     reducers:{
         setValue:(state, action)=>{

@@ -41,8 +41,8 @@ exports.create=function (req, res) {
                             'email':req.body.email,
                             'phone':req.body.phone,
                             'name':req.body.owner,
-                            'isactive':0,
-                            'company_registration_certificate':'',
+                            'isActive':0,
+                            'companyRegistrationCertificate':'',
                             'address':req.body.address,
                             'shopname':req.body.shopname};
                         (async ()=>{
@@ -58,7 +58,7 @@ exports.create=function (req, res) {
                                         }, (error) => {
                                         }, () => {
                                             uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
-                                                db.collection('seller').updateOne({'_id':ObjectId(seller['insertedId'])},{$set:{'company_registration_certificate':downloadURL}},(err, object)=> {
+                                                db.collection('seller').updateOne({'_id':ObjectId(seller['insertedId'])},{$set:{'companyRegistrationCertificate':downloadURL}},(err, object)=> {
                                                     return res.status(200).send('done');
                                                 });
                                             });

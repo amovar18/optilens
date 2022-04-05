@@ -64,6 +64,6 @@ exports.setUsers = function(req,res){
         if (err) throw err
         const db = client.db('opticonnect');
         const result = await db.collection(req.params.usertype).updateOne({'_id':ObjectId(req.body['_id'])},{$set:{isactive: req.body.activate==='activate'?1:0}});
-        return res.status(result?200:500);
+        return res.status(result?200:500).send();
     });
 }

@@ -54,7 +54,14 @@ exports.create=function (req, res) {
                                 console.log('done');
                                 path.push(downloadURL);
                                 if(path.length===4){
-                                    const tobeinserted={'productname':req.body.productname,'productdescription':req.body.productdescription,'image':path,'brand':req.body.brand,'price':parseInt(req.body.productprice),'producttype':req.body.producttype,'sellerid':ObjectId(id)};
+                                    const tobeinserted={
+                                        'productName':req.body.productname,
+                                        'productDescription':req.body.productdescription,
+                                        'image':path,
+                                        'brand':req.body.brand,
+                                        'price':parseInt(req.body.productprice),
+                                        'productType':req.body.producttype,
+                                        'sellerId':ObjectId(id)};
                                     db.collection('products').insertOne(tobeinserted,(err, object)=> {
                                         if(object){
                                             return res.status(200).send('AOK!');            
@@ -76,7 +83,7 @@ exports.getsingle=function (req, res) {
         if (err) throw err
         const db = client.db('opticonnect');
         (async()=>{
-            const result = await db.collection('products').aggregate([{$match:{'_id':ObjectId(req.params.id)}},{$lookup:{from: 'seller',localField: 'sellerid',foreignField: '_id',as: 'shop'}}]).toArray();
+            const result = await db.collection('products').aggregate([{$match:{'_id':ObjectId(req.params.id)}},{$lookup:{from: 'seller',localField: 'sellerId',foreignField: '_id',as: 'shop'}}]).toArray();
             if (result.length > 0){
                 return res.status(200).send(result);
             }else{
@@ -94,9 +101,9 @@ exports.sort=function(req,res){
             if(req.params.type==='all'){
                 if(req.params.sort==='up'){
                     if(req.params.price!=='NAN'){
-                        const start_price=parseInt(req.params.price);
-                        const end_price=start_price+1000;
-                        const result = await db.collection('products').aggregate([{'$lookup': {'from': 'seller', 'localField': 'sellerid', 'foreignField': '_id', 'as': 'shop'}}, {'$sort': {'price': 1}},{'$match': {'price': {'$gte': start_price, '$lte': end_price}}},{ $skip : ((parseInt(req.params.page)-1)*10) },{ $limit : 10 }]).toArray();
+                        const startPrice=parseInt(req.params.price);
+                        const endPrice=startPrice+1000;
+                        const result = await db.collection('products').aggregate([{'$lookup': {'from': 'seller', 'localField': 'sellerId', 'foreignField': '_id', 'as': 'shop'}}, {'$sort': {'price': 1}},{'$match': {'price': {'$gte': startPrice, '$lte': endPrice}}},{ $skip : ((parseInt(req.params.page)-1)*10) },{ $limit : 10 }]).toArray();
                         if (result.length > 0){
                             return res.status(200).send(result);
                         }else{
@@ -113,9 +120,9 @@ exports.sort=function(req,res){
                     }
                 }else if(req.params.sort==='down'){
                     if(req.params.price!=='NAN'){
-                        const start_price=parseInt(req.params.price);
-                        const end_price=start_price+1000;
-                        const result = await db.collection('products').aggregate([{'$lookup': {'from': 'seller', 'localField': 'sellerid', 'foreignField': '_id', 'as': 'shop'}}, {'$sort': {'price': -1}},{'$match': {'price': {'$gte': start_price, '$lte': end_price}}},{ $skip : ((parseInt(req.params.page)-1)*10) },{ $limit : 10 }]).toArray();
+                        const startPrice=parseInt(req.params.price);
+                        const endPrice=startPrice+1000;
+                        const result = await db.collection('products').aggregate([{'$lookup': {'from': 'seller', 'localField': 'sellerid', 'foreignField': '_id', 'as': 'shop'}}, {'$sort': {'price': -1}},{'$match': {'price': {'$gte': startPrice, '$lte': endPrice}}},{ $skip : ((parseInt(req.params.page)-1)*10) },{ $limit : 10 }]).toArray();
                         if (result.length > 0){
                             return res.status(200).send(result);
                         }else{
@@ -131,9 +138,9 @@ exports.sort=function(req,res){
                     }
                 }else{
                     if(req.params.price!=='NAN'){
-                        const start_price=parseInt(req.params.price);
-                        const end_price=start_price+1000;
-                        const result = await db.collection('products').aggregate([{'$lookup': {'from': 'seller', 'localField': 'sellerid', 'foreignField': '_id', 'as': 'shop'}},{'$match': {'price': {'$gte': start_price, '$lte': end_price}}},{ $skip : ((parseInt(req.params.page)-1)*10) },{ $limit : 10 }]).toArray();
+                        const startPrice=parseInt(req.params.price);
+                        const endPrice=startPrice+1000;
+                        const result = await db.collection('products').aggregate([{'$lookup': {'from': 'seller', 'localField': 'sellerid', 'foreignField': '_id', 'as': 'shop'}},{'$match': {'price': {'$gte': startPrice, '$lte': endPrice}}},{ $skip : ((parseInt(req.params.page)-1)*10) },{ $limit : 10 }]).toArray();
                         if (result.length > 0){
                             return res.status(200).send(result);
                         }else{
@@ -151,9 +158,9 @@ exports.sort=function(req,res){
             }else{
                 if(req.params.sort==='up'){
                     if(req.params.price!=='NAN'){
-                        const start_price=parseInt(req.params.price);
-                        const end_price=start_price+1000;
-                        const result = await db.collection('products').aggregate([{'$lookup': {'from': 'seller', 'localField': 'sellerid', 'foreignField': '_id', 'as': 'shop'}}, {'$sort': {'price': 1}},{'$match': {'price': {'$gte': start_price, '$lte': end_price}}},{ $skip : ((parseInt(req.params.page)-1)*10) },{ $limit : 10 }]).toArray();
+                        const startPrice=parseInt(req.params.price);
+                        const endPrice=startPrice+1000;
+                        const result = await db.collection('products').aggregate([{'$lookup': {'from': 'seller', 'localField': 'sellerid', 'foreignField': '_id', 'as': 'shop'}}, {'$sort': {'price': 1}},{'$match': {'price': {'$gte': startPrice, '$lte': endPrice}}},{ $skip : ((parseInt(req.params.page)-1)*10) },{ $limit : 10 }]).toArray();
                         if (result.length > 0){
                             return res.status(200).send(result);
                         }else{
@@ -169,9 +176,9 @@ exports.sort=function(req,res){
                     }
                 }else if(req.params.sort==='down'){
                     if(req.params.price!=='NAN'){
-                        const start_price=parseInt(req.params.price);
-                        const end_price=start_price+1000;
-                        const result = await db.collection('products').aggregate([{'$lookup': {'from': 'seller', 'localField': 'sellerid', 'foreignField': '_id', 'as': 'shop'}}, {'$sort': {'price': -1}},{'$match': {'price': {'$gte': start_price, '$lte': end_price}},'producttype':req.params.type},{ $skip : ((parseInt(req.params.page)-1)*10) },{ $limit : 10 }]).toArray();
+                        const startPrice=parseInt(req.params.price);
+                        const endPrice=startPrice+1000;
+                        const result = await db.collection('products').aggregate([{'$lookup': {'from': 'seller', 'localField': 'sellerid', 'foreignField': '_id', 'as': 'shop'}}, {'$sort': {'price': -1}},{'$match': {'price': {'$gte': startPrice, '$lte': endPrice}},'producttype':req.params.type},{ $skip : ((parseInt(req.params.page)-1)*10) },{ $limit : 10 }]).toArray();
                         if (result.length > 0){
                             return res.status(200).send(result);
                         }else{
@@ -187,9 +194,9 @@ exports.sort=function(req,res){
                     }
                 }else if(req.params.sort==='NAN'){
                     if(req.params.price!=='NAN'){
-                        const start_price=parseInt(req.params.price);
-                        const end_price=start_price+1000;
-                        const result = await db.collection('products').aggregate([{'$lookup': {'from': 'seller', 'localField': 'sellerid', 'foreignField': '_id', 'as': 'shop'}},{'$match': {'price': {'$gte': start_price, '$lte': end_price},'producttype':req.params.type}},{ $skip : ((parseInt(req.params.page)-1)*10) },{ $limit : 10 }]).toArray();
+                        const startPrice=parseInt(req.params.price);
+                        const endPrice=startPrice+1000;
+                        const result = await db.collection('products').aggregate([{'$lookup': {'from': 'seller', 'localField': 'sellerid', 'foreignField': '_id', 'as': 'shop'}},{'$match': {'price': {'$gte': startPrice, '$lte': endPrice},'producttype':req.params.type}},{ $skip : ((parseInt(req.params.page)-1)*10) },{ $limit : 10 }]).toArray();
                         if (result.length > 0){
                             return res.status(200).send(result);
                         }else{

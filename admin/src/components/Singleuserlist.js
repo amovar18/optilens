@@ -19,12 +19,12 @@ function Singleuserlist(props){
                     </tr>
                 </thead>
                 <tbody>
-                {data.map(({name,username,active,_id})=>(
+                {data.map(({name,username,isactive,_id})=>(
                     <tr key={_id}>
                         <td>{_id}</td>
                         <td>{name}</td>
                         <td>{username}</td>
-                        <td>{active === 1 ? <button type="button" class="btn btn-primary" onClick={e => performAction('activate', _id)}>Activate</button> : <button type="button" class="btn btn-danger" onClick={e => performAction('deactivate', _id)}>Deactivate</button>}</td>
+                        <td>{isactive === 0 ? <button type="button" class="btn btn-primary" onClick={e => performAction('activate', _id)}>Activate</button> : <button type="button" class="btn btn-danger" onClick={e => performAction('deactivate', _id)}>Deactivate</button>}</td>
                     </tr>
                 ))}
                 </tbody>

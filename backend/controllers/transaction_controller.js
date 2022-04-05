@@ -78,13 +78,19 @@ exports.insert=function (req, res) {
                     const cart = await db.collection('customer').find({'_id':ObjectId(result['_id'])}).project({'cart':1}).toArray();
                     cart[0].cart.forEach(element => {
                         element['ordered']=1;
-                        element['in_transit']=0;
+                        element['inTransit']=0;
                         element['awbno']='';
-                        element['delivery_partner']='';
+                        element['deliveryPartner']='';
                         
                     });
                     if(cart.length>0){
-                        const tobeinserted={'customerid':ObjectId(result['_id']),'date':date,'products':cart[0]['cart'],'deliveryaddress':req.body.delivery_address,'clientname':req.body.name,'total_price':req.body.total_price};
+                        const tobeinserted={
+                            'customerId':ObjectId(result['_id']),
+                            'date':date,
+                            'products':cart[0]['cart'],
+                            'deliveryAddress':req.body.deliveryAddress,
+                            'clientName':req.body.name,
+                            'totalPrice':req.body.totalPrice};
                         db.collection('transactions').insertOne(tobeinserted,function(err,obj){
                             db.collection('customer').updateOne({'_id':ObjectId(cid)},{$set:{'cart':[]}},function(err,obj){
                                 if(obj.modifiedCount===1) 

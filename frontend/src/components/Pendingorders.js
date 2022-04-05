@@ -10,7 +10,8 @@ export default function Pendingorders(props){
 	const submit = ({productid,transactionid},e) =>{
 		e.preventDefault();
 		if(awb!=='' && delivery_partner!==''){
-			dispatch(setdelivery({'productid' : productid, 'transactionid':transactionid}))
+			console.log(e);
+			dispatch(setdelivery({'productId' : productid, 'transactionId':transactionid}))
 		}
 	}
 	useEffect(()=>{
@@ -47,7 +48,7 @@ export default function Pendingorders(props){
 												<td>{order['products']['quantity']}</td>
 												<td>{order['deliveryaddress']}</td>
 												<td><button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Set delivery</button></td>
-												<Trackinginput id="exampleModal" product_id={order['products']['_id']} _id={order['_id']} handleSubmit={submit}/>
+												<Trackinginput id="exampleModal" productId={order['products']['_id']} _id={order['_id']} handleSubmit={submit}/>
 											</tr>
 										);
 									})}
