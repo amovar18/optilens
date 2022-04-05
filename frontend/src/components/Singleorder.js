@@ -1,25 +1,26 @@
 import React, { useEffect } from 'react';
 import Loadingspinner from './Loadingspinner';
 import Alert from './Alert';
-import {Link} from 'react-router-dom';
+import {Link, useParams} from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getSingle } from '../slices/transaction/transactionSlice';
 import Carousel from './Carousel';
 export default function Singleorder(props){
 	const dispatch= useDispatch();
-	const {transaction, fetched} = useSelector(state => state.transaction);
+	const { id } = useParams();
+	const {singleTransaction, singleTransactionFetched} = useSelector(state => state.transaction);
 	useEffect(()=>{
-		dispatch(getSingle());
-	},[dispatch]);
-	if(fetched==='loading'){
+		dispatch(getSingle(id));
+	},[dispatch, id]);
+	if(singleTransactionFetched==='loading'){
 		return(<Loadingspinner/>);
-	}else if(fetched===true){
+	}else if(singleTransactionFetched===true){
 		return (
 			<div className='container-fluid'>
 				<div className='row'>
 					<div className="col-sm"/>
 					<div className='col-sm'>
-						{transaction.map((t)=>{
+						{singleTransaction.map((t)=>{
 							return(
             	                <div className="card border-dark mb-3" key={t._id}>
                 	                <div className="card-header">{t._id}</div>

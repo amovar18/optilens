@@ -6,23 +6,22 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getPending, setdelivery } from '../slices/order/orderSlice';
 export default function Pendingorders(props){
 	const dispatch = useDispatch();
-	const {awb, delivery_partner, fetched, orders, errorMessage} = useSelector(state => state.order);
-	const submit = ({productid,transactionid},e) =>{
+	const {awb, deliveryPartner, pendingOrderFetched, pendingOrders, errorMessage} = useSelector(state => state.order);
+	const submit = ({productId,transactionId},e) =>{
 		e.preventDefault();
-		if(awb!=='' && delivery_partner!==''){
-			dispatch(setdelivery({'productId' : productid, 'transactionId':transactionid}))
+		if(awb!=='' && deliveryPartner!==''){
+			dispatch(setdelivery({productId, transactionId}))
 		}
 	}
 	useEffect(()=>{
 		dispatch(getPending());
 		// eslint-disable-next-line
 	},[])
-	if(fetched === 'loading'){
+	if(pendingOrderFetched === 'loading'){
 		return (<Loadingspinner/>);	
-	}else if(fetched === true){
-		console.log(orders);
+	}else if(pendingOrderFetched === true){
 		if(errorMessage===''){
-			if(orders.length!==0){
+			if(pendingOrders.length!==0){
 				return (
 					<div>
 						<div className='table-responsive'>
@@ -39,14 +38,14 @@ export default function Pendingorders(props){
 									</tr>
 								</thead>
 								<tbody>
-									{orders.map((order)=>{
+									{pendingOrders.map((order)=>{
 										return(
 											<tr key={order['_id']}>
-												<td>{order['products']['productname']}</td>
+												<td>{order['products']['productName']}</td>
 												<td><Showprescription lens={order['products']['lens_details']}/></td>
-												<td>{order['clientname']}</td>
+												<td>{order['clientName']}</td>
 												<td>{order['products']['quantity']}</td>
-												<td>{order['deliveryaddress']}</td>
+												<td>{order['deliveryAddress']}</td>
 												<td><button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Set delivery</button></td>
 												<Trackinginput id="exampleModal" productId={order['products']['_id']} _id={order['_id']} handleSubmit={submit}/>
 											</tr>

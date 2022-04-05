@@ -5,17 +5,17 @@ function single_product_list(props){
     if(data){
         return(
             <div>
-                {data.map(({_id,productname,price,image,shop,brand})=>(
+                {data.map(({_id,productName,price,image,shop,brand})=>(
                     <Link to={"/productdisplay/"+_id} key={_id} style={{'textDecoration':'none'}}>
                         <div className='col align-items-start' key={_id}>
                             <div className="card">
                                 <div className="row g-0">
                                     <div className="col-md-4">
-                                        <img className="img-thumbnail" src={image[0]} alt={productname}/>
+                                        <img className="img-thumbnail" src={image[0]} alt={productName}/>
                                     </div>
                                     <div className="col-md-8">
                                         <div className="card-body">
-                                            <h5 className="card-title text-start display-6" style={{'textDecoration':'none'}}>{productname}</h5>
+                                            <h5 className="card-title text-start display-6" style={{'textDecoration':'none'}}>{productName}</h5>
                                             <p className="card-text text-start fs-5">Sold by: {shop[0]['shopname']}</p>
                                             <p className="card-text text-start fs-6">Brand: {brand}</p>
                                             <p className="card-text text-start fs-6">Price: {price}</p>

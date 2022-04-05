@@ -5,7 +5,7 @@ export const getSingle = createAsyncThunk(
     'transaction/getSingle',
     async (id, {rejectWithValue})=>{
         try{
-            const response = await axios.delete('https://optilens-backend.herokuapp.com/cart/delete',{withCredentials:true,data:{'pid':id}});
+            const response = await axios.get('https://optilens-backend.herokuapp.com/transaction/'+id,{withCredentials:true});
             return response.data;
         }catch(error){
             return rejectWithValue(error.response.data);
@@ -27,23 +27,24 @@ const transactionSlice = createSlice({
     name:'transaction',
     initialState:{
         transaction:[],
+        singleTransaction: [],
         error:'',
-        fetched:'loading'
+        singleTransactionFetched:'loading',
+        transactionFetched: 'loading',
     },
     reducers:{},
     extraReducers:{
         [getSingle.fulfilled]:(state,action)=>{
-            state.fetched=true;
-            state.transaction=action.payload;
-            
+            state.singleTransactionFetched=true;
+            state.singleTransaction=action.payload;
         },[getSingle.rejected]:(state,action)=>{
-            state.fetched=true;
+            state.singleTransactionFetched=true;
             state.error=action.payload;
         },[getAll.fulfilled]:(state, action)=>{
-            state.fetched=true;
+            state.transactionFetched=true;
             state.transaction=action.payload;
         },[getAll.rejected]: (state, action)=>{
-            state.fetched=true;
+            state.transactionFetched=true;
             state.error=action.payload;
         }
     }

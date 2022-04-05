@@ -3,12 +3,12 @@ import axios from 'axios';
 export const checkout = createAsyncThunk(
     'cart/checkout',
     async (_, { getState , rejectWithValue})=>{
-        const {name,city,state,pincode,address_line_1,address_line_2,area,total_price} = getState().cart;
+        const {name,city,state,pincode,addressLine1,addressLine2,area,totalPrice} = getState().cart;
         try{
             const response = await axios.post('https://optilens-backend.herokuapp.com/transaction/insert',
             {data:{
-                'deliveryaddress':address_line_1+'\n'+address_line_2+'\n'+area+'\n'+city+'-'+pincode+'\n'+state,
-				'total_price':total_price,
+                'deliveryAddress':addressLine1+'\n'+addressLine2+'\n'+area+'\n'+city+'-'+pincode+'\n'+state,
+				totalPrice,
 				'clientname':name
             }},
             {withCredentials:true});
@@ -65,14 +65,14 @@ const cartSlice = createSlice({
 			lecyl:0,
 			leadd:0,
         },
-        total_price:0,
+        totalPrice:0,
         delivery_address:'',
 		name:'',
 		city:'',
 		state:'',
 		pincode:'',
-		address_line_1:'',
-		address_line_2:'',
+		addressLine1:'',
+		addressLine2:'',
 		area:'',
         inserted:false,
         fetched:false,
@@ -92,7 +92,7 @@ const cartSlice = createSlice({
             state.cart=action.payload;
         },[cartGet.fulfilled]:(state, action)=>{
             state.cart=action.payload['cart'];
-            state.total_price=action.payload['total_price'];
+            state.totalPrice=action.payload['totalPrice'];
             state.fetched=true
         },[cartGet.rejected]:(state, action)=>{
             state.cart=[];

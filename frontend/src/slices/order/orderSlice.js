@@ -6,19 +6,17 @@ export const setdelivery = createAsyncThunk(
     async ({productId, transactionId}, { getState , rejectWithValue})=>{
         const {awb, deliveryPartner} = getState().order;
         try{
-            axios({
-                url:'https://optilens-backend.herokuapp.com/order/setdelivery',
-                method:'POST',
-                data:{
+            const response = await axios.post(
+                'https://optilens-backend.herokuapp.com/order/setdelivery',
+                {
                     productId,
 					transactionId,
 					awb,
 					deliveryPartner
                 },
-                withCredentials: true,
-            }).then((response)=>{
-                return response.data;
-            });
+                {withCredentials: true,}
+            );
+            return response.data
         }catch(error){
             return rejectWithValue(error.response.data);
         }
@@ -50,7 +48,9 @@ const orderSlice = createSlice({
     name:'order',
     initialState:{
         orders:[],
-        fetched:'loading',
+        pendingOrders:[],
+        pendingOrderFetched:'loading',
+        allOrderFetched:'loading',
         errorStatus:'',
         errorMessage:'',
 
@@ -64,17 +64,19 @@ const orderSlice = createSlice({
     },
     extraReducers:{
         [getPending.fulfilled]:(state,action)=>{
-            state.fetched = true;
-            state.orders = action.payload;
+            state.pendingOrderFetched = true;
+            state.pendingOrders = action.payload;
         },[getPending.rejected]:(state,action)=>{
-            state.fetched = true;
+            state.pendingOrderFetched = true;
             state.error = action.payload;
         },[getAll.fulfilled]:(state, action)=>{
-            state.fetched = true;
-            state.orders = action.payload;
+            state.allOrderFetched = true;
+            state.orders= action.payload;
         },[getAll.rejected]: (state, action)=>{
-            state.fetched = true;
+            state.allOrderFetched = true;
             state.error = action.payload;
+        },[setdelivery.fulfilled]:(state,action)=>{
+            state.pendingOrders = action.payload;
         }
     }
 

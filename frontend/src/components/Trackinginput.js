@@ -6,7 +6,7 @@ export default function Trackinginput(props){
     const {awb, deliveryPartner} = useSelector(state => state.order);
 	const clicked = (e) =>{
 		e.preventDefault();
-		props.handleSubmit({productid: e.target.dataset.productid,transactionid:e.target.value},e);
+		props.handleSubmit({productId: e.target.dataset.productid,transactionId:e.target.value},e);
 	}
 	return (
         <div id='exampleModal' className="modal fade" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

@@ -53,7 +53,7 @@ export function Cart(props){
 							{cart.map((e) => (
 								<tr>
 									<td>
-										<Link to={"/productdisplay/"+e._id}>{e.productname}</Link>
+										<Link to={"/productdisplay/"+e._id}>{e.productName}</Link>
 									</td>
 									<td>
 										{e.quantity}

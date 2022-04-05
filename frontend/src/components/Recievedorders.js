@@ -5,14 +5,14 @@ import {useDispatch, useSelector} from 'react-redux';
 import { getAll } from '../slices/order/orderSlice';
 export default function Recievedorders(props){
 	const dispatch = useDispatch();
-	const {orders, errorMessage, fetched} = useSelector(state => state.order);
+	const {orders, errorMessage, allOrderFetched} = useSelector(state => state.order);
 	useEffect(()=>{
 		dispatch(getAll());
 		// eslint-disable-next-line
 	},[])
-	if(fetched==='loading'){
+	if(allOrderFetched==='loading'){
 		return (<Loadingspinner/>);	
-	}else{
+	}else if(allOrderFetched === true){
 		if(errorMessage===''){
 			if(orders.length!==0){
 				return (
@@ -33,7 +33,7 @@ export default function Recievedorders(props){
 								<tbody>
 									{orders.map((order)=>{
 										return(
-											<tr>
+											<tr key={order['_id']}>
 												<td>{order['products']['productname']}</td>
 												<td><Showprescription lens={order['products']['lens_details']}/></td>
 												<td>{order['clientname']}</td>

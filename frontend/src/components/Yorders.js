@@ -6,13 +6,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getAll } from '../slices/transaction/transactionSlice';
 export default function Yorders(props){
 	const dispatch= useDispatch();
-	const {transaction, fetched} = useSelector(state => state.transaction);
+	const {transaction, transactionFetched} = useSelector(state => state.transaction);
 	useEffect(()=>{
 		dispatch(getAll());
 	},[dispatch]);
-	if(fetched === 'loading'){
+	if(transactionFetched === 'loading'){
 			return(<Loadingspinner/>);
-	}else if(fetched===true){
+	}else if(transactionFetched===true){
 		if(transaction.length!==0){
 			return (
 				<div className='container-fluid'>
