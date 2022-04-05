@@ -27,12 +27,12 @@ exports.getcart=function (req, res) {
                 const db = client.db('opticonnect');
                 (async ()=>{
                     const cart = await db.collection('customer').find({'_id':ObjectId(cid)}).project({'cart':1,'_id':0}).toArray();
-                    const total_price = await db.collection('customer').aggregate([{ '$match': { '_id': ObjectId(cid)}}, {'$unwind': {'path': '$cart'}}, {'$unwind': {'path': '$cart.price'}}, {'$group': {'_id': 'total_price', 'total_price': {'$sum': {'$multiply': ['$cart.price', '$cart.quantity']}}}}]).toArray();
+                    const totalPrice = await db.collection('customer').aggregate([{ '$match': { '_id': ObjectId(cid)}}, {'$unwind': {'path': '$cart'}}, {'$unwind': {'path': '$cart.price'}}, {'$group': {'_id': 'totalPrice', 'totalPrice': {'$sum': {'$multiply': ['$cart.price', '$cart.quantity']}}}}]).toArray();
                     if(cart[0].cart.length > 0){
-                        cart[0]['total_price']=total_price[0]['total_price'];
+                        cart[0]['totalPrice']=totalPrice[0]['totalPrice'];
                         return res.status(200).send(cart[0]);
                     }else{
-                        return res.status(200).send({'cart':[],'total_price':0});
+                        return res.status(200).send({'cart':[],'totalPrice':0});
                     }
 
                 })();
@@ -56,10 +56,10 @@ exports.delete=function (req, res) {
                 const db = client.db('opticonnect');
                 (async ()=>{
                     const result =await  db.collection('customer').updateOne({ '_id': ObjectID(cid)},{$pull : {'cart': {'_id':ObjectId(pid)}}});
-                    const total_price = await db.collection('customer').aggregate([{ '$match': { '_id': ObjectId(cid)}}, {'$unwind': {'path': '$cart'}}, {'$unwind': {'path': '$cart.price'}}, {'$group': {'_id': '$cart.price', 'total_price': {'$sum': {'$multiply': ['$cart.price', '$cart.quantity']}}}}]).toArray();
-                    if(result.modifiedCount === 1 && total_price.length>0 ){
+                    const totalPrice = await db.collection('customer').aggregate([{ '$match': { '_id': ObjectId(cid)}}, {'$unwind': {'path': '$cart'}}, {'$unwind': {'path': '$cart.price'}}, {'$group': {'_id': '$cart.price', 'totalPrice': {'$sum': {'$multiply': ['$cart.price', '$cart.quantity']}}}}]).toArray();
+                    if(result.modifiedCount === 1 && totalPrice.length>0 ){
                         db.collection('customer').find({'_id':ObjectId(cid)}).toArray((error,object)=>{
-                            object[0]['total_price']=total_price[0]['total_price'];
+                            object[0]['totalPrice']=totalPrice[0]['totalPrice'];
                             console.log(object)
                             return res.status(200).send(object);
                         });

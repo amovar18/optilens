@@ -6,11 +6,11 @@ export const checkout = createAsyncThunk(
         const {name,city,state,pincode,addressLine1,addressLine2,area,totalPrice} = getState().cart;
         try{
             const response = await axios.post('https://optilens-backend.herokuapp.com/transaction/insert',
-            {data:{
+            {
                 'deliveryAddress':addressLine1+'\n'+addressLine2+'\n'+area+'\n'+city+'-'+pincode+'\n'+state,
-				totalPrice,
-				'clientname':name
-            }},
+				'totalPrice':totalPrice,
+				'name':name
+            },
             {withCredentials:true});
             return response.data;
         }catch(error){
@@ -38,7 +38,7 @@ export const cartAdd = createAsyncThunk(
 export const cartDelete = createAsyncThunk(
     'cart/delete',
     async (id)=>{
-        const response = await axios.delete('https://optilens-backend.herokuapp.com/cart/delete',{withCredentials:true,data:{'pid':id}});
+        const response = await axios.delete('https://optilens-backend.herokuapp.com/cart/delete',{'pid':id},{withCredentials:true,});
         return response.data;
     }
 )
@@ -66,7 +66,7 @@ const cartSlice = createSlice({
 			leadd:0,
         },
         totalPrice:0,
-        delivery_address:'',
+        deliveryAddress:'',
 		name:'',
 		city:'',
 		state:'',
