@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const auth = require('../controllers/authenticationcontroller');
+const auth = require('../controllers/authenticationController');
 const verifyToken = require('./verifyToken');
 
 router.get("/getstatus",auth.checkstatus);

@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const order=require('../controllers/orderscontrollers');
+const order=require('../controllers/ordersControllers');
 const verifyToken = require('./verifyToken');
 
 router.get("/getall",verifyToken,order.getall);
