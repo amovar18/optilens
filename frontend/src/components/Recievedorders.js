@@ -34,11 +34,11 @@ export default function Recievedorders(props){
 									{orders.map((order)=>{
 										return(
 											<tr key={order['_id']}>
-												<td>{order['products']['productname']}</td>
+												<td>{order['products']['productName']}</td>
 												<td><Showprescription lens={order['products']['lens_details']}/></td>
-												<td>{order['clientname']}</td>
+												<td>{order['clientName']}</td>
 												<td>{order['products']['quantity']}</td>
-												<td>{order['deliveryaddress']}</td>
+												<td>{order['deliveryAddress']}</td>
 											</tr>
 										);
 									})}
